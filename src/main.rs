@@ -1,3 +1,5 @@
+mod geometric_cube;
+
 fn main() {
-    println!("Hello, world!");
+    println!("{}", geometric_cube::cube3());
 }

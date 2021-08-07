@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 cgmath = "0.18.0"
+derive_more = "0.99.16"
