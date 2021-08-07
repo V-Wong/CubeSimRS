@@ -1,5 +1,7 @@
 mod geometric_cube;
 
+use geometric_cube::cube::{cube3, U_MOVE};
+
 fn main() {
-    println!("{}", geometric_cube::cube3().apply_move(geometric_cube::U_MOVE));
+    println!("{}", cube3().apply_move(U_MOVE));
 }
