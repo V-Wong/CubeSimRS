@@ -22,8 +22,6 @@ impl std::fmt::Display for Cube {
     }
 }
 
-pub static U_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |sticker| sticker.position.y > 0.0 };
-
 pub fn cube3() -> Cube {
     let mut stickers = Vec::new();
 
