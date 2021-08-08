@@ -18,6 +18,10 @@ impl Sticker {
         }
     }
 
+    pub fn is_solved(&self) -> bool {
+        self.position == self.destination
+    }
+
     pub fn rotate(&self, mv: Turn) -> Sticker {
         if !(mv.predicate)(self) {
             return *self;

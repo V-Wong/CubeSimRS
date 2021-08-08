@@ -7,6 +7,10 @@ impl Cube {
     pub fn apply_move(&self, mv: Turn) -> Cube {
         Cube(self.0.iter().map(|sticker| sticker.rotate(mv)).collect())
     }
+
+    pub fn is_solved(&self) -> bool {
+        self.0.iter().all(|sticker| sticker.is_solved())
+    }
 }
 
 impl std::fmt::Display for Cube {
