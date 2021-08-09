@@ -1,14 +1,14 @@
 mod geometric_cube;
+mod generic_cube;
 
-use geometric_cube::cube::{cube3};
-use geometric_cube::moves;
+use generic_cube::{Cube, Move};
+use geometric_cube::{cube3};
 
 fn main() {
     println!("{}", cube3().is_solved());
-    println!("{}", cube3().apply_move(moves::U_MOVE)
-                          .apply_move(moves::U_MOVE)
-                          .apply_move(moves::U_MOVE)
-                          .apply_move(moves::U_MOVE)
+    println!("{}", cube3().apply_move(Move::U)
+                          .apply_move(Move::U)
+                          .apply_move(Move::U)
                           .is_solved()
     );
 }

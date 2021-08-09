@@ -1,7 +1,6 @@
 use crate::generic_cube::{Cube, Move, Face};
 
 use super::sticker::{Sticker};
-use super::turn::{Turn};
 use super::moves;
 
 #[derive(Clone)]
@@ -15,7 +14,10 @@ impl Cube for GeoCube {
             Move::F => moves::F_MOVE,
             Move::L => moves::L_MOVE,
             Move::D => moves::D_MOVE,
-            Move::B => moves::B_MOVE
+            Move::B => moves::B_MOVE,
+            Move::X => moves::X_MOVE,
+            Move::Y => moves::Y_MOVE,
+            Move::Z => moves::Z_MOVE
         };
 
         GeoCube(self.0.iter().map(|sticker| sticker.rotate(converted_move)).collect())
@@ -30,11 +32,11 @@ impl Cube for GeoCube {
 
         let face_rotating_moves = vec![
             vec![],
-            vec![moves::Y_MOVE, moves::X_MOVE],
-            vec![moves::X_MOVE],
-            vec![moves::X_MOVE, moves::X_MOVE],
-            vec![moves::Y_MOVE, moves::Y_MOVE, moves::Y_MOVE, moves::X_MOVE],
-            vec![moves::Y_MOVE, moves::Y_MOVE, moves::X_MOVE],
+            vec![Move::Y, Move::X],
+            vec![Move::X],
+            vec![Move::X, Move::X],
+            vec![Move::Y, Move::Y, Move::Y, Move::X],
+            vec![Move::Y, Move::Y, Move::X],
         ];
 
         for mvs in face_rotating_moves {
@@ -65,16 +67,6 @@ impl GeoCube {
         }
 
         faces
-    }
-
-    fn apply_moves(&self, mvs: Vec<Turn>) -> GeoCube {
-        let mut cube = self.clone();
-
-        for mv in mvs {
-            cube = GeoCube(self.0.iter().map(|sticker| sticker.rotate(mv)).collect())
-        }
-
-        cube
     }
 }
 
