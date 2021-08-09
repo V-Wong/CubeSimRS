@@ -1,4 +1,16 @@
-use crate::geometric_cube::turn::{Axes, Turn};
+use super::sticker::Sticker;
+
+#[derive(Copy, Clone)]
+pub struct Turn {
+    pub axis: Axes,
+    pub angle: f64,
+    pub predicate: fn(&Sticker) -> bool
+}
+
+#[derive(Copy, Clone)]
+pub enum Axes {
+    X, Y, Z
+}
 
 pub static U_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |sticker| sticker.position.y > 0.0 };
 pub static D_MOVE: Turn = Turn { axis: Axes::Y, angle: -90.0, predicate: |sticker| sticker.position.y < 0.0 };

@@ -2,8 +2,7 @@ use derive_more::Display;
 use cgmath::{Basis3, Vector3};
 
 use crate::generic_cube::{Face}; 
-
-use crate::geometric_cube::turn::{Turn, Axes};
+use crate::geometric_cube::moves::{Turn, Axes};
 
 #[derive(Copy, Clone, Display)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
