@@ -10,6 +10,17 @@ pub struct Sticker {
     pub destination: Vector3<f64>
 }
 
+#[derive(Debug)]
+pub enum Faces {
+    U,
+    L,
+    F,
+    R,
+    B,
+    D,
+    X
+}
+
 impl Sticker {
     pub fn new(x: f64, y: f64, z: f64) -> Sticker {
         Sticker {
@@ -20,6 +31,14 @@ impl Sticker {
 
     pub fn is_solved(&self) -> bool {
         self.position == self.destination
+    }
+
+    pub fn get_position_face(&self) -> Faces {
+        Self::get_face(self.position.x, self.position.y, self.position.z)
+    }
+
+    pub fn get_destination_face(&self) -> Faces {
+        Self::get_face(self.destination.x, self.destination.y, self.destination.z)
     }
 
     pub fn rotate(&self, mv: Turn) -> Sticker {
@@ -44,6 +63,18 @@ impl Sticker {
                                y: new_position.y.round(), 
                                z: new_position.z.round() },
             destination: self.destination
+        }
+    }
+
+    fn get_face(x: f64, y: f64, z: f64) -> Faces {
+        match (x, y, z) {
+            (3.0, _, _) => Faces::R,
+            (-3.0, _, _) => Faces::L,
+            (_, 3.0, _) => Faces::U,
+            (_, -3.0, _) => Faces::D,
+            (_, _, -3.0) => Faces::F,
+            (_, _, 3.0) => Faces::B,
+            (_, _, _) => Faces::X
         }
     }
 }
