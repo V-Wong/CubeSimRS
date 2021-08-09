@@ -1,6 +1,8 @@
 use derive_more::Display;
 use cgmath::{Basis3, Vector3};
 
+use crate::generic_cube::{Face}; 
+
 use crate::geometric_cube::turn::{Turn, Axes};
 
 #[derive(Copy, Clone, Display)]
@@ -8,17 +10,6 @@ use crate::geometric_cube::turn::{Turn, Axes};
 pub struct Sticker {
     pub position: Vector3<f64>,
     pub destination: Vector3<f64>
-}
-
-#[derive(Debug)]
-pub enum Faces {
-    U,
-    L,
-    F,
-    R,
-    B,
-    D,
-    X
 }
 
 impl Sticker {
@@ -33,11 +24,11 @@ impl Sticker {
         self.position == self.destination
     }
 
-    pub fn get_position_face(&self) -> Faces {
+    pub fn get_position_face(&self) -> Face {
         Self::get_face(self.position.x, self.position.y, self.position.z)
     }
 
-    pub fn get_destination_face(&self) -> Faces {
+    pub fn get_destination_face(&self) -> Face {
         Self::get_face(self.destination.x, self.destination.y, self.destination.z)
     }
 
@@ -66,15 +57,15 @@ impl Sticker {
         }
     }
 
-    fn get_face(x: f64, y: f64, z: f64) -> Faces {
+    fn get_face(x: f64, y: f64, z: f64) -> Face {
         match (x, y, z) {
-            (3.0, _, _) => Faces::R,
-            (-3.0, _, _) => Faces::L,
-            (_, 3.0, _) => Faces::U,
-            (_, -3.0, _) => Faces::D,
-            (_, _, -3.0) => Faces::F,
-            (_, _, 3.0) => Faces::B,
-            (_, _, _) => Faces::X
+            (3.0, _, _) => Face::R,
+            (-3.0, _, _) => Face::L,
+            (_, 3.0, _) => Face::U,
+            (_, -3.0, _) => Face::D,
+            (_, _, -3.0) => Face::F,
+            (_, _, 3.0) => Face::B,
+            (_, _, _) => Face::X
         }
     }
 }
