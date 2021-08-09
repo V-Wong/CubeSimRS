@@ -1,45 +1,49 @@
-use crate::geometric_cube::sticker::{Sticker, Faces};
-use crate::geometric_cube::turn::{Turn};
-use crate::geometric_cube::moves;
+use crate::generic_cube::{Cube, Move, Face};
 
-pub struct Cube(Vec<Sticker>);
+use super::sticker::{Sticker};
+use super::moves;
 
-impl Cube {
-    pub fn apply_move(&self, mv: Turn) -> Cube {
-        Cube(self.0.iter().map(|sticker| sticker.rotate(mv)).collect())
+#[derive(Clone)]
+pub struct GeoCube(Vec<Sticker>);
+
+impl Cube for GeoCube {
+    fn apply_move(&self, mv: Move) -> Self {
+        let converted_move = match mv {
+            Move::U => moves::U_MOVE,
+            Move::R => moves::R_MOVE,
+            Move::F => moves::F_MOVE,
+            Move::L => moves::L_MOVE,
+            Move::D => moves::D_MOVE,
+            Move::B => moves::B_MOVE,
+            Move::X => moves::X_MOVE,
+            Move::Y => moves::Y_MOVE,
+            Move::Z => moves::Z_MOVE
+        };
+
+        GeoCube(self.0.iter().map(|sticker| sticker.rotate(converted_move)).collect())
     }
 
-    pub fn apply_moves(&self, mvs: Vec<Turn>) -> Cube {
-        let mut cube = Cube(self.0.clone());
-
-        for mv in mvs {
-            cube = cube.apply_move(mv);
-        }
-
-        cube
-    }
-
-    pub fn is_solved(&self) -> bool {
+    fn is_solved(&self) -> bool {
         self.0.iter().all(|sticker| sticker.is_solved())
     }
 
-    pub fn get_state(&self) -> Vec<Faces> {
+    fn get_state(&self) -> Vec<Face> {
         let mut faces = Vec::new();
 
         let face_rotating_moves = vec![
             vec![],
-            vec![moves::Y_MOVE, moves::X_MOVE],
-            vec![moves::X_MOVE],
-            vec![moves::X_MOVE, moves::X_MOVE],
-            vec![moves::Y_MOVE, moves::Y_MOVE, moves::Y_MOVE, moves::X_MOVE],
-            vec![moves::Y_MOVE, moves::Y_MOVE, moves::X_MOVE],
+            vec![Move::Y, Move::X],
+            vec![Move::X],
+            vec![Move::X, Move::X],
+            vec![Move::Y, Move::Y, Move::Y, Move::X],
+            vec![Move::Y, Move::Y, Move::X],
         ];
 
         for mvs in face_rotating_moves {
             let cube = self.apply_moves(mvs);
 
             let relevant_stickers = cube.0.into_iter()
-                                          .filter(|sticker| matches!(sticker.get_position_face(), Faces::U))
+                                          .filter(|sticker| matches!(sticker.get_position_face(), Face::U))
                                           .collect();
             
             for face in Self::fill_face(relevant_stickers) {
@@ -49,8 +53,10 @@ impl Cube {
         
         faces
     }
+}
 
-    fn fill_face(stickers: Vec<Sticker>) -> Vec<Faces> {
+impl GeoCube {
+    fn fill_face(stickers: Vec<Sticker>) -> Vec<Face> {
         let mut faces = Vec::new();
 
         let mut copied_stickers = stickers.clone();
@@ -64,7 +70,7 @@ impl Cube {
     }
 }
 
-impl std::fmt::Display for Cube {
+impl std::fmt::Display for GeoCube {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         for v in &self.0 {
             write!(f, "{}\n", v)?;
@@ -73,7 +79,7 @@ impl std::fmt::Display for Cube {
     }
 }
 
-pub fn cube3() -> Cube {
+pub fn cube3() -> GeoCube {
     let mut stickers = Vec::new();
 
     for face in [-3.0, 3.0] {
@@ -86,5 +92,5 @@ pub fn cube3() -> Cube {
         }
     }
 
-    Cube(stickers.to_vec())
+    GeoCube(stickers.to_vec())
 }
