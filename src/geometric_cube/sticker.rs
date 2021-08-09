@@ -62,7 +62,7 @@ impl Sticker {
             position: Vector3{ x: new_position.x.round(), 
                                y: new_position.y.round(), 
                                z: new_position.z.round() },
-            destination: self.destination
+            ..*self
         }
     }
 
