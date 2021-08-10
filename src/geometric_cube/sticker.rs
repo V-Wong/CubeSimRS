@@ -48,13 +48,13 @@ impl Sticker {
     }
 
     fn get_face(x: f64, y: f64, z: f64) -> Face {
-        match (x, y, z) {
-            (3.0, _, _) => Face::R,
-            (-3.0, _, _) => Face::L,
-            (_, 3.0, _) => Face::U,
-            (_, -3.0, _) => Face::D,
-            (_, _, -3.0) => Face::F,
-            (_, _, 3.0) => Face::B,
+        match (x as i64, y as i64, z as i64) {
+            (3, _, _) => Face::R,
+            (-3, _, _) => Face::L,
+            (_, 3, _) => Face::U,
+            (_, -3, _) => Face::D,
+            (_, _, -3) => Face::F,
+            (_, _, 3) => Face::B,
             (_, _, _) => Face::X
         }
     }
