@@ -1,12 +1,12 @@
-use generic_cube::{Move};
+use crate::generic_cube::{Move};
 
 pub fn from_scramble_string(scramble: String) -> Vec<Move> {
     scramble.split(" ").map(convert_move).collect()
 }
 
-fn convert_move(mv: String) -> Move {
+fn convert_move(mv: &str) -> Move {
     match mv {
-        "U" => Move::U;
+        "U" => Move::U,
         "R" => Move::R,
         "F" => Move::F,
         "L" => Move::L,
