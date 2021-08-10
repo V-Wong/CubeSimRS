@@ -1,8 +1,8 @@
 use derive_more::Display;
-use cgmath::{Basis3, Vector3};
+use cgmath::{Rotation, Vector3};
 
 use crate::generic_cube::{Face}; 
-use crate::geometric_cube::moves::{Turn, Axes};
+use crate::geometric_cube::moves::{Turn};
 
 #[derive(Copy, Clone, Display)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
@@ -36,16 +36,7 @@ impl Sticker {
             return *self;
         }
 
-        use cgmath::{Deg, Rotation, Rotation3};
-
-        let rotation_matrix = {
-            match mv.axis {
-                Axes::X => Basis3::from_angle_x(Deg(mv.angle)),
-                Axes::Y => Basis3::from_angle_y(Deg(mv.angle)),
-                Axes::Z => Basis3::from_angle_z(Deg(mv.angle))
-            }
-        };
-
+        let rotation_matrix = mv.get_rotation_matrix();
         let new_position = rotation_matrix.rotate_vector(self.position);
 
         Sticker {

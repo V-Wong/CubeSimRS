@@ -1,12 +1,24 @@
+use cgmath::{Basis3, Deg, Rotation3};
+
 use crate::generic_cube::{Move};
 
 use super::sticker::Sticker;
 
 #[derive(Copy, Clone)]
 pub struct Turn {
-    pub axis: Axes,
-    pub angle: f64,
+    axis: Axes,
+    angle: f64,
     pub predicate: fn(&Sticker) -> bool
+}
+
+impl Turn {
+    pub fn get_rotation_matrix(&self) -> Basis3<f64> {
+        match self.axis {
+            Axes::X => Basis3::from_angle_x(Deg(self.angle)),
+            Axes::Y => Basis3::from_angle_y(Deg(self.angle)),
+            Axes::Z => Basis3::from_angle_z(Deg(self.angle))
+        }
+    }
 }
 
 #[derive(Copy, Clone)]
