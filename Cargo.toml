@@ -1,5 +1,5 @@
 [package]
-name = "CubeExplorer"
+name = "cubesim"
 version = "0.1.0"
 authors = ["Vincent Wong <vincent@vwong.dev>"]
 edition = "2018"

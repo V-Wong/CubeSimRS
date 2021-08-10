@@ -1,1 +1,1 @@
-# CubeExplorer
+# CubeSim V2
