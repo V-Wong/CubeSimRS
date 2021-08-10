@@ -12,6 +12,13 @@ pub enum Axes {
     X, Y, Z
 }
 
+pub fn invert(mv: Turn) -> Turn {
+    Turn {
+        angle: -mv.angle,
+        ..mv
+    }
+}
+
 pub static U_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |sticker| sticker.position.y > 0.0 };
 pub static D_MOVE: Turn = Turn { axis: Axes::Y, angle: -90.0, predicate: |sticker| sticker.position.y < 0.0 };
 pub static Y_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |_| true };
