@@ -1,26 +1,17 @@
 use crate::generic_cube::{Cube, Move, Face};
 
 use super::sticker::{Sticker};
-use super::moves;
+use super::moves::{convert_move};
 
 #[derive(Clone)]
 pub struct GeoCube(Vec<Sticker>);
 
 impl Cube for GeoCube {
     fn apply_move(&self, mv: Move) -> Self {
-        let converted_move = match mv {
-            Move::U => moves::U_MOVE,
-            Move::R => moves::R_MOVE,
-            Move::F => moves::F_MOVE,
-            Move::L => moves::L_MOVE,
-            Move::D => moves::D_MOVE,
-            Move::B => moves::B_MOVE,
-            Move::X => moves::X_MOVE,
-            Move::Y => moves::Y_MOVE,
-            Move::Z => moves::Z_MOVE
-        };
-
-        GeoCube(self.0.iter().map(|sticker| sticker.rotate(converted_move)).collect())
+        GeoCube(self.0.iter()
+                      .map(|sticker| sticker.rotate(convert_move(mv)))
+                      .collect()
+        )
     }
 
     fn is_solved(&self) -> bool {
