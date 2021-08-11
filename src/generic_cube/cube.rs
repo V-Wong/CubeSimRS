@@ -14,7 +14,7 @@ pub trait Cube: Clone {
     }
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Face {
     U,
     L,
@@ -26,7 +26,7 @@ pub enum Face {
 }
 
 #[allow(dead_code)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Move {
     U, L, F, R, B, D, X, Y, Z,
     U_, L_, F_, R_, B_, D_, X_, Y_, Z_,
