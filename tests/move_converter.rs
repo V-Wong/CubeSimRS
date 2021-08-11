@@ -46,3 +46,23 @@ fn test_inverse_moves() {
     assert_eq!(from_scramble_string(String::from("Y'"))[0], Move::Y_);
     assert_eq!(from_scramble_string(String::from("Z'"))[0], Move::Z_);
 }
+
+#[test]
+fn test_long_scramble() {
+    assert_eq!(from_scramble_string(String::from("R U R' U' R' F R2 U' R' U' R U R' F'")), vec![
+        Move::R,
+        Move::U,
+        Move::R_,
+        Move::U_,
+        Move::R_,
+        Move::F,
+        Move::R2,
+        Move::U_,
+        Move::R_,
+        Move::U_,
+        Move::R,
+        Move::U,
+        Move::R_,
+        Move::F_,
+    ]);
+}
