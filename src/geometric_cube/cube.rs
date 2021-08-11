@@ -1,4 +1,7 @@
-use crate::generic_cube::{Cube, Move, MoveVariant, Face};
+use crate::generic_cube::{Cube, Move, Face};
+use crate::generic_cube::Move::*;
+use crate::generic_cube::MoveVariant::*;
+
 
 use super::sticker::{Sticker};
 use super::moves::{convert_move};
@@ -23,11 +26,11 @@ impl Cube for GeoCube {
 
         let face_rotating_moves = vec![
             vec![],
-            vec![Move::Y(MoveVariant::Standard), Move::X(MoveVariant::Standard)],
-            vec![Move::X(MoveVariant::Standard)],
-            vec![Move::X(MoveVariant::Double)],
-            vec![Move::Y(MoveVariant::Inverse), Move::X(MoveVariant::Standard)],
-            vec![Move::Y(MoveVariant::Double), Move::X(MoveVariant::Standard)],
+            vec![Y(Standard), X(Standard)],
+            vec![X(Standard)],
+            vec![X(Double)],
+            vec![Y(Inverse), X(Standard)],
+            vec![Y(Double), X(Standard)],
         ];
 
         for mvs in face_rotating_moves {

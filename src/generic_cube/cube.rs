@@ -16,13 +16,7 @@ pub trait Cube: Clone {
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Face {
-    U,
-    L,
-    F,
-    R,
-    B,
-    D,
-    X
+    U, L, F, R, B, D, X
 }
 
 #[allow(dead_code)]
