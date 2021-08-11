@@ -28,7 +28,21 @@ pub enum Face {
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Move {
-    U, L, F, R, B, D, X, Y, Z,
-    U_, L_, F_, R_, B_, D_, X_, Y_, Z_,
-    U2, L2, F2, R2, B2, D2, X2, Y2, Z2,
+    U(MoveVariant), 
+    L(MoveVariant), 
+    F(MoveVariant), 
+    R(MoveVariant), 
+    B(MoveVariant), 
+    D(MoveVariant), 
+    X(MoveVariant), 
+    Y(MoveVariant), 
+    Z(MoveVariant)
+}
+
+#[allow(dead_code)]
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum MoveVariant {
+    Standard,
+    Double,
+    Inverse,
 }

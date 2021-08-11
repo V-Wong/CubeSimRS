@@ -1,6 +1,6 @@
 use cgmath::{Basis3, Deg, Rotation3};
 
-use crate::generic_cube::{Move};
+use crate::generic_cube::{Move, MoveVariant};
 
 use super::sticker::Sticker;
 
@@ -28,33 +28,23 @@ pub enum Axes {
 
 pub fn convert_move(mv: Move) -> Turn {
     match mv {
-        Move::U => U_MOVE,
-        Move::R => R_MOVE,
-        Move::F => F_MOVE,
-        Move::L => L_MOVE,
-        Move::D => D_MOVE,
-        Move::B => B_MOVE,
-        Move::X => X_MOVE,
-        Move::Y => Y_MOVE,
-        Move::Z => Z_MOVE,
-        Move::U_ => invert_move(U_MOVE),
-        Move::R_ => invert_move(R_MOVE),
-        Move::F_ => invert_move(F_MOVE),
-        Move::L_ => invert_move(L_MOVE),
-        Move::D_ => invert_move(D_MOVE),
-        Move::B_ => invert_move(B_MOVE),
-        Move::X_ => invert_move(X_MOVE),
-        Move::Y_ => invert_move(Y_MOVE),
-        Move::Z_ => invert_move(Z_MOVE),
-        Move::U2 => double_move(U_MOVE),
-        Move::R2 => double_move(R_MOVE),
-        Move::F2 => double_move(F_MOVE),
-        Move::L2 => double_move(L_MOVE),
-        Move::D2 => double_move(D_MOVE),
-        Move::B2 => double_move(B_MOVE),
-        Move::X2 => double_move(X_MOVE),
-        Move::Y2 => double_move(Y_MOVE),
-        Move::Z2 => double_move(Z_MOVE)
+        Move::U(variant) => modify_move(U_MOVE, variant),
+        Move::R(variant) => modify_move(R_MOVE, variant),
+        Move::F(variant) => modify_move(F_MOVE, variant),
+        Move::L(variant) => modify_move(L_MOVE, variant),
+        Move::D(variant) => modify_move(D_MOVE, variant),
+        Move::B(variant) => modify_move(B_MOVE, variant),
+        Move::X(variant) => modify_move(X_MOVE, variant),
+        Move::Y(variant) => modify_move(Y_MOVE, variant),
+        Move::Z(variant) => modify_move(Z_MOVE, variant)
+    }
+}
+
+pub fn modify_move(mv: Turn, variant: MoveVariant) -> Turn {
+    match variant {
+        MoveVariant::Standard => mv,
+        MoveVariant::Double => double_move(mv),
+        MoveVariant::Inverse => invert_move(mv)
     }
 }
 
