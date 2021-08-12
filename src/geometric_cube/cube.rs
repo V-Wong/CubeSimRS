@@ -54,7 +54,7 @@ impl GeoCube {
         let mut faces = Vec::new();
 
         let mut copied_stickers = stickers.clone();
-        copied_stickers.sort_by_key(|s| (-s.position.z as i64, -s.position.x as i64));
+        copied_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
 
         for sticker in copied_stickers {
             faces.push(sticker.get_destination_face());
