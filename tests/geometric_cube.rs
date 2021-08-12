@@ -10,7 +10,7 @@ use cubesim::geometric_cube::{cube3};
 // State Tests
 //
 #[test]
-fn test_solved_state() {
+fn solved_state() {
     assert_eq!(cube3().get_state(), vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, R, R, R,
@@ -22,7 +22,7 @@ fn test_solved_state() {
 }
 
 #[test]
-fn test_u_move() {
+fn u_move() {
     assert_eq!(cube3().apply_move(Move::U(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, U, U, U,
         B, B, B, R, R, R, R, R, R,
@@ -34,7 +34,7 @@ fn test_u_move() {
 }
 
 #[test]
-fn test_r_move() {
+fn r_move() {
     assert_eq!(cube3().apply_move(Move::R(MoveVariant::Standard)).get_state(), vec![
         U, U, F, U, U, F, U, U, F,
         R, R, R, R, R, R, R, R, R,
@@ -46,7 +46,7 @@ fn test_r_move() {
 }
 
 #[test]
-fn test_f_move() {
+fn f_move() {
     assert_eq!(cube3().apply_move(Move::F(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, L, L, L,
         U, R, R, U, R, R, U, R, R,
@@ -58,7 +58,7 @@ fn test_f_move() {
 }
 
 #[test]
-fn test_l_move() {
+fn l_move() {
     assert_eq!(cube3().apply_move(Move::L(MoveVariant::Standard)).get_state(), vec![
         B, U, U, B, U, U, B, U, U,
         R, R, R, R, R, R, R, R, R,
@@ -70,7 +70,7 @@ fn test_l_move() {
 }
 
 #[test]
-fn test_d_move() {
+fn d_move() {
     assert_eq!(cube3().apply_move(Move::D(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, F, F, F,
@@ -82,7 +82,7 @@ fn test_d_move() {
 }
 
 #[test]
-fn test_b_move() {
+fn b_move() {
     assert_eq!(cube3().apply_move(Move::B(MoveVariant::Standard)).get_state(), vec![
         R, R, R, U, U, U, U, U, U,
         R, R, D, R, R, D, R, R, D,
@@ -97,12 +97,12 @@ fn test_b_move() {
 // Is Solved Tests
 //
 #[test]
-fn test_new_cube_is_solved() {
+fn new_cube_is_solved() {
     assert!(cube3().is_solved());
 }
 
 #[test]
-fn test_rotated_cube_is_solved() {
+fn rotated_cube_is_solved() {
     use Move::*;
     use MoveVariant::*;
 
@@ -120,7 +120,7 @@ fn test_rotated_cube_is_solved() {
 }
 
 #[test]
-fn test_single_move_cube_is_not_solved() {
+fn single_move_cube_is_not_solved() {
     use Move::*;
     use MoveVariant::*;
 
@@ -133,7 +133,7 @@ fn test_single_move_cube_is_not_solved() {
 }
 
 #[test]
-fn test_standard_inverse_move_cube_is_solved() {
+fn standard_inverse_move_cube_is_solved() {
     use Move::*;
     use MoveVariant::*;
 
@@ -146,7 +146,7 @@ fn test_standard_inverse_move_cube_is_solved() {
 }
 
 #[test]
-fn test_double_double_move_cube_is_solved() {
+fn double_double_move_cube_is_solved() {
     use Move::*;
     use MoveVariant::*;
 
