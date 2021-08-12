@@ -11,7 +11,7 @@ use cubesim::geometric_cube::{cube3};
 //
 #[test]
 fn test_solved_state() {
-    assert!(cube3().get_state() == vec![
+    assert_eq!(cube3().get_state(), vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, R, R, R,
         F, F, F, F, F, F, F, F, F,
@@ -23,9 +23,7 @@ fn test_solved_state() {
 
 #[test]
 fn test_u_move() {
-    println!("{:?}", cube3().apply_move(Move::U(MoveVariant::Standard)).get_state());
-
-    assert!(cube3().apply_move(Move::U(MoveVariant::Standard)).get_state() == vec![
+    assert_eq!(cube3().apply_move(Move::U(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, U, U, U,
         B, B, B, R, R, R, R, R, R,
         R, R, R, F, F, F, F, F, F,
@@ -37,7 +35,7 @@ fn test_u_move() {
 
 #[test]
 fn test_r_move() {
-    assert!(cube3().apply_move(Move::R(MoveVariant::Standard)).get_state() == vec![
+    assert_eq!(cube3().apply_move(Move::R(MoveVariant::Standard)).get_state(), vec![
         U, U, F, U, U, F, U, U, F,
         R, R, R, R, R, R, R, R, R,
         F, F, D, F, F, D, F, F, D,
@@ -49,7 +47,7 @@ fn test_r_move() {
 
 #[test]
 fn test_f_move() {
-    assert!(cube3().apply_move(Move::F(MoveVariant::Standard)).get_state() == vec![
+    assert_eq!(cube3().apply_move(Move::F(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, L, L, L,
         U, R, R, U, R, R, U, R, R,
         F, F, F, F, F, F, F, F, F,
@@ -61,7 +59,7 @@ fn test_f_move() {
 
 #[test]
 fn test_l_move() {
-    assert!(cube3().apply_move(Move::L(MoveVariant::Standard)).get_state() == vec![
+    assert_eq!(cube3().apply_move(Move::L(MoveVariant::Standard)).get_state(), vec![
         B, U, U, B, U, U, B, U, U,
         R, R, R, R, R, R, R, R, R,
         U, F, F, U, F, F, U, F, F,
@@ -73,7 +71,7 @@ fn test_l_move() {
 
 #[test]
 fn test_d_move() {
-    assert!(cube3().apply_move(Move::D(MoveVariant::Standard)).get_state() == vec![
+    assert_eq!(cube3().apply_move(Move::D(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, F, F, F,
         F, F, F, F, F, F, L, L, L,
@@ -85,7 +83,7 @@ fn test_d_move() {
 
 #[test]
 fn test_b_move() {
-    assert!(cube3().apply_move(Move::B(MoveVariant::Standard)).get_state() == vec![
+    assert_eq!(cube3().apply_move(Move::B(MoveVariant::Standard)).get_state(), vec![
         R, R, R, U, U, U, U, U, U,
         R, R, D, R, R, D, R, R, D,
         F, F, F, F, F, F, F, F, F,
