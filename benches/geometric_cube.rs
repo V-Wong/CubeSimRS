@@ -19,5 +19,11 @@ pub fn single_moves(c: &mut Criterion) {
     }));
 }
 
-criterion_group!(benches, single_moves);
+pub fn state(c: &mut Criterion) {
+    c.bench_function("Obtaining state", |b| b.iter(|| {
+        black_box(cube3().get_state());
+    }));
+}
+
+criterion_group!(benches, single_moves, state);
 criterion_main!(benches);
