@@ -11,8 +11,6 @@ use cubesim::geometric_cube::{cube3};
 //
 #[test]
 fn test_solved_state() {
-    println!("{:?}", cube3().get_state());
-
     assert!(cube3().get_state() == vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, R, R, R,
@@ -95,4 +93,69 @@ fn test_b_move() {
         U, L, L, U, L, L, U, L, L,
         B, B, B, B, B, B, B, B, B
     ]);
+}
+
+//
+// Is Solved Tests
+//
+#[test]
+fn test_new_cube_is_solved() {
+    assert!(cube3().is_solved());
+}
+
+#[test]
+fn test_rotated_cube_is_solved() {
+    use Move::*;
+    use MoveVariant::*;
+
+    assert!(cube3().apply_move(X(Standard)).is_solved());
+    assert!(cube3().apply_move(Y(Standard)).is_solved());
+    assert!(cube3().apply_move(Z(Standard)).is_solved());
+
+    assert!(cube3().apply_move(X(Inverse)).is_solved());
+    assert!(cube3().apply_move(Y(Inverse)).is_solved());
+    assert!(cube3().apply_move(Z(Inverse)).is_solved());
+
+    assert!(cube3().apply_move(X(Double)).is_solved());
+    assert!(cube3().apply_move(Y(Double)).is_solved());
+    assert!(cube3().apply_move(Z(Double)).is_solved());
+}
+
+#[test]
+fn test_single_move_cube_is_not_solved() {
+    use Move::*;
+    use MoveVariant::*;
+
+    assert!(!cube3().apply_move(U(Standard)).is_solved());
+    assert!(!cube3().apply_move(R(Standard)).is_solved());
+    assert!(!cube3().apply_move(F(Standard)).is_solved());
+    assert!(!cube3().apply_move(D(Standard)).is_solved());
+    assert!(!cube3().apply_move(L(Standard)).is_solved());
+    assert!(!cube3().apply_move(B(Standard)).is_solved());
+}
+
+#[test]
+fn test_standard_inverse_move_cube_is_solved() {
+    use Move::*;
+    use MoveVariant::*;
+
+    assert!(cube3().apply_move(U(Standard)).apply_move(U(Inverse)).is_solved());
+    assert!(cube3().apply_move(R(Standard)).apply_move(R(Inverse)).is_solved());
+    assert!(cube3().apply_move(F(Standard)).apply_move(F(Inverse)).is_solved());
+    assert!(cube3().apply_move(D(Standard)).apply_move(D(Inverse)).is_solved());
+    assert!(cube3().apply_move(L(Standard)).apply_move(L(Inverse)).is_solved());
+    assert!(cube3().apply_move(B(Standard)).apply_move(B(Inverse)).is_solved());
+}
+
+#[test]
+fn test_double_double_move_cube_is_solved() {
+    use Move::*;
+    use MoveVariant::*;
+
+    assert!(cube3().apply_move(U(Double)).apply_move(U(Double)).is_solved());
+    assert!(cube3().apply_move(R(Double)).apply_move(R(Double)).is_solved());
+    assert!(cube3().apply_move(F(Double)).apply_move(F(Double)).is_solved());
+    assert!(cube3().apply_move(D(Double)).apply_move(D(Double)).is_solved());
+    assert!(cube3().apply_move(L(Double)).apply_move(L(Double)).is_solved());
+    assert!(cube3().apply_move(B(Double)).apply_move(B(Double)).is_solved());
 }
