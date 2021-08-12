@@ -16,9 +16,9 @@ pub struct Turn {
 impl Turn {
     pub fn get_rotation_matrix(&self) -> Basis3<f64> {
         match self.axis {
-            Axes::X => Basis3::from_angle_x(Deg(self.angle)),
-            Axes::Y => Basis3::from_angle_y(Deg(self.angle)),
-            Axes::Z => Basis3::from_angle_z(Deg(self.angle))
+            Axes::X => Basis3::from_angle_x(Deg(-self.angle)),
+            Axes::Y => Basis3::from_angle_y(Deg(-self.angle)),
+            Axes::Z => Basis3::from_angle_z(Deg(-self.angle))
         }
     }
 }
@@ -68,10 +68,10 @@ pub static U_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |sticker
 pub static D_MOVE: Turn = Turn { axis: Axes::Y, angle: -90.0, predicate: |sticker| sticker.position.y < 0.0 };
 pub static Y_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |_| true };
 
-pub static L_MOVE: Turn = Turn { axis: Axes::X, angle: -90.0, predicate: |sticker| sticker.position.x > 0.0 };
-pub static R_MOVE: Turn = Turn { axis: Axes::X, angle: 90.0, predicate: |sticker| sticker.position.x < 0.0 };
+pub static L_MOVE: Turn = Turn { axis: Axes::X, angle: -90.0, predicate: |sticker| sticker.position.x < 0.0 };
+pub static R_MOVE: Turn = Turn { axis: Axes::X, angle: 90.0, predicate: |sticker| sticker.position.x > 0.0 };
 pub static X_MOVE: Turn = Turn { axis: Axes::X, angle: 90.0, predicate: |_| true };
 
-pub static F_MOVE: Turn = Turn { axis: Axes::Z, angle: -90.0, predicate: |sticker| sticker.position.z > 0.0 };
-pub static B_MOVE: Turn = Turn { axis: Axes::Z, angle: 90.0, predicate: |sticker| sticker.position.z < 0.0 };
+pub static F_MOVE: Turn = Turn { axis: Axes::Z, angle: 90.0, predicate: |sticker| sticker.position.z > 0.0 };
+pub static B_MOVE: Turn = Turn { axis: Axes::Z, angle: -90.0, predicate: |sticker| sticker.position.z < 0.0 };
 pub static Z_MOVE: Turn = Turn { axis: Axes::Z, angle: 90.0, predicate: |_| true };
