@@ -7,12 +7,12 @@ use crate::geometric_cube::moves::{Turn};
 #[derive(Copy, Clone, Display)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
 pub struct Sticker {
-    pub position: Vector3<f64>,
-    pub destination: Vector3<f64>
+    pub position: Vector3<i32>,
+    pub destination: Vector3<i32>
 }
 
 impl Sticker {
-    pub fn new(x: f64, y: f64, z: f64) -> Sticker {
+    pub fn new(x: i32, y: i32, z: i32) -> Sticker {
         Sticker {
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z)
@@ -37,18 +37,23 @@ impl Sticker {
         }
 
         let rotation_matrix = mv.get_rotation_matrix();
-        let new_position = rotation_matrix.rotate_vector(self.position);
+        let new_position = rotation_matrix.rotate_vector(
+            Vector3::new(self.position.x as f64,
+                         self.position.y as f64,
+                         self.position.z as f64,
+            )
+        );
 
         Sticker {
-            position: Vector3{ x: new_position.x.round(), 
-                               y: new_position.y.round(), 
-                               z: new_position.z.round() },
+            position: Vector3{ x: new_position.x.round() as i32, 
+                               y: new_position.y.round() as i32, 
+                               z: new_position.z.round() as i32 },
             ..*self
         }
     }
 
-    fn get_face(x: f64, y: f64, z: f64) -> Face {
-        match (x as i64, y as i64, z as i64) {
+    fn get_face(x: i32, y: i32, z: i32) -> Face {
+        match (x, y, z) {
             (3, _, _) => Face::R,
             (-3, _, _) => Face::L,
             (_, 3, _) => Face::U,

@@ -76,9 +76,9 @@ impl std::fmt::Display for GeoCube {
 pub fn cube3() -> GeoCube {
     let mut stickers = Vec::new();
 
-    for face in [-3.0, 3.0] {
-        for p1 in [-2.0, 0.0, 2.0] {
-            for p2 in [-2.0, 0.0, 2.0] {
+    for face in [-3, 3] {
+        for p1 in [-2, 0, 2] {
+            for p2 in [-2, 0, 2] {
                 stickers.push(Sticker::new(face, p1, p2));
                 stickers.push(Sticker::new(p1, face, p2));
                 stickers.push(Sticker::new(p1, p2, face));
