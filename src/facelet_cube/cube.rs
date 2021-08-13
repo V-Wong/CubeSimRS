@@ -25,8 +25,8 @@ impl Cube for FaceletCube {
     fn apply_move(&self, mv: Move) -> Self {
         let mut faces = self.0.clone();
 
-        for (x, y) in moves::from_geometric_move(mv) {
-            faces[y as usize] = self.0[x as usize];
+        for (x, y) in &moves::convert_move(mv).0 {
+            faces[*y as usize] = self.0[*x as usize];
         }
 
         FaceletCube(faces)
