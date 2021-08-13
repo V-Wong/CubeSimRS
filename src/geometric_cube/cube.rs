@@ -7,7 +7,7 @@ use super::sticker::{Sticker};
 use super::moves::{convert_move};
 
 #[derive(Clone)]
-pub struct GeoCube(Vec<Sticker>);
+pub struct GeoCube(pub Vec<Sticker>);
 
 impl Cube for GeoCube {
     fn apply_move(&self, mv: Move) -> Self {
