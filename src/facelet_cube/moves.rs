@@ -1,17 +1,16 @@
 use std::collections::HashMap;
+use cgmath::Vector3;
 
 use crate::generic_cube::{Cube, Move, MoveVariant};
 use crate::geometric_cube::{GeoCube, Sticker, cube3};
 
 pub fn from_geometric_move(mv: Move) -> Vec<(i32, i32)> {
-    let index_map: HashMap<(i32, i32, i32), i32> = create_index_conversion_map();
+    let index_map: HashMap<Vector3<i32>, i32> = create_index_conversion_map();
 
     cube3().apply_move(mv).0
            .iter()
            .map(|s|
-                match (index_map.get(&(s.destination.x, s.destination.y, s.destination.z)),
-                       index_map.get(&(s.position.x, s.position.y, s.position.z))
-                ) {
+                match (index_map.get(&s.destination), index_map.get(&s.position)) {
                     (Some(x), Some(y)) => return (x.clone(), y.clone()),
                     (_, _) => panic!()
                 }                 
@@ -20,7 +19,7 @@ pub fn from_geometric_move(mv: Move) -> Vec<(i32, i32)> {
            .collect()
 }
 
-fn create_index_conversion_map() -> HashMap<(i32, i32, i32), i32> {
+fn create_index_conversion_map() -> HashMap<Vector3<i32>, i32>{
     use Move::*;
     use MoveVariant::*;
 
@@ -39,9 +38,8 @@ fn create_index_conversion_map() -> HashMap<(i32, i32, i32), i32> {
     for rotation in face_rotating_moves {
         for z in [-2, 0, 2] {
             for x in [-2, 0, 2] {
-                let pos = GeoCube(vec![Sticker::new(x, 3, z)])
-                                .apply_moves(rotation.clone()).0[0].position;
-                map.insert((pos.x, pos.y, pos.z), idx);
+                let first_sticker = GeoCube(vec![Sticker::new(x, 3, z)]).apply_moves(rotation.clone()).0[0];
+                map.insert(first_sticker.position, idx);
                 idx += 1;
             }
         }
