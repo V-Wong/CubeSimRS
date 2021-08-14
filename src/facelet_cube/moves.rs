@@ -11,15 +11,7 @@ use crate::geometric_cube::{GeoCube, Sticker, cube3};
 pub struct FaceletMove(pub Vec<(i32, i32)>);
 
 pub fn convert_move(mv: Move) -> &'static FaceletMove {
-    match mv {
-        U(variant) => &U_MOVE,
-        R(variant) => &R_MOVE,
-        F(variant) => &F_MOVE,
-        L(variant) => &L_MOVE,
-        D(variant) => &D_MOVE,
-        B(variant) => &B_MOVE,
-        _ => &F_MOVE
-    }
+    &FACELET_MOVES[&mv]
 }
 
 fn from_geometric_move(mv: Move) -> Vec<(i32, i32)> {
@@ -64,10 +56,15 @@ fn create_index_conversion_map() -> HashMap<Vector3<i32>, i32>{
 }
 
 lazy_static! {
-    pub static ref U_MOVE: FaceletMove = FaceletMove(from_geometric_move(U(Standard)));
-    pub static ref R_MOVE: FaceletMove = FaceletMove(from_geometric_move(R(Standard)));
-    pub static ref F_MOVE: FaceletMove = FaceletMove(from_geometric_move(F(Standard)));
-    pub static ref D_MOVE: FaceletMove = FaceletMove(from_geometric_move(D(Standard)));
-    pub static ref L_MOVE: FaceletMove = FaceletMove(from_geometric_move(L(Standard)));
-    pub static ref B_MOVE: FaceletMove = FaceletMove(from_geometric_move(B(Standard)));
+    static ref FACELET_MOVES: HashMap<Move, FaceletMove> = {
+        let mut map = HashMap::new();
+
+        for mv in [U, R, F, D, L, B] {
+            for move_variant in [Standard, Double, Inverse] {
+                map.insert(mv(move_variant), FaceletMove(from_geometric_move(mv(move_variant))));
+            }
+        } 
+
+        map
+    };
 }
