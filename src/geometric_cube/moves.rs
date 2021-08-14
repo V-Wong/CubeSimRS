@@ -7,13 +7,13 @@ use crate::generic_cube::MoveVariant::*;
 use super::sticker::Sticker;
 
 #[derive(Copy, Clone)]
-pub struct Turn {
+pub struct GeometricMove {
     axis: Axes,
     angle: f64,
     pub predicate: fn(&Sticker) -> bool
 }
 
-impl Turn {
+impl GeometricMove {
     pub fn get_rotation_matrix(&self) -> Basis3<f64> {
         match self.axis {
             Axes::X => Basis3::from_angle_x(Deg(-self.angle)),
@@ -28,7 +28,7 @@ pub enum Axes {
     X, Y, Z
 }
 
-pub fn convert_move(mv: Move) -> Turn {
+pub fn convert_move(mv: Move) -> GeometricMove {
     match mv {
         U(variant) => modify_move(U_MOVE, variant),
         R(variant) => modify_move(R_MOVE, variant),
@@ -42,7 +42,7 @@ pub fn convert_move(mv: Move) -> Turn {
     }
 }
 
-pub fn modify_move(mv: Turn, variant: MoveVariant) -> Turn {
+pub fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
     match variant {
         Standard => mv,
         Double => double_move(mv),
@@ -50,28 +50,28 @@ pub fn modify_move(mv: Turn, variant: MoveVariant) -> Turn {
     }
 }
 
-pub fn invert_move(mv: Turn) -> Turn {
-    Turn {
+pub fn invert_move(mv: GeometricMove) -> GeometricMove {
+    GeometricMove {
         angle: -mv.angle,
         ..mv
     }
 }
 
-pub fn double_move(mv: Turn) -> Turn {
-    Turn {
+pub fn double_move(mv: GeometricMove) -> GeometricMove {
+    GeometricMove {
         angle: 2.0 * mv.angle,
         ..mv
     }
 }
 
-pub static U_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |sticker| sticker.position.y > 0 };
-pub static D_MOVE: Turn = Turn { axis: Axes::Y, angle: -90.0, predicate: |sticker| sticker.position.y < 0 };
-pub static Y_MOVE: Turn = Turn { axis: Axes::Y, angle: 90.0, predicate: |_| true };
+pub static U_MOVE: GeometricMove = GeometricMove { axis: Axes::Y, angle: 90.0, predicate: |sticker| sticker.position.y > 0 };
+pub static D_MOVE: GeometricMove = GeometricMove { axis: Axes::Y, angle: -90.0, predicate: |sticker| sticker.position.y < 0 };
+pub static Y_MOVE: GeometricMove = GeometricMove { axis: Axes::Y, angle: 90.0, predicate: |_| true };
 
-pub static L_MOVE: Turn = Turn { axis: Axes::X, angle: -90.0, predicate: |sticker| sticker.position.x < 0 };
-pub static R_MOVE: Turn = Turn { axis: Axes::X, angle: 90.0, predicate: |sticker| sticker.position.x > 0 };
-pub static X_MOVE: Turn = Turn { axis: Axes::X, angle: 90.0, predicate: |_| true };
+pub static L_MOVE: GeometricMove = GeometricMove { axis: Axes::X, angle: -90.0, predicate: |sticker| sticker.position.x < 0 };
+pub static R_MOVE: GeometricMove = GeometricMove { axis: Axes::X, angle: 90.0, predicate: |sticker| sticker.position.x > 0 };
+pub static X_MOVE: GeometricMove = GeometricMove { axis: Axes::X, angle: 90.0, predicate: |_| true };
 
-pub static F_MOVE: Turn = Turn { axis: Axes::Z, angle: 90.0, predicate: |sticker| sticker.position.z > 0 };
-pub static B_MOVE: Turn = Turn { axis: Axes::Z, angle: -90.0, predicate: |sticker| sticker.position.z < 0 };
-pub static Z_MOVE: Turn = Turn { axis: Axes::Z, angle: 90.0, predicate: |_| true };
+pub static F_MOVE: GeometricMove = GeometricMove { axis: Axes::Z, angle: 90.0, predicate: |sticker| sticker.position.z > 0 };
+pub static B_MOVE: GeometricMove = GeometricMove { axis: Axes::Z, angle: -90.0, predicate: |sticker| sticker.position.z < 0 };
+pub static Z_MOVE: GeometricMove = GeometricMove { axis: Axes::Z, angle: 90.0, predicate: |_| true };
