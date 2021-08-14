@@ -10,6 +10,7 @@ edition = "2018"
 cgmath = "0.18.0"
 derive_more = "0.99.16"
 lazy_static = "1.4.0"
+test-case = "1.2.0"
 
 [dev-dependencies]
 criterion = "0.3.5"
