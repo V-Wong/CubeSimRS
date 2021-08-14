@@ -14,13 +14,13 @@ pub trait Cube: Clone {
     }
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Hash, PartialEq)]
 pub enum Face {
     U, L, F, R, B, D, X
 }
 
 #[allow(dead_code)]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Move {
     U(MoveVariant), 
     L(MoveVariant), 
@@ -34,7 +34,7 @@ pub enum Move {
 }
 
 #[allow(dead_code)]
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum MoveVariant {
     Standard,
     Double,
