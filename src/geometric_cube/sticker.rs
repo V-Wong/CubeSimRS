@@ -2,7 +2,7 @@ use derive_more::Display;
 use cgmath::{Rotation, Vector3};
 
 use crate::generic_cube::{Face}; 
-use crate::geometric_cube::moves::{Turn};
+use crate::geometric_cube::moves::{GeometricMove};
 
 #[derive(Copy, Clone, Display)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
@@ -31,7 +31,7 @@ impl Sticker {
         Self::get_face(self.destination.x, self.destination.y, self.destination.z)
     }
 
-    pub fn rotate(&self, mv: Turn) -> Sticker {
+    pub fn rotate(&self, mv: GeometricMove) -> Sticker {
         if !(mv.predicate)(self) {
             return *self;
         }

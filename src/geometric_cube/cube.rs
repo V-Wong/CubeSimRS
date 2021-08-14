@@ -4,7 +4,7 @@ use crate::generic_cube::MoveVariant::*;
 
 
 use super::sticker::{Sticker};
-use super::moves::{convert_move};
+use super::moves::{GeometricMove};
 
 #[derive(Clone)]
 pub struct GeoCube(pub Vec<Sticker>);
@@ -12,7 +12,7 @@ pub struct GeoCube(pub Vec<Sticker>);
 impl Cube for GeoCube {
     fn apply_move(&self, mv: Move) -> Self {
         GeoCube(self.0.iter()
-                      .map(|sticker| sticker.rotate(convert_move(mv)))
+                      .map(|sticker| sticker.rotate(GeometricMove::from(mv)))
                       .collect()
         )
     }
