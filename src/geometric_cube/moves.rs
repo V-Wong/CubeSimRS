@@ -23,23 +23,25 @@ impl GeometricMove {
     }
 }
 
+impl From<Move> for GeometricMove {
+    fn from(mv: Move) -> Self {
+        match mv {
+            U(variant) => modify_move(U_MOVE, variant),
+            R(variant) => modify_move(R_MOVE, variant),
+            F(variant) => modify_move(F_MOVE, variant),
+            L(variant) => modify_move(L_MOVE, variant),
+            D(variant) => modify_move(D_MOVE, variant),
+            B(variant) => modify_move(B_MOVE, variant),
+            X(variant) => modify_move(X_MOVE, variant),
+            Y(variant) => modify_move(Y_MOVE, variant),
+            Z(variant) => modify_move(Z_MOVE, variant)
+        }   
+    }
+}
+
 #[derive(Copy, Clone)]
 pub enum Axes {
     X, Y, Z
-}
-
-pub fn convert_move(mv: Move) -> GeometricMove {
-    match mv {
-        U(variant) => modify_move(U_MOVE, variant),
-        R(variant) => modify_move(R_MOVE, variant),
-        F(variant) => modify_move(F_MOVE, variant),
-        L(variant) => modify_move(L_MOVE, variant),
-        D(variant) => modify_move(D_MOVE, variant),
-        B(variant) => modify_move(B_MOVE, variant),
-        X(variant) => modify_move(X_MOVE, variant),
-        Y(variant) => modify_move(Y_MOVE, variant),
-        Z(variant) => modify_move(Z_MOVE, variant)
-    }
 }
 
 pub fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
