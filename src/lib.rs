@@ -1,4 +1,10 @@
-pub mod generic_cube;
-pub mod geometric_cube;
-pub mod facelet_cube;
+mod generic_cube;
+mod geometric_cube;
+mod facelet_cube;
 pub mod move_converter;
+
+pub use {
+    generic_cube::{Cube, Move, MoveVariant, Face},
+    geometric_cube::GeoCube, 
+    facelet_cube::FaceletCube
+};

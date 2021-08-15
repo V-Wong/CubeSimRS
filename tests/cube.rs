@@ -4,10 +4,8 @@
 
 use test_case::test_case;
 
-use cubesim::generic_cube::{Cube, Move, MoveVariant};
-use cubesim::generic_cube::Face::*;
-use cubesim::geometric_cube::GeoCube;
-use cubesim::facelet_cube::FaceletCube;
+use cubesim::{Cube, Move, MoveVariant, GeoCube, FaceletCube};
+use cubesim::Face::*;
 
 //
 // State Tests

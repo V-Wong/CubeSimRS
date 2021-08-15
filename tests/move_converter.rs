@@ -2,11 +2,9 @@
 // Move Converter Tests
 //
 
-use cubesim::generic_cube::Move::*;
-use cubesim::generic_cube::MoveVariant::*;
-
-
 use cubesim::move_converter::{from_scramble_string};
+use cubesim::Move::*;
+use cubesim::MoveVariant::*;
 
 #[test]
 fn test_basic_moves() {

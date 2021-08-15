@@ -4,8 +4,7 @@
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
-use cubesim::generic_cube::{Cube, Move, MoveVariant};
-use cubesim::geometric_cube::GeoCube;
+use cubesim::{Cube, Move, MoveVariant, GeoCube};
 
 pub fn single_moves(c: &mut Criterion) {
     c.bench_function("All single moves", |b| b.iter(|| {
