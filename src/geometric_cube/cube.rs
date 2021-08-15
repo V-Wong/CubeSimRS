@@ -67,7 +67,7 @@ impl GeoCube {
 impl std::fmt::Display for GeoCube {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         for v in &self.0 {
-            write!(f, "{}\n", v)?;
+            writeln!(f, "{}", v)?;
         }
         Ok(())
     }
