@@ -8,6 +8,7 @@ edition = "2018"
 
 [dependencies]
 cgmath = "0.18.0"
+clippy = "0.0.302"
 derive_more = "0.99.16"
 lazy_static = "1.4.0"
 test-case = "1.2.0"
