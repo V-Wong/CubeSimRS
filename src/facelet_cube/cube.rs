@@ -19,7 +19,7 @@ impl Cube for FaceletCube {
     }
 
     fn get_state(&self) -> Vec<Face> {
-        return self.0.clone();
+        self.0.clone()
     }
 
     fn apply_move(&self, mv: Move) -> Self {

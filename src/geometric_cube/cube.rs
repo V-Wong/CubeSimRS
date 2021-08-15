@@ -53,7 +53,7 @@ impl GeoCube {
     fn fill_face(stickers: Vec<Sticker>) -> Vec<Face> {
         let mut faces = Vec::new();
 
-        let mut copied_stickers = stickers.clone();
+        let mut copied_stickers = stickers;
         copied_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
 
         for sticker in copied_stickers {
