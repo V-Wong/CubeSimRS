@@ -19,7 +19,7 @@ impl From<Move> for FaceletMove {
                    .iter()
                    .map(|s|
                         match (index_map.get(&s.destination), index_map.get(&s.position)) {
-                            (Some(x), Some(y)) => return (x.clone(), y.clone()),
+                            (Some(x), Some(y)) => (*x, *y),
                             (_, _) => panic!()
                         }                 
                    )
