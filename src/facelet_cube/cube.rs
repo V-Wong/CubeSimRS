@@ -7,6 +7,17 @@ use super::moves;
 pub struct FaceletCube(Vec<Face>);
 
 impl Cube for FaceletCube {
+    fn new() -> Self {
+        FaceletCube(vec![
+            U, U, U, U, U, U, U, U, U,
+            R, R, R, R, R, R, R, R, R,
+            F, F, F, F, F, F, F, F, F,
+            D, D, D, D, D, D, D, D, D,
+            L, L, L, L, L, L, L, L, L,
+            B, B, B, B, B, B, B, B, B
+        ])
+    } 
+
     fn is_solved(&self) -> bool {
         self.0 == vec![
             U, U, U, U, U, U, U, U, U,
@@ -31,15 +42,4 @@ impl Cube for FaceletCube {
 
         FaceletCube(faces)
     }
-}
-
-pub fn cube3() -> FaceletCube {
-    FaceletCube(vec![
-        U, U, U, U, U, U, U, U, U,
-        R, R, R, R, R, R, R, R, R,
-        F, F, F, F, F, F, F, F, F,
-        D, D, D, D, D, D, D, D, D,
-        L, L, L, L, L, L, L, L, L,
-        B, B, B, B, B, B, B, B, B
-    ])
 }

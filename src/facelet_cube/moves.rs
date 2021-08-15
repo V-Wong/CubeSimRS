@@ -5,7 +5,7 @@ use lazy_static::lazy_static;
 use crate::generic_cube::{Cube, Move};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
-use crate::geometric_cube::{GeoCube, Sticker, cube3};
+use crate::geometric_cube::{GeoCube, Sticker};
 
 #[derive(Clone)]
 pub struct FaceletMove(pub Vec<(i32, i32)>);
@@ -15,16 +15,16 @@ impl From<Move> for FaceletMove {
         let index_map: HashMap<Vector3<i32>, i32> = create_index_conversion_map();
 
         FaceletMove(
-            cube3().apply_move(mv).0
-                   .iter()
-                   .map(|s|
-                        match (index_map.get(&s.destination), index_map.get(&s.position)) {
-                            (Some(x), Some(y)) => (*x, *y),
-                            (_, _) => panic!()
-                        }                 
-                   )
-                   .filter(|x| x.0 != x.1)
-                   .collect()
+            GeoCube::new().apply_move(mv).0
+                          .iter()
+                          .map(|s|
+                                  match (index_map.get(&s.destination), index_map.get(&s.position)) {
+                                      (Some(x), Some(y)) => (*x, *y),
+                                      (_, _) => panic!()
+                                  }                 
+                          )
+                          .filter(|x| x.0 != x.1)
+                          .collect()
         )
     }
 }
