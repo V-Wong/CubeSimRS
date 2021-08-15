@@ -2,7 +2,6 @@ use crate::generic_cube::{Cube, Move, Face};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
-
 use super::sticker::{Sticker};
 use super::moves::{GeometricMove};
 
@@ -10,6 +9,22 @@ use super::moves::{GeometricMove};
 pub struct GeoCube(pub Vec<Sticker>);
 
 impl Cube for GeoCube {
+    fn new() -> Self {
+        let mut stickers = Vec::new();
+
+        for face in [-3, 3] {
+            for p1 in [-2, 0, 2] {
+                for p2 in [-2, 0, 2] {
+                    stickers.push(Sticker::new(face, p1, p2));
+                    stickers.push(Sticker::new(p1, face, p2));
+                    stickers.push(Sticker::new(p1, p2, face));
+                }
+            }
+        }
+    
+        GeoCube(stickers.to_vec())
+    }
+
     fn apply_move(&self, mv: Move) -> Self {
         GeoCube(self.0.iter()
                       .map(|sticker| sticker.rotate(GeometricMove::from(mv)))
@@ -63,20 +78,4 @@ impl std::fmt::Display for GeoCube {
         }
         Ok(())
     }
-}
-
-pub fn cube3() -> GeoCube {
-    let mut stickers = Vec::new();
-
-    for face in [-3, 3] {
-        for p1 in [-2, 0, 2] {
-            for p2 in [-2, 0, 2] {
-                stickers.push(Sticker::new(face, p1, p2));
-                stickers.push(Sticker::new(p1, face, p2));
-                stickers.push(Sticker::new(p1, p2, face));
-            }
-        }
-    }
-
-    GeoCube(stickers.to_vec())
 }
