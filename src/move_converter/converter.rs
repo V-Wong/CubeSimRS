@@ -3,7 +3,7 @@ use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
 pub fn from_scramble_string(scramble: String) -> Vec<Move> {
-    scramble.split(" ").map(convert_move).collect()
+    scramble.split(' ').map(convert_move).collect()
 }
 
 fn convert_move(mv: &str) -> Move {
@@ -24,11 +24,11 @@ fn convert_move(mv: &str) -> Move {
 }
 
 fn get_variant(mv: &str) -> MoveVariant {
-    if mv.contains("2") {
+    if mv.contains('2') {
         return Double
     }
 
-    if mv.contains("'") {
+    if mv.contains('\'') {
         return Inverse
     }
 
