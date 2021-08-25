@@ -7,13 +7,15 @@ use crate::geometric_cube::moves::{GeometricMove};
 #[derive(Copy, Clone, Display)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
 pub struct Sticker {
+    pub size: i32,
     pub position: Vector3<i32>,
     pub destination: Vector3<i32>
 }
 
 impl Sticker {
-    pub fn new(x: i32, y: i32, z: i32) -> Sticker {
+    pub fn new(size: i32, x: i32, y: i32, z: i32) -> Sticker {
         Sticker {
+            size: size,
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z)
         }
@@ -24,11 +26,11 @@ impl Sticker {
     }
 
     pub fn get_position_face(&self) -> Face {
-        Self::get_face(self.position.x, self.position.y, self.position.z)
+        Self::get_face(self.size, self.position.x, self.position.y, self.position.z)
     }
 
     pub fn get_destination_face(&self) -> Face {
-        Self::get_face(self.destination.x, self.destination.y, self.destination.z)
+        Self::get_face(self.size, self.destination.x, self.destination.y, self.destination.z)
     }
 
     pub fn rotate(&self, mv: GeometricMove) -> Sticker {
@@ -52,15 +54,13 @@ impl Sticker {
         }
     }
 
-    fn get_face(x: i32, y: i32, z: i32) -> Face {
-        match (x, y, z) {
-            (3, _, _) => Face::R,
-            (-3, _, _) => Face::L,
-            (_, 3, _) => Face::U,
-            (_, -3, _) => Face::D,
-            (_, _, 3) => Face::F,
-            (_, _, -3) => Face::B,
-            (_, _, _) => Face::X
-        }
+    fn get_face(size: i32, x: i32, y: i32, z: i32) -> Face {
+        return if x == size { Face::R }
+        else if x == -size { Face::L }
+        else if y == size { Face::U }
+        else if y == -size { Face::D }
+        else if z == size { Face::F }
+        else if z == -size { Face::B }
+        else { Face::X };
     }
 }
