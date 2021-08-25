@@ -30,7 +30,7 @@ impl MoveConverter {
     }
 
     pub fn precompute_index_map(&mut self, size: i32) {
-        for mv in [U, R, F, D, L, B] {
+        for mv in [U, R, F, D, L, B, X, Y, Z] {
             for move_variant in [Standard, Double, Inverse] {
                 self.moves.insert((size, mv(move_variant)), Self::convert_move_helper(size, mv(move_variant)));
             }
