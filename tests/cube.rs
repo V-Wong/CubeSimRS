@@ -10,8 +10,8 @@ use cubesim::Face::*;
 //
 // State Tests
 //
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn solved_state(cube: impl Cube) {
     assert_eq!(cube.get_state(), vec![
         U, U, U, U, U, U, U, U, U,
@@ -23,8 +23,8 @@ fn solved_state(cube: impl Cube) {
     ]);
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn u_move(cube: impl Cube) {
     assert_eq!(cube.apply_move(Move::U(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, U, U, U,
@@ -36,8 +36,8 @@ fn u_move(cube: impl Cube) {
     ]);
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn r_move(cube: impl Cube) {
     assert_eq!(cube.apply_move(Move::R(MoveVariant::Standard)).get_state(), vec![
         U, U, F, U, U, F, U, U, F,
@@ -49,8 +49,8 @@ fn r_move(cube: impl Cube) {
     ]);
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn f_move(cube: impl Cube) {
     assert_eq!(cube.apply_move(Move::F(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, L, L, L,
@@ -62,8 +62,8 @@ fn f_move(cube: impl Cube) {
     ]);
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn l_move(cube: impl Cube) {
     assert_eq!(cube.apply_move(Move::L(MoveVariant::Standard)).get_state(), vec![
         B, U, U, B, U, U, B, U, U,
@@ -75,8 +75,8 @@ fn l_move(cube: impl Cube) {
     ]);
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn d_move(cube: impl Cube) {
     assert_eq!(cube.apply_move(Move::D(MoveVariant::Standard)).get_state(), vec![
         U, U, U, U, U, U, U, U, U,
@@ -88,8 +88,8 @@ fn d_move(cube: impl Cube) {
     ]);
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn b_move(cube: impl Cube) {
     assert_eq!(cube.apply_move(Move::B(MoveVariant::Standard)).get_state(), vec![
         R, R, R, U, U, U, U, U, U,
@@ -104,14 +104,14 @@ fn b_move(cube: impl Cube) {
 //
 // Is Solved Tests
 //
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn new_cube_is_solved(cube: impl Cube) {
     assert!(cube.is_solved());
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn rotated_cube_is_solved(cube: impl Cube) {
     use Move::*;
     use MoveVariant::*;
@@ -129,8 +129,8 @@ fn rotated_cube_is_solved(cube: impl Cube) {
     assert!(cube.apply_move(Z(Double)).is_solved());
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn single_move_cube_is_not_solved(cube: impl Cube) {
     use Move::*;
     use MoveVariant::*;
@@ -143,8 +143,8 @@ fn single_move_cube_is_not_solved(cube: impl Cube) {
     assert!(!cube.apply_move(B(Standard)).is_solved());
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn standard_inverse_move_cube_is_solved(cube: impl Cube) {
     use Move::*;
     use MoveVariant::*;
@@ -157,8 +157,8 @@ fn standard_inverse_move_cube_is_solved(cube: impl Cube) {
     assert!(cube.apply_move(B(Standard)).apply_move(B(Inverse)).is_solved());
 }
 
-#[test_case(GeoCube::new() ; "Geometric Cube")]
-#[test_case(FaceletCube::new() ; "Facelet Cube")]
+#[test_case(GeoCube::new(3) ; "Geometric Cube")]
+#[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn double_double_move_cube_is_solved(cube: impl Cube) {
     use Move::*;
     use MoveVariant::*;
