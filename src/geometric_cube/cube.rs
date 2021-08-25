@@ -6,34 +6,39 @@ use super::sticker::{Sticker};
 use super::moves::{GeometricMove};
 
 #[derive(Clone)]
-pub struct GeoCube(pub Vec<Sticker>);
+pub struct GeoCube {
+    pub size: i32,
+    pub stickers: Vec<Sticker>
+}
 
 impl Cube for GeoCube {
-    fn new() -> Self {
+    fn new(size: i32) -> Self {
         let mut stickers = Vec::new();
 
-        for face in [-3, 3] {
-            for p1 in [-2, 0, 2] {
-                for p2 in [-2, 0, 2] {
-                    stickers.push(Sticker::new(face, p1, p2));
-                    stickers.push(Sticker::new(p1, face, p2));
-                    stickers.push(Sticker::new(p1, p2, face));
+        for face in [-size, size] {
+            for p1 in [-(size - 1), 0, size - 1] {
+                for p2 in [-(size - 1), 0, size - 1] {
+                    stickers.push(Sticker::new(size, face, p1, p2));
+                    stickers.push(Sticker::new(size, p1, face, p2));
+                    stickers.push(Sticker::new(size, p1, p2, face));
                 }
             }
         }
     
-        GeoCube(stickers.to_vec())
+        GeoCube { size: size, stickers: stickers.to_vec() }
     }
 
     fn apply_move(&self, mv: Move) -> Self {
-        GeoCube(self.0.iter()
-                      .map(|sticker| sticker.rotate(GeometricMove::from(mv)))
-                      .collect()
-        )
+        Self {
+            size: self.size,
+            stickers: self.stickers.iter()
+                          .map(|s| s.rotate(GeometricMove::from(mv)))
+                          .collect()
+        }
     }
 
     fn is_solved(&self) -> bool {
-        self.0.iter().all(|sticker| sticker.is_solved())
+        self.stickers.iter().all(|sticker| sticker.is_solved())
     }
 
     fn get_state(&self) -> Vec<Face> {
@@ -51,7 +56,7 @@ impl Cube for GeoCube {
         for mvs in face_rotating_moves {
             let cube = self.apply_moves(mvs);
 
-            let mut relevant_stickers = cube.0.into_iter()
+            let mut relevant_stickers = cube.stickers.into_iter()
                                             .filter(|s| matches!(s.get_position_face(), Face::U))
                                             .collect();
             
@@ -73,7 +78,7 @@ impl GeoCube {
 
 impl std::fmt::Display for GeoCube {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        for v in &self.0 {
+        for v in &self.stickers {
             writeln!(f, "{}", v)?;
         }
         Ok(())
