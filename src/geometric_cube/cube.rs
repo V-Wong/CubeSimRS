@@ -8,7 +8,8 @@ use super::moves::{GeometricMove};
 #[derive(Clone)]
 pub struct GeoCube {
     pub size: i32,
-    pub stickers: Vec<Sticker>
+    pub stickers: Vec<Sticker>,
+    pub mask: Vec<i32>
 }
 
 impl Cube for GeoCube {
@@ -25,7 +26,11 @@ impl Cube for GeoCube {
             }
         }
     
-        GeoCube { size: size, stickers: stickers.to_vec() }
+        GeoCube { size: size, stickers: stickers.to_vec(), mask: vec![] }
+    }
+
+    fn mask(size: i32, mask: &Vec<i32>) -> Self {
+        GeoCube { mask: mask.clone(), ..Self::new(size) }
     }
 
     fn apply_move(&self, mv: Move) -> Self {
@@ -33,7 +38,8 @@ impl Cube for GeoCube {
             size: self.size,
             stickers: self.stickers.iter()
                           .map(|s| s.rotate(GeometricMove::from(mv)))
-                          .collect()
+                          .collect(),
+            mask: Vec::new()
         }
     }
 
@@ -65,7 +71,10 @@ impl Cube for GeoCube {
             }
         }
         
-        faces
+        faces.iter()
+             .enumerate()
+             .map(|(i, &x)| if self.mask.contains(&(i as i32)) { x } else { Face::X } )
+             .collect()
     }
 }
 

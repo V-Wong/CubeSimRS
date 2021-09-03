@@ -1,5 +1,6 @@
 pub trait Cube: Clone {
     fn new(size: i32) -> Self;
+    fn mask(size: i32, mask: &Vec<i32>) -> Self;
 
     fn is_solved(&self) -> bool;
     fn get_state(&self) -> Vec<Face>;
