@@ -26,7 +26,6 @@ impl Cube for GeoCube {
             }
         }
     
-        println!("{:?}", (0 as i32..6 * size * size as i32).collect::<Vec<i32>>());
         GeoCube { size: size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
     }
 
