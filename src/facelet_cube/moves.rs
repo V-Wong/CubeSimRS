@@ -76,7 +76,8 @@ impl MoveConverter {
                 for x in [-(size - 1), 0, size - 1] {
                     let first_sticker = GeoCube {
                         size: size,
-                        stickers: vec![Sticker::new(size, x, size, z)] 
+                        stickers: vec![Sticker::new(size, x, size, z)],
+                        mask: vec![]
                     }.apply_moves(rotation.clone()).stickers[0];
                     map.insert(first_sticker.position, idx);
                     idx += 1;

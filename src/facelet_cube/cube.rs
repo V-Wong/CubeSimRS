@@ -22,7 +22,17 @@ impl Cube for FaceletCube {
                 repeat(B, size * size),
             ].concat()
         }
-    } 
+    }
+
+    fn mask(size: i32, mask: &Vec<i32>) -> Self {
+        let faces = Self::new(size).faces;
+        let masked_faces = faces.iter()
+                                .enumerate()
+                                .map(|(i, &x)| if mask.contains(&(i as i32)) { x } else { Face::X } )
+                                .collect();
+
+        Self { size, faces: masked_faces }
+    }
 
     fn is_solved(&self) -> bool {
         let face_length = (self.size * self.size) as usize;
