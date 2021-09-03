@@ -9,7 +9,7 @@ use super::moves::{GeometricMove};
 pub struct GeoCube {
     pub size: i32,
     pub stickers: Vec<Sticker>,
-    mask: Vec<i32>
+    pub mask: Vec<i32>
 }
 
 impl Cube for GeoCube {
