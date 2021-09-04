@@ -5,6 +5,15 @@ use crate::generic_cube::MoveVariant::*;
 use super::sticker::{Sticker};
 use super::moves::{GeometricMove};
 
+/// A Rubik's Cube with pieces represented as 3-dimensional vectors.
+/// 
+/// Each move is implemented as a rotation matrix and hence a move is applied
+/// by multiplying each of the relevants vectors with the matrix.
+/// 
+/// This implementation of a Rubik's Cube is very programmatic but suffers
+/// from poor performance due to the expensive nature of matrix multiplication.
+/// This implementation should not be used directly, instead it should only be
+/// used to bootstrap more efficient implementations like the FaceletCube.
 #[derive(Clone)]
 pub struct GeoCube {
     pub size: i32,
