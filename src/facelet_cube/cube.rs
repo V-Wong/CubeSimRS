@@ -3,6 +3,15 @@ use crate::generic_cube::Face::*;
 
 use super::moves::{MOVE_CONVERTER};
 
+/// A Rubik's Cube with stickers stored sequentially in a 1-dimensional array.
+/// 
+/// Each move is implemented as an array of index mappings of the form ``(from_idx, to_idx)``.
+/// A move is then applied by swapping all pieces as specified by these index mappings.
+/// 
+/// Applying moves for the ``FaceletCube`` is more efficient than the ``GeoCube``, but
+/// it is harder to define moves from scratch. Instead of deriving index mappings from scratch,
+/// we first implement a GeoCube move, then use our conversion function to map the move
+/// to a FaceletCube move.
 #[derive(Clone)]
 pub struct FaceletCube {
     size: i32,
