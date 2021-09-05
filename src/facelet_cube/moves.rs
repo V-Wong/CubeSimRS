@@ -78,7 +78,7 @@ impl MoveConverter {
                         size: size,
                         stickers: vec![Sticker::new(size, x, size, z)],
                         mask: vec![]
-                    }.apply_moves(rotation.clone()).stickers[0];
+                    }.apply_moves(&rotation).stickers[0];
                     map.insert(first_sticker.position, idx);
                     idx += 1;
                 }

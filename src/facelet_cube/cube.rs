@@ -33,7 +33,7 @@ impl Cube for FaceletCube {
         }
     }
 
-    fn mask(size: i32, mask: &Vec<i32>) -> Self {
+    fn mask(size: i32, mask: &[i32]) -> Self {
         let faces = Self::new(size).faces;
         let masked_faces = faces.iter()
                                 .enumerate()

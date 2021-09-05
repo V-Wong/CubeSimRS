@@ -38,8 +38,8 @@ impl Cube for GeoCube {
         Self { size: size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
     }
 
-    fn mask(size: i32, mask: &Vec<i32>) -> Self {
-        Self { mask: mask.clone(), ..Self::new(size) }
+    fn mask(size: i32, mask: &[i32]) -> Self {
+        Self { mask: mask.to_vec(), ..Self::new(size) }
     }
 
     fn apply_move(&self, mv: Move) -> Self {
@@ -68,7 +68,7 @@ impl Cube for GeoCube {
         ];
 
         for mvs in face_rotating_moves {
-            let cube = self.apply_moves(mvs);
+            let cube = self.apply_moves(&mvs);
 
             let mut relevant_stickers = cube.stickers.into_iter()
                                             .filter(|s| matches!(s.get_position_face(), Face::U))
