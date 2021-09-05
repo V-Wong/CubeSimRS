@@ -10,7 +10,7 @@ pub trait Cube: Clone {
     /// Creates a solved cube of the given size,
     /// with all faces except those in the mask
     /// replaced with a placeholder ``Face::X`` sticker.
-    fn mask(size: i32, mask: &Vec<i32>) -> Self;
+    fn mask(size: i32, mask: &[i32]) -> Self;
 
     /// Whether a cube is solved.
     fn is_solved(&self) -> bool;
@@ -66,14 +66,14 @@ pub trait Cube: Clone {
     ///     Move::B(MoveVariant::Inverse),
     /// ]);
     /// ```
-    fn apply_moves(&self, mvs: Vec<Move>) -> Self
+    fn apply_moves(&self, mvs: &[Move]) -> Self
     where
         Self: Sized,
     {
         let mut cube = self.clone();
 
         for mv in mvs {
-            cube = cube.apply_move(mv);
+            cube = cube.apply_move(*mv);
         }
 
         cube
