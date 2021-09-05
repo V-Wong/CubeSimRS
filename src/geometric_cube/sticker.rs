@@ -55,12 +55,12 @@ impl Sticker {
     }
 
     fn get_face(size: i32, x: i32, y: i32, z: i32) -> Face {
-        return if x == size { Face::R }
+        if x == size { Face::R }
         else if x == -size { Face::L }
         else if y == size { Face::U }
         else if y == -size { Face::D }
         else if z == size { Face::F }
         else if z == -size { Face::B }
-        else { Face::X };
+        else { Face::X }
     }
 }
