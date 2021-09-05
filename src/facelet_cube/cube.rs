@@ -46,12 +46,15 @@ impl Cube for FaceletCube {
     fn is_solved(&self) -> bool {
         let face_length = (self.size * self.size) as usize;
 
-        all_equal(&self.faces[0 * face_length..1 * face_length]) &&
-        all_equal(&self.faces[1 * face_length..2 * face_length]) &&
-        all_equal(&self.faces[2 * face_length..3 * face_length]) &&
-        all_equal(&self.faces[3 * face_length..4 * face_length]) &&
-        all_equal(&self.faces[4 * face_length..5 * face_length]) &&
-        all_equal(&self.faces[5 * face_length..6 * face_length])
+        let mut is_solved = true;
+        for i in 0..6 {
+            let face_start = i * face_length;
+            let face_end = face_start + face_length;
+
+            is_solved = is_solved && all_equal(&self.faces[face_start..face_end]);
+        }
+
+        is_solved
     }
 
     fn get_state(&self) -> Vec<Face> {
