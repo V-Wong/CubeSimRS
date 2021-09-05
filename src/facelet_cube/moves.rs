@@ -24,16 +24,8 @@ pub struct MoveConverter {
 
 impl MoveConverter {
     pub fn new() -> Self {
-        MoveConverter {
+        Self {
             moves: HashMap::new()
-        }
-    }
-
-    pub fn precompute_index_map(&mut self, size: i32) {
-        for mv in [U, R, F, D, L, B, X, Y, Z] {
-            for move_variant in [Standard, Double, Inverse] {
-                self.moves.insert((size, mv(move_variant)), Self::convert_move_helper(size, mv(move_variant)));
-            }
         }
     }
 
@@ -41,8 +33,18 @@ impl MoveConverter {
         &self.moves[&(size, mv)]
     }
 
-    fn convert_move_helper(size: i32, mv: Move) -> FaceletMove {
-        let index_map = Self::create_index_conversion_map(size);
+    fn precompute_index_map(&mut self, size: i32) {
+        for mv in [U, R, F, D, L, B, X, Y, Z] {
+            for variant in [Standard, Double, Inverse] {
+                self.moves.insert((size, mv(variant)), 
+                                  Self::create_move_index(size, mv(variant))
+                );
+            }
+        }
+    }
+
+    fn create_move_index(size: i32, mv: Move) -> FaceletMove {
+        let index_map = Self::create_piece_map(size);
 
         FaceletMove(
             GeoCube::new(size)
@@ -58,7 +60,7 @@ impl MoveConverter {
         )
     }
 
-    fn create_index_conversion_map(size: i32) -> HashMap<Vector3<i32>, i32> {
+    fn create_piece_map(size: i32) -> HashMap<Vector3<i32>, i32> {
         let mut map = HashMap::new();
     
         let face_rotating_moves = vec![
