@@ -35,11 +35,11 @@ impl Cube for GeoCube {
             }
         }
     
-        GeoCube { size: size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
+        Self { size: size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
     }
 
     fn mask(size: i32, mask: &Vec<i32>) -> Self {
-        GeoCube { mask: mask.clone(), ..Self::new(size) }
+        Self { mask: mask.clone(), ..Self::new(size) }
     }
 
     fn apply_move(&self, mv: Move) -> Self {

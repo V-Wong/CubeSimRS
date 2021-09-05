@@ -20,7 +20,7 @@ pub struct FaceletCube {
 
 impl Cube for FaceletCube {
     fn new(size: i32) -> Self {
-        FaceletCube {
+        Self {
             size: size,
             faces: vec![
                 repeat(U, size * size),
@@ -65,8 +65,8 @@ impl Cube for FaceletCube {
             faces[*y as usize] = self.faces[*x as usize];
         }
 
-        FaceletCube {
-            size: self.size,
+        Self { 
+            size: self.size, 
             faces: faces
         }
     }

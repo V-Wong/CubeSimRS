@@ -14,7 +14,7 @@ pub struct Sticker {
 
 impl Sticker {
     pub fn new(size: i32, x: i32, y: i32, z: i32) -> Sticker {
-        Sticker {
+        Self {
             size: size,
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z)
@@ -33,7 +33,7 @@ impl Sticker {
         Self::get_face(self.size, self.destination.x, self.destination.y, self.destination.z)
     }
 
-    pub fn rotate(&self, mv: GeometricMove) -> Sticker {
+    pub fn rotate(&self, mv: GeometricMove) -> Self {
         if !(mv.predicate)(self) {
             return *self;
         }
@@ -46,7 +46,7 @@ impl Sticker {
             )
         );
 
-        Sticker {
+        Self {
             position: Vector3{ x: new_position.x.round() as i32, 
                                y: new_position.y.round() as i32, 
                                z: new_position.z.round() as i32 },
