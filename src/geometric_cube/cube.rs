@@ -35,7 +35,7 @@ impl Cube for GeoCube {
             }
         }
     
-        Self { size: size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
+        Self { size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
     }
 
     fn mask(size: i32, mask: &[i32]) -> Self {
