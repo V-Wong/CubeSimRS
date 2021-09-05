@@ -24,13 +24,11 @@ fn convert_move(mv: &str) -> Move {
 }
 
 fn get_variant(mv: &str) -> MoveVariant {
-    if mv.contains('2') {
-        return Double
+    return if mv.contains('2') {
+        Double
+    } else if mv.contains('\'') {
+        Inverse
+    } else {
+        Standard
     }
-
-    if mv.contains('\'') {
-        return Inverse
-    }
-
-    Standard
 }
