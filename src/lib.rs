@@ -12,13 +12,13 @@
 //! println!("{}", rotated_cube.get_state());
 //! ```
 
-mod generic_cube;
-mod geometric_cube;
-mod facelet_cube;
+pub mod prelude;
+pub mod cube_implementors {
+    pub use crate::facelet_cube::FaceletCube;
+    pub use crate::geometric_cube::GeoCube;
+}
 pub mod move_converter;
 
-pub use {
-    generic_cube::{Cube, Move, MoveVariant, Face},
-    geometric_cube::GeoCube, 
-    facelet_cube::FaceletCube
-};
+mod generic_cube;
+mod facelet_cube;
+mod geometric_cube;

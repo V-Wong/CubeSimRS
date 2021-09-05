@@ -3,8 +3,7 @@
 //
 
 use cubesim::move_converter::{from_scramble_string};
-use cubesim::Move::*;
-use cubesim::MoveVariant::*;
+use cubesim::prelude::{Move::*, MoveVariant::*};
 
 #[test]
 fn test_basic_moves() {
