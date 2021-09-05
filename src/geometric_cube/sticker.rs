@@ -15,7 +15,7 @@ pub struct Sticker {
 impl Sticker {
     pub fn new(size: i32, x: i32, y: i32, z: i32) -> Sticker {
         Self {
-            size: size,
+            size,
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z)
         }
