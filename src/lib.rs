@@ -17,8 +17,9 @@ pub mod cube_implementors {
     pub use crate::facelet_cube::FaceletCube;
     pub use crate::geometric_cube::GeoCube;
 }
-pub mod move_converter;
+pub use scramble_parser::parse_scramble;
 
 mod generic_cube;
 mod facelet_cube;
 mod geometric_cube;
+mod scramble_parser;
