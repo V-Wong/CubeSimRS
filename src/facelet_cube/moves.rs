@@ -16,13 +16,10 @@ pub fn convert_move(size: i32, mv: Move) -> FaceletMove {
 
     FaceletMove(
         GeoCube::new(size)
-                .apply_move(mv).stickers
+                .apply_move(mv)
+                .stickers
                 .iter()
-                .map(|s| match (index_map.get(&s.destination), index_map.get(&s.position)) {
-                        (Some(x), Some(y)) => (*x, *y),
-                        (_, _) => panic!()
-                    }                 
-                )
+                .map(|s| (index_map[(&s.destination)], index_map[(&s.position)]))
                 .filter(|x| x.0 != x.1)
                 .collect()
     )
