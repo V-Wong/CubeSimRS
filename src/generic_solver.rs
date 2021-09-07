@@ -15,10 +15,10 @@ pub trait Solver {
     /// * `cube` - The Cube to be solved.
     /// * `moveset` - The moves to be used in the solution.
     /// * `solved_state` - The desired end state of a solution.
-    fn solve_into(cube: impl Cube, moveset: &[Move], solved_state: &[Face]) -> Option<Vec<Move>>;
+    fn solve_into(cube: &impl Cube, moveset: &[Move], solved_state: &[Face]) -> Option<Vec<Move>>;
 
     /// Solves the Cube into the standard solved state using all possible moves.
-    fn solve(cube: impl Cube) -> Option<Vec<Move>> {
+    fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
         use Move::*;
         use MoveVariant::*;
 
@@ -30,6 +30,6 @@ pub trait Solver {
             }
         }
 
-        Self::solve_into(cube, &moveset, &FaceletCube::new(3).get_state())
+        Self::solve_into(cube, &moveset, &FaceletCube::new(cube.size()).get_state())
     }
 }

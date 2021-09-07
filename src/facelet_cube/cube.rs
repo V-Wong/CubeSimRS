@@ -43,6 +43,10 @@ impl Cube for FaceletCube {
         Self { size, faces: masked_faces }
     }
 
+    fn size(&self) -> i32 {
+        self.size
+    }
+
     fn is_solved(&self) -> bool {
         let face_length = (self.size * self.size) as usize;
 
