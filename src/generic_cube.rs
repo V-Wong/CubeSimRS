@@ -83,8 +83,9 @@ pub trait Cube: Clone {
 
 /// A face of a Rubik's Cube sticker represented in WCA notation.
 ///
-/// The faces follow the standard WCA notation as described in
-/// [WCA regulations](worldcubeassociation.org/regulations/#article-12-notation).
+/// The faces follow the standard WCA notation as described in the [WCA regulations].
+/// 
+/// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
 #[derive(Clone, Copy, Debug, Hash, PartialEq)]
 pub enum Face {
     /// Upper face.
@@ -105,10 +106,11 @@ pub enum Face {
 
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
 ///
-/// Each Move must be tagged with a ``MoveVariant`` to completey a move.
+/// Each Move must be tagged with a ``MoveVariant`` to completely a move.
 /// 
-/// The moves follow the standard WCA notation as described in the
-/// [WCA regulations](worldcubeassociation.org/regulations/#article-12-notation).
+/// The moves follow the standard WCA notation as described in the [WCA regulations].
+/// 
+/// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Move {
