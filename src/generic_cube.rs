@@ -13,8 +13,7 @@ pub trait Cube: Clone {
     /// Whether a cube is solved.
     fn is_solved(&self) -> bool;
 
-    /// A one-dimensional representation of a cube
-    /// as a sequence of the faces.
+    /// A one-dimensional representation of a cube as a sequence of the faces.
     /// 
     /// # Examples
     /// 
@@ -34,8 +33,7 @@ pub trait Cube: Clone {
     /// ```
     fn get_state(&self) -> Vec<Face>;
 
-    /// Creates a copy of the given cube
-    /// with all faces except those in the mask
+    /// Creates a copy of the given cube with all faces except those in the mask
     /// replaced with a placeholder ``Face::X`` sticker.
     fn mask(&self, mask: &[i32]) -> Self;
 
@@ -107,8 +105,7 @@ pub enum Face {
 
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
 ///
-/// Each Move must be tagged with a ``MoveVariant``
-/// to completey define the type of move.
+/// Each Move must be tagged with a ``MoveVariant`` to completey a move.
 /// 
 /// The moves follow the standard WCA notation as described in the
 /// [WCA regulations](worldcubeassociation.org/regulations/#article-12-notation).
