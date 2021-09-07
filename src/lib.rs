@@ -12,12 +12,17 @@
 //! println!("{}", rotated_cube.get_state());
 //! ```
 
+#[doc(hidden)]
 pub mod prelude;
+#[doc(hidden)]
 pub mod cube_implementors {
     pub use crate::facelet_cube::FaceletCube;
     pub use crate::geometric_cube::GeoCube;
 }
+
 pub use scramble_parser::parse_scramble;
+pub use generic_cube::{Cube, Face, Move, MoveVariant};
+pub use cube_implementors::{FaceletCube, GeoCube};
 
 mod generic_cube;
 mod generic_solver;
