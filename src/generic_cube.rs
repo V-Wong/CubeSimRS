@@ -34,7 +34,7 @@ pub trait Cube: Clone {
     /// ```
     fn get_state(&self) -> Vec<Face>;
 
-    /// Creates a solved cube of the given size,
+    /// Creates a copy of the given cube
     /// with all faces except those in the mask
     /// replaced with a placeholder ``Face::X`` sticker.
     fn mask(&self, mask: &[i32]) -> Self;
