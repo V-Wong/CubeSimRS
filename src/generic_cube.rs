@@ -7,11 +7,6 @@ pub trait Cube: Clone {
     /// Creates a solved cube of the given size.
     fn new(size: i32) -> Self;
 
-    /// Creates a solved cube of the given size,
-    /// with all faces except those in the mask
-    /// replaced with a placeholder ``Face::X`` sticker.
-    fn mask(size: i32, mask: &[i32]) -> Self;
-
     /// The size of the ucbe.
     fn size(&self) -> i32;
 
@@ -38,6 +33,11 @@ pub trait Cube: Clone {
     /// println!("{:?}", cube.get_state());
     /// ```
     fn get_state(&self) -> Vec<Face>;
+
+    /// Creates a copy of the given cube
+    /// with all faces except those in the mask
+    /// replaced with a placeholder ``Face::X`` sticker.
+    fn mask(&self, mask: &[i32]) -> Self;
 
     /// Apply a move to a cube.
     /// 

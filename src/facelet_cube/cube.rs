@@ -33,16 +33,6 @@ impl Cube for FaceletCube {
         }
     }
 
-    fn mask(size: i32, mask: &[i32]) -> Self {
-        let faces = Self::new(size).faces;
-        let masked_faces = faces.iter()
-                                .enumerate()
-                                .map(|(i, &x)| if mask.contains(&(i as i32)) { x } else { Face::X } )
-                                .collect();
-
-        Self { size, faces: masked_faces }
-    }
-
     fn size(&self) -> i32 {
         self.size
     }
@@ -63,6 +53,16 @@ impl Cube for FaceletCube {
 
     fn get_state(&self) -> Vec<Face> {
         self.faces.clone()
+    }
+
+    fn mask(&self, mask: &[i32]) -> Self {
+        let masked_faces = self.faces
+                               .iter()
+                               .enumerate()
+                               .map(|(i, &x)| if mask.contains(&(i as i32)) { x } else { Face::X } )
+                               .collect();
+
+        Self { faces: masked_faces, ..*self }
     }
 
     fn apply_move(&self, mv: Move) -> Self {

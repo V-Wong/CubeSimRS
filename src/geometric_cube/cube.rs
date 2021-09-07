@@ -38,10 +38,6 @@ impl Cube for GeoCube {
         Self { size, stickers: stickers.to_vec(), mask: (0..6 * size * size).collect() }
     }
 
-    fn mask(size: i32, mask: &[i32]) -> Self {
-        Self { mask: mask.to_vec(), ..Self::new(size) }
-    }
-
     fn size(&self) -> i32 {
         self.size
     }
@@ -87,6 +83,10 @@ impl Cube for GeoCube {
              .enumerate()
              .map(|(i, &x)| if self.mask.contains(&(i as i32)) { x } else { Face::X } )
              .collect()
+    }
+
+    fn mask(&self, mask: &[i32]) -> Self {
+        Self { mask: mask.to_vec(), ..self.clone() }
     }
 }
 
