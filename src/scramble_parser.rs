@@ -2,6 +2,7 @@ use crate::generic_cube::{Move, MoveVariant};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
+/// Converts a WCA Notation scramble into ``Vec<Move>``.
 pub fn parse_scramble(scramble: String) -> Vec<Move> {
     scramble.split(' ').map(convert_move).collect()
 }
