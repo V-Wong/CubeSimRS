@@ -42,6 +42,10 @@ impl Cube for GeoCube {
         Self { mask: mask.to_vec(), ..Self::new(size) }
     }
 
+    fn size(&self) -> i32 {
+        self.size
+    }
+
     fn apply_move(&self, mv: Move) -> Self {
         Self {
             stickers: self.stickers.iter()

@@ -12,6 +12,9 @@ pub trait Cube: Clone {
     /// replaced with a placeholder ``Face::X`` sticker.
     fn mask(size: i32, mask: &[i32]) -> Self;
 
+    /// The size of the ucbe.
+    fn size(&self) -> i32;
+
     /// Whether a cube is solved.
     fn is_solved(&self) -> bool;
 

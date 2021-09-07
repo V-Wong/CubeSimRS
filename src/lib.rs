@@ -20,6 +20,7 @@ pub mod cube_implementors {
 pub use scramble_parser::parse_scramble;
 
 mod generic_cube;
+mod generic_solver;
 mod facelet_cube;
 mod geometric_cube;
 mod scramble_parser;
