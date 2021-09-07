@@ -4,3 +4,7 @@ pub use crate::generic_cube::{
     MoveVariant,
     Face
 };
+
+pub use crate::generic_solver::{
+    Solver
+};
