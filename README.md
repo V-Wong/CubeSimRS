@@ -1,5 +1,5 @@
 # CubeSim V2
-CubeSim is a Rubik's Cube simulator and solver written entirely in Rust. CubeSim aims to provide a toolbox of useful features for generating solutions to aid in speedcubing. CubeSim's goal is to create a modernised reimplementation of the highly successful [CubeExplorer](http://kociemba.org/cube.htm) program.
+CubeSim is a Rubik's Cube simulator and solver written entirely in Rust. 
 
 ## Features
 - Simulation of a 3x3x3 Rubik's Cube.
@@ -23,7 +23,7 @@ $ cargo run
 ## Project Structure
 - ``src/generic_cube``: This contains a generic definition of a Cube that all concrete implementations must adhere to. This includes a **Cube Trait**, a **Move enum** and a **Face enum**.
 - ``src/geometric_cube``: This is a geometric implementation of a Cube which represents stickers of a cube as **3-dimensional vectors** and moves as **rotation matrices**. This implementation is highly inefficient but it provides a means to bootstrap more efficient implementations.
-- ``src/facelet_cube``: This is a facelet implementation of a cube which represents stickers of a cube with an **identifier in an 1-dimensional array** and moves as **index to index mappings**. This implementation is efficient and is implemented by converting instances of the geometric cube.
+- ``src/facelet_cube``: This is a facelet implementation of a cube which represents stickers of a cube with an **identifier in an 1-dimensional array** and moves as **index to index mappings**. This implementation is efficient and is implemented by converting instances of the geometric cube moves.
 
 ## Resources Used
 - [Onionhoney's extremely well written article on modelling Rubik's Cubes](https://observablehq.com/@onionhoney/how-to-model-a-rubiks-cube)
