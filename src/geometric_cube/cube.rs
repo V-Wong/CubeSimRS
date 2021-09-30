@@ -45,7 +45,7 @@ impl Cube for GeoCube {
     fn apply_move(&self, mv: Move) -> Self {
         Self {
             stickers: self.stickers.iter()
-                          .map(|s| s.rotate(GeometricMove::from(mv)))
+                          .map(|s| s.rotate(GeometricMove::from(mv, self.size)))
                           .collect(),
             ..self.clone()
         }
