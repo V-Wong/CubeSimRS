@@ -23,15 +23,15 @@ impl GeometricMove {
 
     pub fn from(mv: Move, size: i32) -> Self {
         match (mv, 1) {
-            (U(variant), n) | (Uw(n, variant), _) => modify_move(u_move(size - (n + 1)), variant),
-            (R(variant), n) | (Rw(n, variant), _) => modify_move(r_move(size - (n + 1)), variant),
-            (F(variant), n) | (Fw(n, variant), _) => modify_move(f_move(size - (n + 1)), variant),
-            (L(variant), n) | (Lw(n, variant), _) => modify_move(l_move(size - (n + 1)), variant),
-            (D(variant), n) | (Dw(n, variant), _) => modify_move(d_move(size - (n + 1)), variant),
-            (B(variant), n) | (Bw(n, variant), _) => modify_move(b_move(size - (n + 1)), variant),
-            (X(variant), n) => modify_move(x_move(size - (n + 1)), variant),
-            (Y(variant), n) => modify_move(y_move(size - (n + 1)), variant),
-            (Z(variant), n) => modify_move(z_move(size - (n + 1)), variant)
+            (U(variant), n) | (Uw(n, variant), _) => modify_move(u_move(size - (n + 2)), variant),
+            (R(variant), n) | (Rw(n, variant), _) => modify_move(r_move(size - (n + 2)), variant),
+            (F(variant), n) | (Fw(n, variant), _) => modify_move(f_move(size - (n + 2)), variant),
+            (L(variant), n) | (Lw(n, variant), _) => modify_move(l_move(size - (n + 2)), variant),
+            (D(variant), n) | (Dw(n, variant), _) => modify_move(d_move(size - (n + 2)), variant),
+            (B(variant), n) | (Bw(n, variant), _) => modify_move(b_move(size - (n + 2)), variant),
+            (X(variant), _) => modify_move(x_move(-1), variant),
+            (Y(variant), _) => modify_move(y_move(-1), variant),
+            (Z(variant), _) => modify_move(z_move(-1), variant)
         } 
     }
 }

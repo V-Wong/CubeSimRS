@@ -26,8 +26,8 @@ impl Cube for GeoCube {
         let mut stickers = Vec::new();
 
         for face in [-size, size] {
-            for p1 in [-(size - 1), 0, size - 1] {
-                for p2 in [-(size - 1), 0, size - 1] {
+            for p1 in [-1, 0, 1] {
+                for p2 in [-1, 0, 1] {
                     stickers.push(Sticker::new(size, face, p1, p2));
                     stickers.push(Sticker::new(size, p1, face, p2));
                     stickers.push(Sticker::new(size, p1, p2, face));
