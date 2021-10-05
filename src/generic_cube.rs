@@ -48,8 +48,15 @@ pub trait Cube: Clone {
     /// use cubesim::prelude::*;
     /// use cubesim::cube_implementors::FaceletCube;
     ///
+    /// /* Outputs: [U, U, U, U, U, U, U, U, U, 
+    ///              B, B, B, R, R, R, R, R, R, 
+    ///              R, R, R, F, F, F, F, F, F, 
+    ///              D, D, D, D, D, D, D, D, D, 
+    ///              F, F, F, L, L, L, L, L, L, 
+    ///              L, L, L, B, B, B, B, B, B] */ 
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
+    /// println!("{:?}", turned_cube.get_state());
     /// ```
     fn apply_move(&self, mv: Move) -> Self;
 
@@ -63,6 +70,12 @@ pub trait Cube: Clone {
     /// use cubesim::prelude::*;
     /// use cubesim::cube_implementors::FaceletCube;
     ///
+    /// /* Outputs: [L, L, F, U, U, D, U, U, D, 
+    ///              R, R, U, R, R, U, B, B, D, 
+    ///              R, R, B, F, F, B, F, F, L, 
+    ///              D, D, U, D, D, U, B, R, R, 
+    ///              D, F, F, D, L, L, U, L, L, 
+    ///              L, B, B, L, B, B, F, F, R] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_moves(&vec![
     ///     Move::U(MoveVariant::Standard),
