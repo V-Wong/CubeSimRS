@@ -23,15 +23,15 @@ impl GeometricMove {
 
     pub fn from(mv: Move, size: i32) -> Self {
         match (mv, 1) {
-            (U(variant), n) | (Uw(n, variant), _) => modify_move(u_move(size - (n + 2)), variant),
-            (R(variant), n) | (Rw(n, variant), _) => modify_move(r_move(size - (n + 2)), variant),
-            (F(variant), n) | (Fw(n, variant), _) => modify_move(f_move(size - (n + 2)), variant),
-            (L(variant), n) | (Lw(n, variant), _) => modify_move(l_move(size - (n + 2)), variant),
-            (D(variant), n) | (Dw(n, variant), _) => modify_move(d_move(size - (n + 2)), variant),
-            (B(variant), n) | (Bw(n, variant), _) => modify_move(b_move(size - (n + 2)), variant),
-            (X(variant), _) => modify_move(x_move(-1), variant),
-            (Y(variant), _) => modify_move(y_move(-1), variant),
-            (Z(variant), _) => modify_move(z_move(-1), variant)
+            (U(variant), n) | (Uw(n, variant), _) => modify_move(u_move(size, size / 2 - n), variant),
+            (R(variant), n) | (Rw(n, variant), _) => modify_move(r_move(size, size / 2 - n), variant),
+            (F(variant), n) | (Fw(n, variant), _) => modify_move(f_move(size, size / 2 - n), variant),
+            (L(variant), n) | (Lw(n, variant), _) => modify_move(l_move(size, size / 2 - n), variant),
+            (D(variant), n) | (Dw(n, variant), _) => modify_move(d_move(size, size / 2 - n), variant),
+            (B(variant), n) | (Bw(n, variant), _) => modify_move(b_move(size, size / 2 - n), variant),
+            (X(variant), _) => modify_move(x_move(), variant),
+            (Y(variant), _) => modify_move(y_move(), variant),
+            (Z(variant), _) => modify_move(z_move(), variant)
         } 
     }
 }
@@ -49,14 +49,34 @@ pub fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
     }
 }
 
-fn u_move(n: i32) -> GeometricMove { GeometricMove { axis: Axes::Y, angle: 90.0, predicate: Box::new(move |s| s.position.y > n) } }
-fn d_move(n: i32) -> GeometricMove { GeometricMove { axis: Axes::Y, angle: -90.0, predicate: Box::new(move |s| s.position.y < -n) } }
-fn y_move(_: i32) -> GeometricMove { GeometricMove { axis: Axes::Y, angle: 90.0, predicate: Box::new(move |_| true) } }
+fn shift_slice(size: i32, slice: i32) -> i32 {
+    return if size % 2 == 0 && slice < 0 {
+        slice + 1
+    } else {
+        slice
+    }
+}
 
-fn l_move(n: i32) -> GeometricMove { GeometricMove { axis: Axes::X, angle: -90.0, predicate: Box::new(move |s| s.position.x < -n) } }
-fn r_move(n: i32) -> GeometricMove { GeometricMove { axis: Axes::X, angle: 90.0, predicate: Box::new(move |s| s.position.x > n) } }
-fn x_move(_: i32) -> GeometricMove { GeometricMove { axis: Axes::X, angle: 90.0, predicate: Box::new(move |_| true) } }
+fn u_move(size: i32, n: i32) -> GeometricMove { 
+    GeometricMove { axis: Axes::Y, angle: 90.0, predicate: Box::new(move |s| shift_slice(size, s.position.y) > n) } 
+}
+fn d_move(size: i32, n: i32) -> GeometricMove { 
+    GeometricMove { axis: Axes::Y, angle: -90.0, predicate: Box::new(move |s| shift_slice(size, s.position.y) < -n) } 
+}
+fn y_move() -> GeometricMove { GeometricMove { axis: Axes::Y, angle: 90.0, predicate: Box::new(move |_| true) } }
 
-fn f_move(n: i32) -> GeometricMove { GeometricMove { axis: Axes::Z, angle: 90.0, predicate: Box::new(move |s| s.position.z > n) } }
-fn b_move(n: i32) -> GeometricMove { GeometricMove { axis: Axes::Z, angle: -90.0, predicate: Box::new(move |s| s.position.z < -n) } }
-fn z_move(_: i32) -> GeometricMove { GeometricMove { axis: Axes::Z, angle: 90.0, predicate: Box::new(move |_| true) } }
+fn l_move(size: i32, n: i32) -> GeometricMove { 
+    GeometricMove { axis: Axes::X, angle: -90.0, predicate: Box::new(move |s| shift_slice(size, s.position.x) < -n) } 
+}
+fn r_move(size: i32, n: i32) -> GeometricMove { 
+    GeometricMove { axis: Axes::X, angle: 90.0, predicate: Box::new(move |s| shift_slice(size, s.position.x) > n) } 
+}
+fn x_move() -> GeometricMove { GeometricMove { axis: Axes::X, angle: 90.0, predicate: Box::new(move |_| true) } }
+
+fn f_move(size: i32, n: i32) -> GeometricMove { 
+    GeometricMove { axis: Axes::Z, angle: 90.0, predicate: Box::new(move |s| shift_slice(size, s.position.z) > n) } 
+}
+fn b_move(size: i32, n: i32) -> GeometricMove { 
+    GeometricMove { axis: Axes::Z, angle: -90.0, predicate: Box::new(move |s| shift_slice(size, s.position.z) < -n) } 
+}
+fn z_move() -> GeometricMove { GeometricMove { axis: Axes::Z, angle: 90.0, predicate: Box::new(move |_| true) } }
