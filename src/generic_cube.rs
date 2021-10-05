@@ -58,14 +58,16 @@ pub trait Cube: Clone {
     /// Rotate the upper layer by 90 degrees:
     /// 
     /// ```rust
-    /// use cubesim::{Cube, Move, MoveVariant, FaceletCube};
-    /// let cube = FaceletCube::new(3);
+    /// use cubesim::prelude::*;
+    /// use cubesim::cube_implementors::FaceletCube;
     ///
-    /// let turned_cube = cube.apply_move(vec![
+    /// let solved_cube = FaceletCube::new(3);
+    /// let turned_cube = solved_cube.apply_moves(&vec![
     ///     Move::U(MoveVariant::Standard),
     ///     Move::R(MoveVariant::Double),
     ///     Move::B(MoveVariant::Inverse),
     /// ]);
+    /// println!("{:?}", turned_cube.get_state());
     /// ```
     fn apply_moves(&self, mvs: &[Move]) -> Self
     where
@@ -81,12 +83,14 @@ pub trait Cube: Clone {
     }
 }
 
+use derive_more::Display;
+
 /// A face of a Rubik's Cube sticker represented in WCA notation.
 ///
 /// The faces follow the standard WCA notation as described in the [WCA regulations].
 /// 
 /// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
-#[derive(Clone, Copy, Debug, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Display, Hash, PartialEq)]
 pub enum Face {
     /// Upper face.
     U,

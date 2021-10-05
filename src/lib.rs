@@ -6,11 +6,11 @@
 //! 
 //! ```rust
 //! use cubesim::prelude::*;
-//! use cube_implementors::FaceletCube;
+//! use cubesim::cube_implementors::FaceletCube;
 //! 
 //! let cube = FaceletCube::new(3);
-//! let rotated_cube = cube.apply_move(Move::U(MoveVariant::Double));
-//! println!("{}", rotated_cube.get_state());
+//! let turned_cube = cube.apply_move(Move::U(MoveVariant::Double));
+//! println!("{:?}", turned_cube.get_state());
 //! ```
 //! 
 //! # Cube Trait Overview
