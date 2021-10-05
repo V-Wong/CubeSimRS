@@ -21,10 +21,6 @@ impl Sticker {
         }
     }
 
-    pub fn is_solved(&self) -> bool {
-        self.position == self.destination
-    }
-
     pub fn get_position_face(&self) -> Face {
         Self::get_face(self.size, self.position.x, self.position.y, self.position.z)
     }
