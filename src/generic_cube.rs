@@ -126,6 +126,12 @@ pub enum Move {
     B(MoveVariant),
     /// Rotate the down layer.
     D(MoveVariant),
+    Uw(i32, MoveVariant),
+    Lw(i32, MoveVariant),
+    Fw(i32, MoveVariant),
+    Rw(i32, MoveVariant),
+    Bw(i32, MoveVariant),
+    Dw(i32, MoveVariant),
     /// Rotate the entire cube along the x-axis.
     X(MoveVariant),
     /// Rotate the entire cube along the y-axis.

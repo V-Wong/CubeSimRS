@@ -26,8 +26,8 @@ impl Cube for GeoCube {
         let mut stickers = Vec::new();
 
         for face in [-size, size] {
-            for p1 in [-(size - 1), 0, size - 1] {
-                for p2 in [-(size - 1), 0, size - 1] {
+            for p1 in Self::range(size) {
+                for p2 in Self::range(size) {
                     stickers.push(Sticker::new(size, face, p1, p2));
                     stickers.push(Sticker::new(size, p1, face, p2));
                     stickers.push(Sticker::new(size, p1, p2, face));
@@ -45,7 +45,7 @@ impl Cube for GeoCube {
     fn apply_move(&self, mv: Move) -> Self {
         Self {
             stickers: self.stickers.iter()
-                          .map(|s| s.rotate(GeometricMove::from(mv)))
+                          .map(|s| s.rotate(GeometricMove::from(mv, self.size)))
                           .collect(),
             ..self.clone()
         }
@@ -94,6 +94,15 @@ impl GeoCube {
     fn fill_face(stickers: &mut Vec<Sticker>) -> Vec<Face> {
         stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
         stickers.iter().map(Sticker::get_destination_face).collect()
+    }
+
+    pub fn range(size: i32) -> Vec<i32> {
+        return if size % 2 == 1 {
+            (-size / 2 ..= size / 2).collect()
+        } else {
+            (-size / 2 ..= size / 2).filter(|x| *x != 0)
+                                    .collect()
+        }
     }
 }
 
