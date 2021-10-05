@@ -2,11 +2,10 @@
 CubeSim is a Rubik's Cube simulator and solver written entirely in Rust. 
 
 ## Features
-- Simulation of a 3x3x3 Rubik's Cube.
+- Simulation of an arbitrarily sized NxNxN Rubik's Cube.
 
 ## Planned Features
 - Optimal solutions using variations of [IDA*](https://en.wikipedia.org/wiki/Iterative_deepening_A*).
-- Generalisation to NxNxN cubes.
 - User interface (web interface using WASM perhaps?).
 
 ## Usage
