@@ -1,5 +1,5 @@
 //
-// Geometric Cube Tests
+// 3x3x3 Tests
 //
 
 use test_case::test_case;
