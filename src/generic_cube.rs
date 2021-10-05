@@ -20,8 +20,8 @@ pub trait Cube: Clone {
     /// Solved 3x3x3 cube:
     /// 
     /// ```rust
-    /// use cubesim::{Cube, FaceletCube};
-    /// let cube = FaceletCube::new(3);
+    /// use cubesim::prelude::*;
+    /// use cubesim::cube_implementors::FaceletCube;
     /// 
     /// /* Outputs: [U, U, U, U, U, U, U, U, U, 
     ///              R, R, R, R, R, R, R, R, R, 
@@ -29,6 +29,7 @@ pub trait Cube: Clone {
     ///              D, D, D, D, D, D, D, D, D, 
     ///              L, L, L, L, L, L, L, L, L, 
     ///              B, B, B, B, B, B, B, B, B] */
+    /// let cube = FaceletCube::new(3);
     /// println!("{:?}", cube.get_state());
     /// ```
     fn get_state(&self) -> Vec<Face>;
@@ -44,10 +45,11 @@ pub trait Cube: Clone {
     /// Rotate the upper layer by 90 degrees:
     /// 
     /// ```rust
-    /// use cubesim::{Cube, Move, MoveVariant, FaceletCube};
-    /// let cube = FaceletCube::new(3);
+    /// use cubesim::prelude::*;
+    /// use cubesim::cube_implementors::FaceletCube;
     ///
-    /// let turned_cube = cube.apply_move(Move::U(MoveVariant::Standard));
+    /// let solved_cube = FaceletCube::new(3);
+    /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
     /// ```
     fn apply_move(&self, mv: Move) -> Self;
 
