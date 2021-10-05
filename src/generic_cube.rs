@@ -20,8 +20,8 @@ pub trait Cube: Clone {
     /// Solved 3x3x3 cube:
     /// 
     /// ```rust
-    /// use cubesim::{Cube, FaceletCube};
-    /// let cube = FaceletCube::new(3);
+    /// use cubesim::prelude::*;
+    /// use cubesim::cube_implementors::FaceletCube;
     /// 
     /// /* Outputs: [U, U, U, U, U, U, U, U, U, 
     ///              R, R, R, R, R, R, R, R, R, 
@@ -29,6 +29,7 @@ pub trait Cube: Clone {
     ///              D, D, D, D, D, D, D, D, D, 
     ///              L, L, L, L, L, L, L, L, L, 
     ///              B, B, B, B, B, B, B, B, B] */
+    /// let cube = FaceletCube::new(3);
     /// println!("{:?}", cube.get_state());
     /// ```
     fn get_state(&self) -> Vec<Face>;
@@ -44,10 +45,18 @@ pub trait Cube: Clone {
     /// Rotate the upper layer by 90 degrees:
     /// 
     /// ```rust
-    /// use cubesim::{Cube, Move, MoveVariant, FaceletCube};
-    /// let cube = FaceletCube::new(3);
+    /// use cubesim::prelude::*;
+    /// use cubesim::cube_implementors::FaceletCube;
     ///
-    /// let turned_cube = cube.apply_move(Move::U(MoveVariant::Standard));
+    /// /* Outputs: [U, U, U, U, U, U, U, U, U, 
+    ///              B, B, B, R, R, R, R, R, R, 
+    ///              R, R, R, F, F, F, F, F, F, 
+    ///              D, D, D, D, D, D, D, D, D, 
+    ///              F, F, F, L, L, L, L, L, L, 
+    ///              L, L, L, B, B, B, B, B, B] */ 
+    /// let solved_cube = FaceletCube::new(3);
+    /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
+    /// println!("{:?}", turned_cube.get_state());
     /// ```
     fn apply_move(&self, mv: Move) -> Self;
 
@@ -58,14 +67,22 @@ pub trait Cube: Clone {
     /// Rotate the upper layer by 90 degrees:
     /// 
     /// ```rust
-    /// use cubesim::{Cube, Move, MoveVariant, FaceletCube};
-    /// let cube = FaceletCube::new(3);
+    /// use cubesim::prelude::*;
+    /// use cubesim::cube_implementors::FaceletCube;
     ///
-    /// let turned_cube = cube.apply_move(vec![
+    /// /* Outputs: [L, L, F, U, U, D, U, U, D, 
+    ///              R, R, U, R, R, U, B, B, D, 
+    ///              R, R, B, F, F, B, F, F, L, 
+    ///              D, D, U, D, D, U, B, R, R, 
+    ///              D, F, F, D, L, L, U, L, L, 
+    ///              L, B, B, L, B, B, F, F, R] */
+    /// let solved_cube = FaceletCube::new(3);
+    /// let turned_cube = solved_cube.apply_moves(&vec![
     ///     Move::U(MoveVariant::Standard),
     ///     Move::R(MoveVariant::Double),
     ///     Move::B(MoveVariant::Inverse),
     /// ]);
+    /// println!("{:?}", turned_cube.get_state());
     /// ```
     fn apply_moves(&self, mvs: &[Move]) -> Self
     where
@@ -81,12 +98,14 @@ pub trait Cube: Clone {
     }
 }
 
+use derive_more::Display;
+
 /// A face of a Rubik's Cube sticker represented in WCA notation.
 ///
 /// The faces follow the standard WCA notation as described in the [WCA regulations].
 /// 
 /// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
-#[derive(Clone, Copy, Debug, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Display, Hash, PartialEq)]
 pub enum Face {
     /// Upper face.
     U,
