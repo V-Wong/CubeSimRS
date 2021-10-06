@@ -14,14 +14,12 @@ pub struct FaceletMove(pub Vec<(i32, i32)>);
 pub fn convert_move(size: i32, mv: Move) -> FaceletMove {
     let index_map = create_piece_map(size);
 
-    println!("test");
     FaceletMove(
         GeoCube::new(size)
                 .apply_move(mv)
                 .stickers
                 .iter()
                 .map(|s| {
-                     println!("{:?}", &s.destination);
                      return (index_map[(&s.destination)], index_map[(&s.position)])
                     
                 })
