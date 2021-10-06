@@ -1,5 +1,5 @@
 # CubeSim V2
-CubeSim is a Rubik's Cube simulator and solver written entirely in Rust. 
+CubeSim is a Rubik's Cube simulator (and eventually solver) written entirely in Rust. 
 
 ## Features
 - Simulation of an arbitrarily sized NxNxN Rubik's Cube.
