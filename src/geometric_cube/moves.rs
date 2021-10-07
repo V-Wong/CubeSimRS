@@ -8,7 +8,7 @@ use super::cube::GeoCube;
 use super::sticker::Sticker;
 
 pub struct GeometricMove {
-    axis: Axes,
+    axis: Axis,
     angle: f64,
     pub predicate: Box<dyn Fn(&Sticker) -> bool>
 }
@@ -16,9 +16,9 @@ pub struct GeometricMove {
 impl GeometricMove {
     pub fn get_rotation_matrix(&self) -> Basis3<f64> {
         match self.axis {
-            Axes::X => Basis3::from_angle_x(Deg(-self.angle)),
-            Axes::Y => Basis3::from_angle_y(Deg(-self.angle)),
-            Axes::Z => Basis3::from_angle_z(Deg(-self.angle))
+            Axis::X => Basis3::from_angle_x(Deg(-self.angle)),
+            Axis::Y => Basis3::from_angle_y(Deg(-self.angle)),
+            Axis::Z => Basis3::from_angle_z(Deg(-self.angle))
         }
     }
 
@@ -40,7 +40,7 @@ impl GeometricMove {
 }
 
 #[derive(Copy, Clone)]
-pub enum Axes {
+pub enum Axis {
     X, Y, Z
 }
 
@@ -54,21 +54,21 @@ pub fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
 
 fn u_move(size: i32, slices: Vec<i32>) -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::Y, 
+        axis: Axis::Y, 
         angle: 90.0, 
         predicate: Box::new(move |s| slices.contains(&s.position.y) || s.position.y == size) 
     } 
 }
 fn d_move(size: i32, slices: Vec<i32>) -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::Y, 
+        axis: Axis::Y, 
         angle: -90.0, 
         predicate: Box::new(move |s| slices.contains(&s.position.y) || s.position.y == -size)
     } 
 }
 fn y_move() -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::Y, 
+        axis: Axis::Y, 
         angle: 90.0, 
         predicate: Box::new(move |_| true) 
     } 
@@ -76,21 +76,21 @@ fn y_move() -> GeometricMove {
 
 fn l_move(size: i32, slices: Vec<i32>) -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::X, 
+        axis: Axis::X, 
         angle: -90.0, 
         predicate: Box::new(move |s| slices.contains(&s.position.x) || s.position.x == -size) 
     } 
 }
 fn r_move(size: i32, slices: Vec<i32>) -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::X, 
+        axis: Axis::X, 
         angle: 90.0, 
         predicate: Box::new(move |s| slices.contains(&s.position.x) || s.position.x == size) 
     } 
 }
 fn x_move() -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::X, 
+        axis: Axis::X, 
         angle: 90.0, 
         predicate: Box::new(move |_| true) 
     } 
@@ -98,7 +98,7 @@ fn x_move() -> GeometricMove {
 
 fn f_move(size: i32, slices: Vec<i32>) -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::Z, 
+        axis: Axis::Z, 
         angle: 90.0, 
         predicate: Box::new(move |s| slices.contains(&s.position.z) || s.position.z == size)
     } 
@@ -106,7 +106,7 @@ fn f_move(size: i32, slices: Vec<i32>) -> GeometricMove {
 
 fn b_move(size: i32, slices: Vec<i32>) -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::Z, 
+        axis: Axis::Z, 
         angle: -90.0, 
         predicate: Box::new(move |s| slices.contains(&s.position.z) || s.position.z == -size) 
     } 
@@ -114,7 +114,7 @@ fn b_move(size: i32, slices: Vec<i32>) -> GeometricMove {
 
 fn z_move() -> GeometricMove { 
     GeometricMove { 
-        axis: Axes::Z, 
+        axis: Axis::Z, 
         angle: 90.0, 
         predicate: Box::new(move |_| true) } 
 }
