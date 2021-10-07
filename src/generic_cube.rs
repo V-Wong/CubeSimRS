@@ -10,9 +10,6 @@ pub trait Cube: Clone {
     /// The size of the ucbe.
     fn size(&self) -> i32;
 
-    /// Whether a cube is solved.
-    fn is_solved(&self) -> bool;
-
     /// A one-dimensional representation of a cube as a sequence of the faces.
     /// 
     /// # Examples
@@ -33,6 +30,25 @@ pub trait Cube: Clone {
     /// println!("{:?}", cube.get_state());
     /// ```
     fn get_state(&self) -> Vec<Face>;
+
+    /// Whether a cube is solved.
+    fn is_solved(&self) -> bool {
+        fn all_equal<T: Clone + PartialEq>(arr: &[T]) -> bool {
+            arr.iter().all(|x| *x == arr[0])
+        }
+
+        let face_length = (self.size() * self.size()) as usize;
+
+        let mut is_solved = true;
+        for i in 0..6 {
+            let face_start = i * face_length;
+            let face_end = face_start + face_length;
+
+            is_solved = is_solved && all_equal(&self.get_state()[face_start..face_end]);
+        }
+
+        is_solved
+    }
 
     /// Creates a copy of the given cube with all faces except those in the mask
     /// replaced with a placeholder ``Face::X`` sticker.

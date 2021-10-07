@@ -51,24 +51,6 @@ impl Cube for GeoCube {
         }
     }
 
-    fn is_solved(&self) -> bool {
-        // This is copied cube from the FaceletCube
-        // This is ugly repeated code and we should be able to find 
-        // a solution that uses the vector representation directly.
-
-        let face_length = (self.size * self.size) as usize;
-
-        let mut is_solved = true;
-        for i in 0..6 {
-            let face_start = i * face_length;
-            let face_end = face_start + face_length;
-
-            is_solved = is_solved && all_equal(&self.get_state()[face_start..face_end]);
-        }
-
-        is_solved
-    }
-
     fn get_state(&self) -> Vec<Face> {
         let mut faces = Vec::new();
 
@@ -127,8 +109,4 @@ impl std::fmt::Display for GeoCube {
         }
         Ok(())
     }
-}
-
-fn all_equal<T: Clone + PartialEq>(arr: &[T]) -> bool {
-    arr.iter().all(|x| *x == arr[0])
 }
