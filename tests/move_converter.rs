@@ -66,3 +66,13 @@ fn test_long_scramble() {
         F(Inverse),
     ]);
 }
+
+#[test]
+fn test_wide_moves() {
+    assert_eq!(parse_scramble(String::from("Rw 3Fw 5Bw' 3Lw2")), vec![
+        Rw(2, Standard),
+        Fw(3, Standard),
+        Bw(5, Inverse),
+        Lw(3, Double)
+    ]);
+}
