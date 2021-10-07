@@ -37,20 +37,6 @@ impl Cube for FaceletCube {
         self.size
     }
 
-    fn is_solved(&self) -> bool {
-        let face_length = (self.size * self.size) as usize;
-
-        let mut is_solved = true;
-        for i in 0..6 {
-            let face_start = i * face_length;
-            let face_end = face_start + face_length;
-
-            is_solved = is_solved && all_equal(&self.faces[face_start..face_end]);
-        }
-
-        is_solved
-    }
-
     fn get_state(&self) -> Vec<Face> {
         self.faces.clone()
     }
@@ -81,8 +67,4 @@ impl Cube for FaceletCube {
 
 fn repeat<T: Clone>(element: T, count: i32) -> Vec<T> {
     std::iter::repeat(element).take(count as usize).collect()
-}
-
-fn all_equal<T: Clone + PartialEq>(arr: &[T]) -> bool {
-    arr.iter().all(|x| *x == arr[0])
 }
