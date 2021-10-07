@@ -19,9 +19,9 @@ fn convert_move(mv: &str) -> Move {
             "L" => L(variant),
             "D" => D(variant),
             "B" => B(variant),
-            "X" => X(variant),
-            "Y" => Y(variant),
-            "Z" => Z(variant),
+            "x" => X(variant),
+            "y" => Y(variant),
+            "z" => Z(variant),
             _ => panic!()
         }    
     } else {
@@ -37,11 +37,11 @@ fn convert_move(mv: &str) -> Move {
             Dw(slice, variant)
         } else if mv.contains("B") {
             Bw(slice, variant)
-        } else if mv.contains("X") {
+        } else if mv.contains("x") {
             X(variant)
-        } else if mv.contains("Y") {
+        } else if mv.contains("y") {
             Y(variant)
-        } else if mv.contains("Z") {
+        } else if mv.contains("z") {
             Z(variant)
         } else {
             panic!()
