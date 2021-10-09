@@ -175,6 +175,7 @@ pub enum Move {
     Z(MoveVariant),
 }
 
+
 /// A move variation that must be applied to the ```Move``` struct.
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -185,4 +186,28 @@ pub enum MoveVariant {
     Double,
     /// A 90 degree counter-clockwise turn.
     Inverse,
+}
+
+/// A helper function to get all possible moves for a cube of a given size.
+pub fn all_moves(size: i32) -> Vec<Move> {
+    use Move::*;
+    use MoveVariant::*;
+
+    let mut moveset = Vec::new();
+
+    for mv in [U, R, F, L, D, B] {
+        for variant in [Standard, Double, Inverse] {
+            moveset.push(mv(variant));
+        }
+    }
+
+    for mv in [Uw, Lw, Fw, Rw, Bw, Dw] {
+        for variant in [Standard, Double, Inverse] {
+            for slice in 1..=(size / 2) {
+                moveset.push(mv(slice, variant));
+            }
+        }
+    }
+
+    moveset
 }
