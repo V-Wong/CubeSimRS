@@ -14,9 +14,9 @@ fn test_basic_moves() {
     assert_eq!(parse_scramble(String::from("L"))[0], L(Standard));
     assert_eq!(parse_scramble(String::from("B"))[0], B(Standard));
 
-    assert_eq!(parse_scramble(String::from("X"))[0], X(Standard));
-    assert_eq!(parse_scramble(String::from("Y"))[0], Y(Standard));
-    assert_eq!(parse_scramble(String::from("Z"))[0], Z(Standard));
+    assert_eq!(parse_scramble(String::from("x"))[0], X(Standard));
+    assert_eq!(parse_scramble(String::from("y"))[0], Y(Standard));
+    assert_eq!(parse_scramble(String::from("z"))[0], Z(Standard));
 }
 
 #[test]
@@ -28,9 +28,9 @@ fn test_double_moves() {
     assert_eq!(parse_scramble(String::from("L2"))[0], L(Double));
     assert_eq!(parse_scramble(String::from("B2"))[0], B(Double));
 
-    assert_eq!(parse_scramble(String::from("X2"))[0], X(Double));
-    assert_eq!(parse_scramble(String::from("Y2"))[0], Y(Double));
-    assert_eq!(parse_scramble(String::from("Z2"))[0], Z(Double));
+    assert_eq!(parse_scramble(String::from("x2"))[0], X(Double));
+    assert_eq!(parse_scramble(String::from("y2"))[0], Y(Double));
+    assert_eq!(parse_scramble(String::from("z2"))[0], Z(Double));
 }
 
 #[test]
@@ -42,9 +42,9 @@ fn test_inverse_moves() {
     assert_eq!(parse_scramble(String::from("L'"))[0], L(Inverse));
     assert_eq!(parse_scramble(String::from("B'"))[0], B(Inverse));
 
-    assert_eq!(parse_scramble(String::from("X'"))[0], X(Inverse));
-    assert_eq!(parse_scramble(String::from("Y'"))[0], Y(Inverse));
-    assert_eq!(parse_scramble(String::from("Z'"))[0], Z(Inverse));
+    assert_eq!(parse_scramble(String::from("x'"))[0], X(Inverse));
+    assert_eq!(parse_scramble(String::from("y'"))[0], Y(Inverse));
+    assert_eq!(parse_scramble(String::from("z'"))[0], Z(Inverse));
 }
 
 #[test]
