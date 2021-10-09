@@ -188,6 +188,23 @@ pub enum MoveVariant {
     Inverse,
 }
 
+/// A helper function to get the solved state for a cube of a given size.
+pub fn solved_state(size: i32) -> Vec<Face> {
+    fn repeat<T: Clone>(element: T, count: i32) -> Vec<T> {
+        std::iter::repeat(element).take(count as usize).collect()
+    }
+
+    use Face::*;
+
+    vec![repeat(U, size * size),
+         repeat(R, size * size),
+         repeat(F, size * size),
+         repeat(D, size * size),
+         repeat(L, size * size),
+         repeat(B, size * size),
+    ].concat()
+}
+
 /// A helper function to get all possible moves for a cube of a given size.
 pub fn all_moves(size: i32) -> Vec<Move> {
     use Move::*;
