@@ -9,7 +9,8 @@ use crate::geometric_cube::moves::{GeometricMove};
 pub struct Sticker {
     pub size: i32,
     pub position: Vector3<i32>,
-    pub destination: Vector3<i32>
+    pub destination: Vector3<i32>,
+    pub initial_index: i32
 }
 
 impl Sticker {
@@ -17,7 +18,8 @@ impl Sticker {
         Self {
             size,
             position: Vector3::new(x, y, z),
-            destination: Vector3::new(x, y, z)
+            destination: Vector3::new(x, y, z),
+            initial_index: -1
         }
     }
 
