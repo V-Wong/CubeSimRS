@@ -58,19 +58,22 @@ impl Cube for GeoCube {
         for mvs in face_rotating_moves {
             let cube = self.apply_moves(&mvs);
 
-            let mut relevant_stickers = cube.stickers.into_iter()
-                                            .filter(|s| matches!(s.get_position_face(), Face::U))
-                                            .collect();
+            let relevant_stickers = cube.stickers.into_iter()
+                                        .filter(|s| matches!(s.get_position_face(), Face::U))
+                                        .collect::<Vec<Sticker>>();
             
-            for face in Self::fill_face(&mut relevant_stickers) {
-                faces.push(face);
+            for sticker in Self::sort_stickers(&relevant_stickers) {
+                faces.push(
+                    if self.mask.contains(&sticker.initial_index) {
+                        sticker.get_destination_face()
+                    } else {
+                        Face::X
+                    }
+                );
             }
         }
         
-        faces.iter()
-             .enumerate()
-             .map(|(i, &x)| if self.mask.contains(&(i as i32)) { x } else { Face::X } )
-             .collect()
+        faces
     }
 
     fn mask(&self, mask: &[i32]) -> Self {
@@ -136,9 +139,10 @@ impl GeoCube {
         result
     }
 
-    fn fill_face(stickers: &mut Vec<Sticker>) -> Vec<Face> {
-        stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
-        stickers.iter().map(Sticker::get_destination_face).collect()
+    fn sort_stickers(stickers: &Vec<Sticker>) -> Vec<Sticker> {
+        let mut cloned_stickers = stickers.clone();
+        cloned_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
+        cloned_stickers
     }
 
     pub fn range(size: i32) -> Vec<i32> {
