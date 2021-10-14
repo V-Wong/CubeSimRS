@@ -22,5 +22,9 @@ clippy = "0.0.302"
 test-case = "1.2.0"
 
 [[bench]]
+name = "facelet_cube"
+harness = false
+
+[[bench]]
 name = "geometric_cube"
 harness = false

@@ -1,15 +1,15 @@
 //
-// Geometric Cube Benchmarks
+// Facelet Cube Benchmarks
 //
 
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 use cubesim::prelude::*;
-use cubesim::cube_implementors::{GeoCube};
+use cubesim::cube_implementors::{FaceletCube};
 
 pub fn single_moves(c: &mut Criterion) {
-    c.bench_function("Geometric cube single moves", |b| b.iter(|| {
-        black_box(GeoCube::new(3).apply_move(Move::U(MoveVariant::Standard))
+    c.bench_function("Facelet cube single moves", |b| b.iter(|| {
+        black_box(FaceletCube::new(3).apply_move(Move::U(MoveVariant::Standard))
                                  .apply_move(Move::R(MoveVariant::Standard))
                                  .apply_move(Move::F(MoveVariant::Standard))
                                  .apply_move(Move::L(MoveVariant::Standard))
@@ -20,8 +20,8 @@ pub fn single_moves(c: &mut Criterion) {
 }
 
 pub fn state(c: &mut Criterion) {
-    c.bench_function("Geometric cube state", |b| b.iter(|| {
-        black_box(GeoCube::new(3).get_state());
+    c.bench_function("Facelet cube state", |b| b.iter(|| {
+        black_box(FaceletCube::new(3).get_state());
     }));
 }
 
