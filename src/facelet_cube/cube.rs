@@ -15,7 +15,7 @@ use super::moves::{convert_move};
 #[derive(Clone)]
 pub struct FaceletCube {
     size: i32,
-    faces: Vec<Face>
+    faces: Vec<(Face, i32)>
 }
 
 impl Cube for FaceletCube {
@@ -29,7 +29,7 @@ impl Cube for FaceletCube {
                 repeat(D, size * size),
                 repeat(L, size * size),
                 repeat(B, size * size),
-            ].concat()
+            ].concat().iter().enumerate().map(|(i, s)| (*s, i as i32)).collect()
         }
     }
 
@@ -38,14 +38,13 @@ impl Cube for FaceletCube {
     }
 
     fn get_state(&self) -> Vec<Face> {
-        self.faces.clone()
+        self.faces.iter().map(|(s, _)| *s).collect()
     }
 
     fn mask(&self, mask: &[i32]) -> Self {
         let masked_faces = self.faces
                                .iter()
-                               .enumerate()
-                               .map(|(i, &x)| if mask.contains(&(i as i32)) { x } else { Face::X } )
+                               .map(|(f, i)| if mask.contains(i) { (*f, *i) } else { (Face::X, *i) } )
                                .collect();
 
         Self { faces: masked_faces, ..*self }
