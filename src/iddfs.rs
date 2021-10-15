@@ -2,8 +2,9 @@ use std::collections::HashMap;
 use std::mem::discriminant;
 
 use crate::generic_cube::{Cube, Face, Move};
+use crate::facelet_cube::{FaceletCube};
 
-struct Solver {
+pub struct Solver {
     candidate_moves: Vec<Move>,
     pruning_table: HashMap<Vec<Face>, i32>,
     pruning_depth: i32
@@ -33,12 +34,22 @@ impl Solver {
     }
 }
 
-pub fn iddfs(cube: &impl Cube, 
+pub fn solve(cube: &impl Cube, 
              moveset: &[Move], 
              solved_state: &[Face],
              limit: i32) -> Option<Vec<Move>> {
+    iddfs(
+        cube, 
+        &Solver::new(moveset.to_vec(), gen_pruning_table(vec![FaceletCube::new(3)], limit, moveset), limit), 
+        limit
+    )
+}
+
+pub fn iddfs(cube: &impl Cube, 
+             solver: &Solver,
+             limit: i32) -> Option<Vec<Move>> {
     for i in 0..=limit {
-        if let Some(sol) = dfs(cube, moveset, solved_state, &mut vec![], i) {
+        if let Some(sol) = dfs(cube, solver, &mut vec![], i) {
             return Some(sol);
         }
     }
@@ -47,21 +58,22 @@ pub fn iddfs(cube: &impl Cube,
 }
 
 pub fn dfs(cube: &impl Cube, 
-           moveset: &[Move], 
-           solved_state: &[Face], 
+           solver: &Solver,
            solution: &mut Vec<Move>,
            depth_remaining: i32) -> Option<Vec<Move>> {
-    if cube.get_state() == solved_state {
+    if solver.is_solved(cube) {
         return Some(solution.to_vec());
     }
 
-    if depth_remaining == 0 {
-        return None;
+    let lower_bound = solver.lower_bound(cube);
+
+    if lower_bound > depth_remaining {
+        return None
     }
 
-    for mv in moveset {
+    for mv in &solver.candidate_moves {
         if let Some(last_mv) = solution.last() {
-            if discriminant(last_mv) == discriminant(mv) {
+            if discriminant(last_mv) == discriminant(&mv) {
                 continue;
             }
         }
@@ -70,8 +82,7 @@ pub fn dfs(cube: &impl Cube,
 
         let result = dfs(
             &cube.apply_move(*mv),
-            moveset,
-            solved_state,
+            solver,
             solution,
             depth_remaining - 1
         );

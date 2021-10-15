@@ -121,7 +121,7 @@ use derive_more::Display;
 /// The faces follow the standard WCA notation as described in the [WCA regulations].
 /// 
 /// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
-#[derive(Clone, Copy, Debug, Display, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Display, Hash, PartialEq, Eq)]
 pub enum Face {
     /// Upper face.
     U,
