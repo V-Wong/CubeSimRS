@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::mem::discriminant;
 
 use crate::generic_cube::{Cube, Face, Move};
@@ -55,3 +56,29 @@ pub fn dfs(cube: &impl Cube,
     None
 }
 
+pub fn gen_pruning_table(starting_cubes: Vec<impl Cube>, depth: i32, moveset: &[Move]) -> HashMap<Vec<Face>, i32> {
+    let mut pruning_table: HashMap<Vec<Face>, i32> = HashMap::new();
+    let mut previous_frontier = starting_cubes.clone();
+
+    for cube in starting_cubes {
+        pruning_table.insert(cube.get_state(), 0);
+    }
+
+    for i in 1..=depth {
+        let mut frontier = vec![];
+
+        for cube in &previous_frontier {
+            for mv in moveset {
+                let new_cube = cube.apply_move(*mv);
+                if !pruning_table.contains_key(&new_cube.get_state()) {
+                    pruning_table.insert(new_cube.get_state(), i);
+                    frontier.push(new_cube);
+                }
+            }
+        }
+
+        previous_frontier = frontier;
+    } 
+
+    pruning_table
+}
