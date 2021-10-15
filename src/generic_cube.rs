@@ -195,7 +195,7 @@ pub enum MoveVariant {
 /// A helper function to get the solved state for a cube of a given size.
 pub fn solved_state(size: i32) -> Vec<Face> {
     use Face::*;
-    [U, R, F, D, L, B]
+    ORDERED_FACES
         .iter()
         .flat_map(|&face| vec![face; (size * size) as usize])
         .collect()
