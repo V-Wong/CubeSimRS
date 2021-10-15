@@ -38,13 +38,14 @@ pub trait Cube: Clone {
         }
 
         let face_length = (self.size() * self.size()) as usize;
+        let state = self.get_state();
 
         let mut is_solved = true;
         for i in 0..6 {
             let face_start = i * face_length;
             let face_end = face_start + face_length;
 
-            is_solved = is_solved && all_equal(&self.get_state()[face_start..face_end]);
+            is_solved = is_solved && all_equal(&state[face_start..face_end]);
         }
 
         is_solved
