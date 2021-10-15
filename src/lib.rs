@@ -28,7 +28,7 @@ pub mod cube_implementors {
 }
 
 pub use scramble_parser::parse_scramble;
-pub use generic_cube::{Cube, Face, Move, MoveVariant};
+pub use generic_cube::{Cube, Face, Move, MoveVariant, solved_state, all_moves};
 pub use cube_implementors::{FaceletCube, GeoCube};
 
 mod generic_cube;
