@@ -7,6 +7,7 @@ use test_case::test_case;
 use cubesim::prelude::*;
 use cubesim::prelude::Face::*;
 use cubesim::cube_implementors::{GeoCube, FaceletCube};
+use cubesim::solved_state;
 
 //
 // State Tests
@@ -176,6 +177,18 @@ fn bw2_move(cube: impl Cube) {
         F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, 
         D, D, D, D, D, D, D, D, L, L, L, L, L, L, L, L, 
         U, U, L, L, U, U, L, L, U, U, L, L, U, U, L, L,
+        B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B
+    ]);
+}
+
+#[test]
+fn generic_solved_state() {
+    assert_eq!(solved_state(4), vec![
+        U, U, U, U, U, U, U, U, U, U, U, U, U, U, U, U,
+        R, R, R, R, R, R, R, R, R, R, R, R, R, R, R, R,
+        F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+        D, D, D, D, D, D, D, D, D, D, D, D, D, D, D, D,
+        L, L, L, L, L, L, L, L, L, L, L, L, L, L, L, L,
         B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B
     ]);
 }

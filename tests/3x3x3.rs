@@ -7,6 +7,7 @@ use test_case::test_case;
 use cubesim::prelude::*;
 use cubesim::prelude::Face::*;
 use cubesim::cube_implementors::{GeoCube, FaceletCube};
+use cubesim::solved_state;
 
 //
 // State Tests
@@ -170,4 +171,16 @@ fn double_double_move_cube_is_solved(cube: impl Cube) {
     assert!(cube.apply_move(D(Double)).apply_move(D(Double)).is_solved());
     assert!(cube.apply_move(L(Double)).apply_move(L(Double)).is_solved());
     assert!(cube.apply_move(B(Double)).apply_move(B(Double)).is_solved());
+}
+
+#[test]
+fn generic_solved_state() {
+    assert_eq!(solved_state(3), vec![
+        U, U, U, U, U, U, U, U, U,
+        R, R, R, R, R, R, R, R, R,
+        F, F, F, F, F, F, F, F, F,
+        D, D, D, D, D, D, D, D, D,
+        L, L, L, L, L, L, L, L, L,
+        B, B, B, B, B, B, B, B, B
+    ]);
 }
