@@ -140,6 +140,9 @@ pub enum Face {
     X,
 }
 
+/// A designated ordering of the faces.
+pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
+
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
 ///
 /// Each Move must be tagged with a ``MoveVariant`` to completely a move.
