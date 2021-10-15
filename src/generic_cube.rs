@@ -7,7 +7,7 @@ pub trait Cube: Clone {
     /// Creates a solved cube of the given size.
     fn new(size: i32) -> Self;
 
-    /// The size of the ucbe.
+    /// The size of the cube.
     fn size(&self) -> i32;
 
     /// A one-dimensional representation of a cube as a sequence of the faces.
@@ -38,13 +38,14 @@ pub trait Cube: Clone {
         }
 
         let face_length = (self.size() * self.size()) as usize;
+        let state = self.get_state();
 
         let mut is_solved = true;
         for i in 0..6 {
             let face_start = i * face_length;
             let face_end = face_start + face_length;
 
-            is_solved = is_solved && all_equal(&self.get_state()[face_start..face_end]);
+            is_solved = is_solved && all_equal(&state[face_start..face_end]);
         }
 
         is_solved
@@ -139,6 +140,9 @@ pub enum Face {
     X,
 }
 
+/// A designated ordering of the faces.
+pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
+
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
 ///
 /// Each Move must be tagged with a ``MoveVariant`` to completely a move.
@@ -190,19 +194,11 @@ pub enum MoveVariant {
 
 /// A helper function to get the solved state for a cube of a given size.
 pub fn solved_state(size: i32) -> Vec<Face> {
-    fn repeat<T: Clone>(element: T, count: i32) -> Vec<T> {
-        std::iter::repeat(element).take(count as usize).collect()
-    }
-
     use Face::*;
-
-    vec![repeat(U, size * size),
-         repeat(R, size * size),
-         repeat(F, size * size),
-         repeat(D, size * size),
-         repeat(L, size * size),
-         repeat(B, size * size),
-    ].concat()
+    ORDERED_FACES
+        .iter()
+        .flat_map(|&face| vec![face; (size * size) as usize])
+        .collect()
 }
 
 /// A helper function to get all possible moves for a cube of a given size.
