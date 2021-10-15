@@ -7,7 +7,7 @@ pub trait Cube: Clone {
     /// Creates a solved cube of the given size.
     fn new(size: i32) -> Self;
 
-    /// The size of the ucbe.
+    /// The size of the cube.
     fn size(&self) -> i32;
 
     /// A one-dimensional representation of a cube as a sequence of the faces.
