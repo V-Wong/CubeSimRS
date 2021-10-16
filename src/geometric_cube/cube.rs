@@ -5,10 +5,10 @@ use crate::generic_cube::MoveVariant::*;
 use super::sticker::{Sticker};
 use super::moves::{GeometricMove};
 
-/// A Rubik's Cube with pieces represented as 3-dimensional vectors.
+/// A Rubik's Cube with each of its facelets represented as a Sticker.
 /// 
 /// Each move is implemented as a rotation matrix and hence a move is applied
-/// by multiplying each of the relevants vectors with the matrix.
+/// by multiplying each of the relevant vectors with the matrix.
 /// 
 /// This implementation of a Rubik's Cube is very programmatic but suffers
 /// from poor performance due to the expensive nature of matrix multiplication.
