@@ -5,10 +5,10 @@ use crate::generic_cube::MoveVariant::*;
 use super::sticker::{Sticker};
 use super::moves::{GeometricMove};
 
-/// A Rubik's Cube with pieces represented as 3-dimensional vectors.
+/// A Rubik's Cube with each of its facelets represented as a Sticker.
 /// 
 /// Each move is implemented as a rotation matrix and hence a move is applied
-/// by multiplying each of the relevants vectors with the matrix.
+/// by multiplying each of the relevant vectors with the matrix.
 /// 
 /// This implementation of a Rubik's Cube is very programmatic but suffers
 /// from poor performance due to the expensive nature of matrix multiplication.
@@ -139,19 +139,15 @@ impl GeoCube {
         result
     }
 
-    fn sort_stickers(stickers: &Vec<Sticker>) -> Vec<Sticker> {
-        let mut cloned_stickers = stickers.clone();
+    fn sort_stickers(stickers: &[Sticker]) -> Vec<Sticker> {
+        let mut cloned_stickers = stickers.to_owned();
         cloned_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
         cloned_stickers
     }
 
+    /// Returns the range of facelet center coordinates along an arbitrary axis.
     pub fn range(size: i32) -> Vec<i32> {
-        return if size % 2 == 1 {
-            (-size / 2 ..= size / 2).collect()
-        } else {
-            (-size / 2 ..= size / 2).filter(|x| *x != 0)
-                                    .collect()
-        }
+        (-size + 1 ..= size - 1).step_by(2).collect()
     }
 }
 
