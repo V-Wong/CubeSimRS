@@ -145,7 +145,7 @@ impl GeoCube {
         cloned_stickers
     }
 
-    
+    /// Returns the range of facelet center coordinates along an arbitrary axis.
     pub fn range(size: i32) -> Vec<i32> {
         (-size + 1 ..= size - 1).step_by(2).collect()
     }
