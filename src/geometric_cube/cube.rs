@@ -146,7 +146,7 @@ impl GeoCube {
     }
 
     pub fn range(size: i32) -> Vec<i32> {
-        return if size % 2 == 1 {
+        if size % 2 == 1 {
             (-size / 2 ..= size / 2).collect()
         } else {
             (-size / 2 ..= size / 2).filter(|x| *x != 0)
