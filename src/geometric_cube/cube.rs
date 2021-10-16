@@ -139,8 +139,8 @@ impl GeoCube {
         result
     }
 
-    fn sort_stickers(stickers: &Vec<Sticker>) -> Vec<Sticker> {
-        let mut cloned_stickers = stickers.clone();
+    fn sort_stickers(stickers: &[Sticker]) -> Vec<Sticker> {
+        let mut cloned_stickers = stickers.to_owned();
         cloned_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
         cloned_stickers
     }
