@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use std::sync::Mutex;
+use rustc_hash::FxHashMap;
 use cached::proc_macro::cached;
 use lazy_static::lazy_static;
 use cgmath::Vector3;
@@ -13,7 +13,7 @@ pub struct FaceletMove(pub Vec<(i32, i32)>);
 
 pub fn compute_permutation(old_faces: &[(Face, i32)], size: i32, mv: Move) -> Vec<(Face, i32)> {
     lazy_static! {
-        static ref CACHE: Mutex<HashMap<(i32, Move), FaceletMove>> = Mutex::new(HashMap::new());
+        static ref CACHE: Mutex<FxHashMap<(i32, Move), FaceletMove>> = Mutex::new(FxHashMap::default());
     }
 
     let mut cache = CACHE.lock().unwrap();
@@ -49,8 +49,8 @@ fn convert_move(size: i32, mv: Move) -> FaceletMove {
 }
 
 #[cached]
-fn create_piece_map(size: i32) -> HashMap<Vector3<i32>, i32> {
-    let mut map = HashMap::new();
+fn create_piece_map(size: i32) -> FxHashMap<Vector3<i32>, i32> {
+    let mut map = FxHashMap::default();
 
     let face_rotating_moves = vec![
         vec![],
