@@ -1,17 +1,40 @@
 use std::collections::HashMap;
+use std::sync::Mutex;
 use cached::proc_macro::cached;
+use lazy_static::lazy_static;
 use cgmath::Vector3;
 
-use crate::generic_cube::{Cube, Move};
+use crate::generic_cube::{Cube, Move, Face};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 use crate::geometric_cube::{GeoCube, Sticker};
 
-#[derive(Clone)]
 pub struct FaceletMove(pub Vec<(i32, i32)>);
 
-#[cached]
-pub fn convert_move(size: i32, mv: Move) -> FaceletMove {
+pub fn compute_permutation(old_faces: &[(Face, i32)], size: i32, mv: Move) -> Vec<(Face, i32)> {
+    lazy_static! {
+        static ref CACHE: Mutex<HashMap<(i32, Move), FaceletMove>> = Mutex::new(HashMap::new());
+    }
+
+    let mut cache = CACHE.lock().unwrap();
+
+    let facelet_move = if let Some(res) = cache.get(&(size, mv)) {
+        res
+    } else {
+        cache.insert((size, mv), convert_move(size, mv));
+        cache.get(&(size, mv)).unwrap()
+    };
+
+    let mut new_faces = old_faces.to_owned();
+
+    for (x, y) in &facelet_move.0 {
+        new_faces[*y as usize] = old_faces[*x as usize];
+    }
+
+    new_faces.to_vec()
+}
+
+fn convert_move(size: i32, mv: Move) -> FaceletMove {
     let index_map = create_piece_map(size);
 
     FaceletMove(
@@ -19,10 +42,7 @@ pub fn convert_move(size: i32, mv: Move) -> FaceletMove {
                 .apply_move(mv)
                 .stickers
                 .iter()
-                .map(|s| {
-                     return (index_map[(&s.destination)], index_map[(&s.position)])
-                    
-                })
+                .map(|s| (index_map[(&s.destination)], index_map[(&s.position)]))
                 .filter(|x| x.0 != x.1)
                 .collect()
     )

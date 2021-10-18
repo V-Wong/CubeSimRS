@@ -1,7 +1,7 @@
 use crate::generic_cube::{Cube, Move, Face};
 use crate::generic_cube::Face::*;
 
-use super::moves::{convert_move};
+use super::moves::{compute_permutation};
 
 /// A Rubik's Cube with stickers stored sequentially in a 1-dimensional array.
 /// 
@@ -51,15 +51,9 @@ impl Cube for FaceletCube {
     }
 
     fn apply_move(&self, mv: Move) -> Self {
-        let mut faces = self.faces.clone();
-
-        for (x, y) in convert_move(self.size, mv).0 {
-            faces[y as usize] = self.faces[x as usize];
-        }
-
         Self { 
             size: self.size, 
-            faces
+            faces: compute_permutation(&self.faces, self.size, mv)
         }
     }
 }
