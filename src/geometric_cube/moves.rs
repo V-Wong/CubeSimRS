@@ -4,7 +4,6 @@ use crate::generic_cube::{Move, MoveVariant};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
-use super::cube::GeoCube;
 use super::sticker::Sticker;
 
 pub struct GeometricMove {
