@@ -1,7 +1,7 @@
 use crate::generic_cube::{Cube, Move, Face};
 use crate::generic_cube::Face::*;
 
-use super::moves::{convert_move};
+use super::moves::{compute_permutation};
 
 /// A Rubik's Cube with stickers stored sequentially in a 1-dimensional array.
 /// 
@@ -15,7 +15,7 @@ use super::moves::{convert_move};
 #[derive(Clone)]
 pub struct FaceletCube {
     size: i32,
-    faces: Vec<(Face, i32)>
+    faces: Vec<(Face, u16)>
 }
 
 impl Cube for FaceletCube {
@@ -29,7 +29,7 @@ impl Cube for FaceletCube {
                 repeat(D, size * size),
                 repeat(L, size * size),
                 repeat(B, size * size),
-            ].concat().iter().enumerate().map(|(i, s)| (*s, i as i32)).collect()
+            ].concat().iter().enumerate().map(|(i, s)| (*s, i as u16)).collect()
         }
     }
 
@@ -44,22 +44,16 @@ impl Cube for FaceletCube {
     fn mask(&self, mask: &[i32]) -> Self {
         let masked_faces = self.faces
                                .iter()
-                               .map(|(f, i)| if mask.contains(i) { (*f, *i) } else { (Face::X, *i) } )
+                               .map(|(f, i)| if mask.contains(&(*i as i32)) { (*f, *i) } else { (Face::X, *i) } )
                                .collect();
 
         Self { faces: masked_faces, ..*self }
     }
 
     fn apply_move(&self, mv: Move) -> Self {
-        let mut faces = self.faces.clone();
-
-        for (x, y) in convert_move(self.size, mv).0 {
-            faces[y as usize] = self.faces[x as usize];
-        }
-
         Self { 
             size: self.size, 
-            faces
+            faces: compute_permutation(&self.faces, self.size, mv)
         }
     }
 }
