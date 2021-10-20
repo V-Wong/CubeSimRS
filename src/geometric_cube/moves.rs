@@ -54,14 +54,14 @@ fn u_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove {
     modify_move(GeometricMove { 
         axis: Axis::Y, 
         angle: 90.0, 
-        predicate: Box::new(move |s| s.position.y >= size - (n * 2))
+        predicate: Box::new(move |s| s.position.y >= s.size - (n * 2))
     }, variant)
 }
 fn d_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove { 
     modify_move(GeometricMove { 
         axis: Axis::Y, 
         angle: -90.0, 
-        predicate: Box::new(move |s| s.position.y <= -size + (n * 2))
+        predicate: Box::new(move |s| s.position.y <= -s.size + (n * 2))
     }, variant)
 }
 fn y_move(variant: MoveVariant) -> GeometricMove { 
@@ -76,14 +76,14 @@ fn l_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove {
     modify_move(GeometricMove { 
         axis: Axis::X, 
         angle: -90.0, 
-        predicate: Box::new(move |s| s.position.x <= -size + (n * 2)) 
+        predicate: Box::new(move |s| s.position.x <= -s.size + (n * 2)) 
     }, variant)
 }
 fn r_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove {
     modify_move(GeometricMove { 
         axis: Axis::X, 
         angle: 90.0, 
-        predicate: Box::new(move |s| s.position.x >= size - (n * 2)) 
+        predicate: Box::new(move |s| s.position.x >= s.size - (n * 2)) 
     }, variant)
 }
 fn x_move(variant: MoveVariant) -> GeometricMove { 
@@ -98,14 +98,14 @@ fn f_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove {
     modify_move(GeometricMove { 
         axis: Axis::Z, 
         angle: 90.0, 
-        predicate: Box::new(move |s| s.position.z >= size - (n * 2))
+        predicate: Box::new(move |s| s.position.z >= s.size - (n * 2))
     }, variant)
 }
 fn b_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove { 
     modify_move(GeometricMove { 
         axis: Axis::Z, 
         angle: -90.0, 
-        predicate: Box::new(move |s| s.position.z <= -size + (n * 2))
+        predicate: Box::new(move |s| s.position.z <= -s.size + (n * 2))
     }, variant)
 }
 fn z_move(variant: MoveVariant) -> GeometricMove { 
