@@ -50,30 +50,18 @@ fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
     }
 }
 
-fn take_largest(slices: Vec<i32>, n: i32) -> Vec<i32> {
-    slices.into_iter().rev().take(n as usize).collect()
-}
-
-fn take_smallest(slices: Vec<i32>, n: i32) -> Vec<i32> {
-    slices.into_iter().take(n as usize).collect()
-}
-
 fn u_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove {
-    let slices = take_largest(GeoCube::range(size), n);
-
     modify_move(GeometricMove { 
         axis: Axis::Y, 
         angle: 90.0, 
-        predicate: Box::new(move |s| slices.contains(&s.position.y) || s.position.y == size) 
+        predicate: Box::new(move |s| s.position.y >= size - (n * 2))
     }, variant)
 }
 fn d_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove { 
-    let slices = take_smallest(GeoCube::range(size), n);
-
     modify_move(GeometricMove { 
         axis: Axis::Y, 
         angle: -90.0, 
-        predicate: Box::new(move |s| slices.contains(&s.position.y) || s.position.y == -size)
+        predicate: Box::new(move |s| s.position.y <= -size + (n * 2))
     }, variant)
 }
 fn y_move(variant: MoveVariant) -> GeometricMove { 
@@ -85,21 +73,17 @@ fn y_move(variant: MoveVariant) -> GeometricMove {
 }
 
 fn l_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove { 
-    let slices = take_smallest(GeoCube::range(size), n);
-
     modify_move(GeometricMove { 
         axis: Axis::X, 
         angle: -90.0, 
-        predicate: Box::new(move |s| slices.contains(&s.position.x) || s.position.x == -size) 
+        predicate: Box::new(move |s| s.position.x <= -size + (n * 2)) 
     }, variant)
 }
 fn r_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove {
-    let slices = take_largest(GeoCube::range(size), n);
-    
     modify_move(GeometricMove { 
         axis: Axis::X, 
         angle: 90.0, 
-        predicate: Box::new(move |s| slices.contains(&s.position.x) || s.position.x == size) 
+        predicate: Box::new(move |s| s.position.x >= size - (n * 2)) 
     }, variant)
 }
 fn x_move(variant: MoveVariant) -> GeometricMove { 
@@ -111,21 +95,17 @@ fn x_move(variant: MoveVariant) -> GeometricMove {
 }
 
 fn f_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove { 
-    let slices = take_largest(GeoCube::range(size), n);
-
     modify_move(GeometricMove { 
         axis: Axis::Z, 
         angle: 90.0, 
-        predicate: Box::new(move |s| slices.contains(&s.position.z) || s.position.z == size)
+        predicate: Box::new(move |s| s.position.z >= size - (n * 2))
     }, variant)
 }
 fn b_move(size: i32, n: i32, variant: MoveVariant) -> GeometricMove { 
-    let slices = take_smallest(GeoCube::range(size), n);
-
     modify_move(GeometricMove { 
         axis: Axis::Z, 
         angle: -90.0, 
-        predicate: Box::new(move |s| slices.contains(&s.position.z) || s.position.z == -size) 
+        predicate: Box::new(move |s| s.position.z <= -size + (n * 2))
     }, variant)
 }
 fn z_move(variant: MoveVariant) -> GeometricMove { 
