@@ -9,9 +9,9 @@ use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 use crate::geometric_cube::{GeoCube, Sticker};
 
-pub struct FaceletMove(pub Vec<(i32, i32)>);
+pub struct FaceletMove(pub Vec<(u16, u16)>);
 
-pub fn compute_permutation(old_faces: &[(Face, i32)], size: i32, mv: Move) -> Vec<(Face, i32)> {
+pub fn compute_permutation<T: Clone + Copy>(old_faces: &[T], size: i32, mv: Move) -> Vec<T> {
     lazy_static! {
         static ref CACHE: Mutex<FxHashMap<(i32, Move), FaceletMove>> = Mutex::new(FxHashMap::default());
     }
@@ -42,14 +42,14 @@ fn convert_move(size: i32, mv: Move) -> FaceletMove {
                 .apply_move(mv)
                 .stickers
                 .iter()
-                .map(|s| (index_map[(&s.destination)], index_map[(&s.position)]))
+                .map(|s| (index_map[(&s.destination)] as u16, index_map[(&s.position)] as u16))
                 .filter(|x| x.0 != x.1)
                 .collect()
     )
 }
 
 #[cached]
-fn create_piece_map(size: i32) -> FxHashMap<Vector3<i32>, i32> {
+fn create_piece_map(size: i32) -> FxHashMap<Vector3<i32>, u16> {
     let mut map = FxHashMap::default();
 
     let face_rotating_moves = vec![

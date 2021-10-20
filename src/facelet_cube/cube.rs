@@ -15,7 +15,7 @@ use super::moves::{compute_permutation};
 #[derive(Clone)]
 pub struct FaceletCube {
     size: i32,
-    faces: Vec<(Face, i32)>
+    faces: Vec<(Face, u16)>
 }
 
 impl Cube for FaceletCube {
@@ -29,7 +29,7 @@ impl Cube for FaceletCube {
                 repeat(D, size * size),
                 repeat(L, size * size),
                 repeat(B, size * size),
-            ].concat().iter().enumerate().map(|(i, s)| (*s, i as i32)).collect()
+            ].concat().iter().enumerate().map(|(i, s)| (*s, i as u16)).collect()
         }
     }
 
@@ -44,7 +44,7 @@ impl Cube for FaceletCube {
     fn mask(&self, mask: &[i32]) -> Self {
         let masked_faces = self.faces
                                .iter()
-                               .map(|(f, i)| if mask.contains(i) { (*f, *i) } else { (Face::X, *i) } )
+                               .map(|(f, i)| if mask.contains(&(*i as i32)) { (*f, *i) } else { (Face::X, *i) } )
                                .collect();
 
         Self { faces: masked_faces, ..*self }
