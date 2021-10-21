@@ -22,7 +22,7 @@ impl GeometricMove {
     }
 
     pub fn from(mv: Move) -> Self {
-        let gmove = match (mv, 1) {
+        match (mv, 1) {
             (U(variant), n) | (Uw(n, variant), _) => modify_move(u_move(n), variant),
             (R(variant), n) | (Rw(n, variant), _) => modify_move(r_move(n), variant),
             (F(variant), n) | (Fw(n, variant), _) => modify_move(f_move(n), variant),
@@ -32,8 +32,7 @@ impl GeometricMove {
             (X(variant), _) => modify_move(x_move(), variant),
             (Y(variant), _) => modify_move(y_move(), variant),
             (Z(variant), _) => modify_move(z_move(), variant),
-        };
-        gmove
+        }
     }
 }
 
