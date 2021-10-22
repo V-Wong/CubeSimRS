@@ -68,7 +68,6 @@ fn create_piece_map(size: i32) -> FxHashMap<Vector3<i32>, u16> {
                 let first_sticker = GeoCube {
                     size,
                     stickers: vec![Sticker::new(size, x, size, z)],
-                    mask: vec![]
                 }.apply_moves(&rotation).stickers[0];
                 map.insert(first_sticker.position, idx);
                 idx += 1;
