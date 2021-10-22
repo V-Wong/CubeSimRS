@@ -10,6 +10,7 @@ pub struct Sticker {
     pub size: i32,
     pub position: Vector3<i32>,
     pub destination: Vector3<i32>,
+    pub destination_face: Face,
     pub initial_index: i32
 }
 
@@ -19,6 +20,7 @@ impl Sticker {
             size,
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z),
+            destination_face: Self::get_face(size, x, y, z),
             initial_index: -1
         }
     }
@@ -28,7 +30,7 @@ impl Sticker {
     }
 
     pub fn get_destination_face(&self) -> Face {
-        Self::get_face(self.size, self.destination.x, self.destination.y, self.destination.z)
+        self.destination_face
     }
 
     pub fn rotate(&self, mv: GeometricMove) -> Self {
@@ -52,7 +54,7 @@ impl Sticker {
         }
     }
 
-    fn get_face(size: i32, x: i32, y: i32, z: i32) -> Face {
+    pub fn get_face(size: i32, x: i32, y: i32, z: i32) -> Face {
         if x == size { Face::R }
         else if x == -size { Face::L }
         else if y == size { Face::U }
