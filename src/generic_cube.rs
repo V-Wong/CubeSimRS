@@ -51,9 +51,9 @@ pub trait Cube: Clone {
         is_solved
     }
 
-    /// Creates a copy of the given cube with all faces except those in the mask
-    /// replaced with a placeholder ``Face::X`` sticker.
-    fn mask(&self, mask: &[i32]) -> Self;
+    /// Maps over the pieces of the cube, replacing each piece
+    /// according to the given mask function. 
+    fn mask(&self, mask: &dyn Fn(i32, Face) -> Face) -> Self;
 
     /// Apply a move to a cube.
     /// 

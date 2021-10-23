@@ -41,10 +41,10 @@ impl Cube for FaceletCube {
         self.faces.iter().map(|(s, _)| *s).collect()
     }
 
-    fn mask(&self, mask: &[i32]) -> Self {
+    fn mask(&self, mask: &dyn Fn(i32, Face) -> Face) -> Self {
         let masked_faces = self.faces
                                .iter()
-                               .map(|(f, i)| if mask.contains(&(*i as i32)) { (*f, *i) } else { (Face::X, *i) } )
+                               .map(|(f, i)| (mask(*i as i32, *f), *i))
                                .collect();
 
         Self { faces: masked_faces, ..*self }
