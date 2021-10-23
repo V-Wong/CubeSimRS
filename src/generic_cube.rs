@@ -143,6 +143,10 @@ pub enum Face {
 /// A designated ordering of the faces.
 pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
 
+pub fn sticker_index(size: i32, face: Face, index: i32) -> i32 {
+    (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as i32) * size * size + index - 1 as i32
+}
+
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
 ///
 /// Each Move must be tagged with a ``MoveVariant`` to completely a move.
