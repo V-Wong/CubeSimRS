@@ -4,7 +4,7 @@ use cgmath::{Rotation, Vector3};
 use crate::generic_cube::{Face}; 
 use crate::geometric_cube::moves::{GeometricMove};
 
-#[derive(Copy, Clone, Display)]
+#[derive(Copy, Clone, Display, Eq, Hash, PartialEq)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
 pub struct Sticker {
     pub size: i32,

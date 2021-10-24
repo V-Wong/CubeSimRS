@@ -1,9 +1,11 @@
+use std::hash::Hash;
+
 /// A Rubik's Cube of arbitrary size.
 /// 
 /// All implementors of this trait are (externally) immutable and persistent.
 /// Methods that involve mutating a Rubik's Cube will instead return a new
 /// Cube with the mutation applied, leaving the old Cube intact.
-pub trait Cube: Clone {
+pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Creates a solved cube of the given size.
     fn new(size: i32) -> Self;
 
@@ -122,7 +124,7 @@ use derive_more::Display;
 /// The faces follow the standard WCA notation as described in the [WCA regulations].
 /// 
 /// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
-#[derive(Clone, Copy, Debug, Display, Hash, PartialEq)]
+#[derive(Clone, Copy, Debug, Display, Eq, Hash, PartialEq)]
 pub enum Face {
     /// Upper face.
     U,
