@@ -14,7 +14,7 @@ use super::moves::{GeometricMove};
 /// from poor performance due to the expensive nature of matrix multiplication.
 /// This implementation should not be used directly, instead it should only be
 /// used to bootstrap more efficient implementations like the FaceletCube.
-#[derive(Clone)]
+#[derive(Clone, Eq, Hash, PartialEq)]
 pub struct GeoCube {
     pub size: i32,
     pub stickers: Vec<Sticker>,
