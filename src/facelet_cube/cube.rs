@@ -12,7 +12,7 @@ use super::moves::{compute_permutation};
 /// it is harder to define moves from scratch. Instead of deriving index mappings from scratch,
 /// we first implement a GeoCube move, then use our conversion function to map the move
 /// to a FaceletCube move.
-#[derive(Clone)]
+#[derive(Clone, Eq, Hash, PartialEq)]
 pub struct FaceletCube {
     size: i32,
     faces: Vec<(Face, u16)>
