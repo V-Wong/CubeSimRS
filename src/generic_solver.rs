@@ -53,7 +53,7 @@ fn dfs(cube: &impl Cube,
         return Some(solution.to_vec());
     }
 
-    if depth_remaining == 0 {
+    if solver.lower_bound(cube) > depth_remaining {
         return None;
     }
 
