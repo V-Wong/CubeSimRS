@@ -33,6 +33,18 @@ impl Solver {
     }
 }
 
+fn iddfs(cube: &impl Cube, 
+             solver: &Solver,
+             limit: i32) -> Option<Vec<Move>> {
+    for i in 0..=limit {
+        if let Some(sol) = dfs(cube, solver, &mut vec![], i) {
+            return Some(sol);
+        }
+    }
+
+    None
+}
+
 fn dfs(cube: &impl Cube, 
        solver: &Solver, 
        solution: &mut Vec<Move>,
