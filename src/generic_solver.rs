@@ -1,35 +1,32 @@
-use crate::prelude::{Cube, Face, Move, MoveVariant};
-use crate::cube_implementors::{FaceletCube};
+use rustc_hash::FxHashMap;
+use crate::prelude::{Cube, Face, Move};
 
-/// A Rubik's Cube solver.
-pub trait Solver {
-    /// Solves the Cube into the given solve state using the given moveset.
-    /// 
-    /// If the solve state is reachable using the given moveset, the sequence
-    /// of moves will be returned as a ``Some(Vec<Move>)``.
-    /// 
-    /// If the solve state is not reachable using the given moveset, ``None`` is returned.
-    /// 
-    /// # Arguments
-    ///
-    /// * `cube` - The Cube to be solved.
-    /// * `moveset` - The moves to be used in the solution.
-    /// * `solved_state` - The desired end state of a solution.
-    fn solve_into(cube: &impl Cube, moveset: &[Move], solved_state: &[Face]) -> Option<Vec<Move>>;
+pub struct Solver {
+    pub candidate_moves: Vec<Move>,
+    pub pruning_table: FxHashMap<Vec<Face>, i32>,
+    pub pruning_depth: i32
+}
 
-    /// Solves the Cube into the standard solved state using all possible moves.
-    fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
-        use Move::*;
-        use MoveVariant::*;
-
-        let mut moveset = Vec::new();
-
-        for mv in [U, R, F, L, D, B] {
-            for variant in [Standard, Double, Inverse] {
-                moveset.push(mv(variant));
-            }
+impl Solver {
+    pub fn new(candidate_moves: Vec<Move>, pruning_table: FxHashMap<Vec<Face>, i32>, pruning_depth: i32) -> Self {
+        Self {
+            candidate_moves,
+            pruning_table,
+            pruning_depth
         }
+    }
 
-        Self::solve_into(cube, &moveset, &FaceletCube::new(cube.size()).get_state())
+    pub fn is_solved(&self, cube: &impl Cube) -> bool {
+        match self.pruning_table.get(&cube.get_state()) {
+            Some(0) => return true,
+            _ => false
+        }
+    }
+
+    pub fn lower_bound(&self, cube: &impl Cube) -> i32 {
+        match self.pruning_table.get(&cube.get_state()) {
+            Some(n) => *n,
+            _ => self.pruning_depth + 1
+        }
     }
 }
