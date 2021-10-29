@@ -3,6 +3,8 @@ use crate::generic_cube::{sticker_index as S};
 use crate::facelet_cube::FaceletCube;
 use crate::generic_solver::{Solver, ida_star, gen_pruning_table};
 
+
+
 pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
 
@@ -94,8 +96,8 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
     let solved_states_viewed_in_g2 = gen_pruning_table(
         vec![FaceletCube::new(3).mask(&mask)], 
         10,
-        vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
-    ).keys().map(|faces| FaceletCube::from(*faces)).collect::<Vec<_>>();
+        &vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
+    ).keys().map(|faces| FaceletCube::from(faces.clone())).collect::<Vec<_>>();
 
     let search_limit = 13;
     let pruning_depth = 5;
