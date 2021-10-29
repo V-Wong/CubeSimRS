@@ -63,4 +63,45 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
     ida_star(&cube.mask(&mask), &solver, search_limit)
 }
 
+pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
+    use Face::*;
+    use MoveVariant::*;
 
+    let cp_pieces = [U, D, F, B, L, R].iter()
+                                      .map(|f| [1, 3, 7, 9].map(|x| S(3, *f, x)))
+                                      .collect::<Vec<_>>()
+                                      .concat();
+
+    let ep_pieces = [F, B, L, R].iter()
+                                .map(|f| [2, 4, 6, 8].map(|x| S(3, *f, x)))
+                                .collect::<Vec<_>>()
+                                .concat();
+
+    let face = |f| if f == B { F }
+                   else { if f == L { R } else { f } };
+
+    let mask = |i: i32, _| if cp_pieces.contains(&i) { [U, R, F, D, L, B][(0 | (i / 9)) as usize] }
+                           else { if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(0 | (i / 9)) as usize]) }
+                                  else { X }
+                           };
+
+    let moves = vec![
+        Move::U(Standard), Move::U(Inverse), Move::U(Double),
+        Move::D(Standard), Move::D(Inverse), Move::D(Double),
+        Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)
+    ];
+
+    let solved_states_viewed_in_g2 = gen_pruning_table(
+        vec![FaceletCube::new(3).mask(&mask)], 
+        10,
+        vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
+    ).keys().map(|faces| FaceletCube::from(*faces)).collect::<Vec<_>>();
+
+    let search_limit = 13;
+    let pruning_depth = 5;
+    let pruning_table = gen_pruning_table(solved_states_viewed_in_g2, pruning_depth, &moves);
+
+    let solver = Solver::new(moves, pruning_table, pruning_depth);
+
+    ida_star(&cube.mask(&mask), &solver, search_limit)
+}
