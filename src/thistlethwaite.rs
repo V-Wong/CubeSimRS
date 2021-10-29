@@ -3,7 +3,26 @@ use crate::generic_cube::{sticker_index as S};
 use crate::facelet_cube::FaceletCube;
 use crate::generic_solver::{Solver, ida_star, gen_pruning_table};
 
+pub fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
+    let mut solution = vec![];
 
+    let mut phase1_solution = phase1(cube)?;
+    let cube = cube.apply_moves(&phase1_solution);
+    solution.append(&mut phase1_solution);
+
+    let mut phase2_solution = phase2(&cube)?;
+    let cube = cube.apply_moves(&phase2_solution);
+    solution.append(&mut phase2_solution);
+
+    let mut phase3_solution = phase3(&cube)?;
+    let cube = cube.apply_moves(&phase3_solution);
+    solution.append(&mut phase3_solution);
+
+    let mut phase4_solution = phase4(&cube)?;
+    solution.append(&mut phase4_solution);
+
+    Some(solution)
+}
 
 pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
