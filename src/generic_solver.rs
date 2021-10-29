@@ -1,7 +1,7 @@
 use rustc_hash::FxHashMap;
 use std::mem::discriminant;
 
-use crate::prelude::{Cube, Face, Move};
+use crate::generic_cube::{Cube, Face, Move};
 
 pub struct Solver {
     pub candidate_moves: Vec<Move>,
