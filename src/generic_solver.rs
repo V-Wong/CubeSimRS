@@ -33,7 +33,7 @@ impl Solver {
     }
 }
 
-fn iddfs(cube: &impl Cube, 
+pub fn ida_star(cube: &impl Cube, 
          solver: &Solver,
          limit: i32) -> Option<Vec<Move>> {
     for i in 0..=limit {
@@ -83,7 +83,7 @@ fn dfs(cube: &impl Cube,
     None
 }
 
-fn gen_pruning_table(starting_cubes: Vec<impl Cube>, depth: i32, moveset: &[Move]) -> FxHashMap<Vec<Face>, i32> {
+pub fn gen_pruning_table(starting_cubes: Vec<impl Cube>, depth: i32, moveset: &[Move]) -> FxHashMap<Vec<Face>, i32> {
     let mut pruning_table: FxHashMap<Vec<Face>, i32> = FxHashMap::default();
     let mut previous_frontier = starting_cubes.clone();
 
