@@ -105,3 +105,16 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
 
     ida_star(&cube.mask(&mask), &solver, search_limit)
 }
+
+pub fn phase4(cube: &impl Cube) -> Option<Vec<Move>> {
+    use MoveVariant::*;
+
+    let moves = vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)];
+    let search_limit = 14;
+    let pruning_depth = 6;
+    let pruning_table = gen_pruning_table(vec![FaceletCube::new(3)], pruning_depth, &moves);
+
+    let solver = Solver::new(moves, pruning_table, pruning_depth);
+
+    ida_star(cube, &solver, search_limit)
+}
