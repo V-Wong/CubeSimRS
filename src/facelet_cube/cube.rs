@@ -58,6 +58,15 @@ impl Cube for FaceletCube {
     }
 }
 
+impl From<Vec<Face>> for FaceletCube {
+    fn from(faces: Vec<Face>) -> FaceletCube {
+        FaceletCube {
+            size: ((faces.len() / 6) as f64).sqrt() as i32,
+            faces: faces.iter().map(|f| (*f, 0)).collect()
+        }
+    }
+}
+
 fn repeat<T: Clone>(element: T, count: i32) -> Vec<T> {
     std::iter::repeat(element).take(count as usize).collect()
 }
