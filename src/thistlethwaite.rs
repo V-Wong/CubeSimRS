@@ -5,21 +5,13 @@ use crate::generic_solver::{Solver, ida_star, gen_pruning_table};
 
 pub fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
     let mut solution = vec![];
+    let mut cube = cube.clone();
 
-    let mut phase1_solution = phase1(cube)?;
-    let cube = cube.apply_moves(&phase1_solution);
-    solution.append(&mut phase1_solution);
-
-    let mut phase2_solution = phase2(&cube)?;
-    let cube = cube.apply_moves(&phase2_solution);
-    solution.append(&mut phase2_solution);
-
-    let mut phase3_solution = phase3(&cube)?;
-    let cube = cube.apply_moves(&phase3_solution);
-    solution.append(&mut phase3_solution);
-
-    let mut phase4_solution = phase4(&cube)?;
-    solution.append(&mut phase4_solution);
+    for phase in [phase1, phase2, phase3, phase4] {
+        let mut phase_solution = phase(&cube)?;
+        cube = cube.apply_moves(&phase_solution);
+        solution.append(&mut phase_solution);
+    }
 
     Some(solution)
 }
