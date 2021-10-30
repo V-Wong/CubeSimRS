@@ -26,6 +26,9 @@ pub mod cube_implementors {
     pub use crate::facelet_cube::FaceletCube;
     pub use crate::geometric_cube::GeoCube;
 }
+pub mod solvers {
+    pub use crate::thistlethwaite::solve;
+}
 
 pub use scramble_parser::parse_scramble;
 pub use generic_cube::{Cube, Face, Move, MoveVariant, solved_state, all_moves};
@@ -36,3 +39,4 @@ mod generic_solver;
 mod facelet_cube;
 mod geometric_cube;
 mod scramble_parser;
+mod thistlethwaite;
