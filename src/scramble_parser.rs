@@ -65,7 +65,8 @@ fn get_variant(mv: &str) -> MoveVariant {
     }
 }
 
-/// Simplifies the given moves by combining adjacent moves.
+/// Recursively merges adjacent moves of the same Move discriminant
+/// until no further simplification is possible.
 pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     use std::mem::discriminant;
     let mut result = vec![];
