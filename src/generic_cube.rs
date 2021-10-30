@@ -206,6 +206,27 @@ impl Move {
             | Move::Dw(_, v) => *v,
         }
     }
+
+    /// Returns the Move with the given MoveVariant.
+    pub fn with_variant(&self, variant: MoveVariant) -> Move {
+        match self {
+            Move::U(_) => Move::U(variant),
+            Move::L(_) => Move::L(variant),
+            Move::F(_) => Move::F(variant),
+            Move::R(_) => Move::R(variant),
+            Move::B(_) => Move::B(variant),
+            Move::D(_) => Move::D(variant),
+            Move::Uw(n, _) => Move::Uw(*n, variant),
+            Move::Lw(n, _) => Move::Lw(*n, variant),
+            Move::Fw(n, _) => Move::Fw(*n, variant),
+            Move::Rw(n, _) => Move::Rw(*n, variant),
+            Move::Bw(n, _) => Move::Bw(*n, variant),
+            Move::Dw(n, _) => Move::Dw(*n, variant),
+            Move::X(_) => Move::X(variant),
+            Move::Y(_) => Move::Y(variant),
+            Move::Z(_) => Move::Z(variant),
+        }
+    }
 }
 
 /// A move variation that must be applied to the ```Move``` struct.
@@ -213,7 +234,7 @@ impl Move {
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum MoveVariant {
     /// A 90 degree clockwise turn.
-    Standard,
+    Standard = 1,
     /// A 180 degree clockwise turn.
     Double,
     /// A 90 degree counter-clockwise turn.
