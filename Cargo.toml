@@ -29,3 +29,7 @@ harness = false
 [[bench]]
 name = "geometric_cube"
 harness = false
+
+[[bench]]
+name = "thistlethwaite"
+harness = false
