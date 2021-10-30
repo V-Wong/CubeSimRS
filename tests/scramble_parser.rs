@@ -2,7 +2,7 @@
 // Move Parser Tests
 //
 
-use cubesim::parse_scramble;
+use cubesim::{parse_scramble, simplify_moves};
 use cubesim::prelude::{Move::*, MoveVariant::*};
 
 #[test]
@@ -75,4 +75,55 @@ fn test_wide_moves() {
         Bw(5, Inverse),
         Lw(3, Double)
     ]);
+}
+
+#[test]
+fn test_simplify_standard_and_inverse_cancel() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("U U'"))), vec![]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("R' R"))), vec![]);
+}
+
+#[test]
+fn test_simplify_two_doubles_cancel() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("D2 D2"))), vec![]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("2Lw 2Lw"))), vec![]);
+}
+
+#[test]
+fn test_simplify_double_and_standard_becomes_inverse() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("L2 L"))), vec![L(Inverse)]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("F F2"))), vec![F(Inverse)]);
+}
+
+#[test]
+fn test_simplify_double_and_inverse_becomes_standard() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("L2 L'"))), vec![L(Standard)]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("F' F2"))), vec![F(Standard)]);
+}
+
+#[test]
+fn test_simplify_two_singles_becomes_double() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("B B"))), vec![B(Double)]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("Uw Uw"))), vec![Uw(2, Double)]);
+
+    assert_eq!(simplify_moves(&parse_scramble(String::from("B' B'"))), vec![B(Double)]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("Uw' Uw'"))), vec![Uw(2, Double)]);
+}
+
+#[test]
+fn test_simplify_long() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("B B2 B' R B2 B' R2 R' F2 R' R'"))), 
+               vec![
+                   B(Double), 
+                   R(Standard),
+                   B(Standard),
+                   R(Standard),
+                   F(Double),
+                   R(Double)]);
+}
+
+#[test]
+fn test_simplify_complex() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("R U2 R' R U2 F F' U2 B2 B2 U' U2 U R'"))), 
+               vec![])
 }
