@@ -67,5 +67,47 @@ fn get_variant(mv: &str) -> MoveVariant {
 
 /// Simplifies the given moves by combining adjacent moves.
 pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
-    vec![]
+    use std::mem::discriminant;
+    let mut result = vec![];
+    if moves.is_empty() {
+        return result;
+    }
+
+    // keep track of the current move and its amount of clockwise turns
+    let mut curr: (Move, i8) = (moves[0], moves[0].get_variant() as i8);
+    // pushes curr onto result if it has a non-zero number of turns
+    let mut push_curr = |mut curr: (Move, i8)| {
+        if curr.1 != 0 {
+            // convert negative turns to positive equivalent
+            if curr.1 < 0 {
+                curr.1 += 4;
+            }
+            let variant = match curr.1 {
+                1 => MoveVariant::Standard,
+                2 => MoveVariant::Double,
+                3 => MoveVariant::Inverse,
+                _ => MoveVariant::Standard
+            };
+            result.push(curr.0.with_variant(variant));
+        }
+    };
+
+    // merge adjacent moves of the same type
+    for mv in moves[1..].iter() {
+        if discriminant(&curr.0) == discriminant(mv) {
+            curr.1 += mv.get_variant() as i8;
+            // clamp to -3..=3
+            curr.1 %= 4;
+        } else {
+            push_curr(curr);
+            curr = (*mv, mv.get_variant() as i8);
+        }
+    }
+    push_curr(curr);
+
+    // if moves couldn't be simplified further
+    if result.len() == moves.len() {
+        return result
+    }
+    simplify_moves(&result.as_slice())
 }
