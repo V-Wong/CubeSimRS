@@ -30,7 +30,7 @@ pub mod solvers {
     pub use crate::thistlethwaite::solve;
 }
 
-pub use scramble_parser::parse_scramble;
+pub use scramble_parser::{parse_scramble, simplify_moves};
 pub use generic_cube::{Cube, Face, Move, MoveVariant, solved_state, all_moves};
 pub use cube_implementors::{FaceletCube, GeoCube};
 

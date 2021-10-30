@@ -64,3 +64,8 @@ fn get_variant(mv: &str) -> MoveVariant {
         Standard
     }
 }
+
+/// Simplifies the given moves by combining adjacent moves.
+pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
+    vec![]
+}
