@@ -78,6 +78,15 @@ fn test_wide_moves() {
 }
 
 #[test]
+fn test_simplify_unsimplifiable_moves() {
+    assert_eq!(simplify_moves(&parse_scramble(String::from("x2"))), vec![X(Double)]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from(""))), vec![]);
+    assert_eq!(simplify_moves(&parse_scramble(String::from("x y z"))), 
+               vec![X(Standard), Y(Standard), Z(Standard)]);
+}
+
+
+#[test]
 fn test_simplify_standard_and_inverse_cancel() {
     assert_eq!(simplify_moves(&parse_scramble(String::from("U U'"))), vec![]);
     assert_eq!(simplify_moves(&parse_scramble(String::from("R' R"))), vec![]);
