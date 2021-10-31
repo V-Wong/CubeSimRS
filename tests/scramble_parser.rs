@@ -85,7 +85,6 @@ fn test_simplify_unsimplifiable_moves() {
                vec![X(Standard), Y(Standard), Z(Standard)]);
 }
 
-
 #[test]
 fn test_simplify_standard_and_inverse_cancel() {
     assert_eq!(simplify_moves(&parse_scramble(String::from("U U'"))), vec![]);
@@ -122,13 +121,7 @@ fn test_simplify_two_singles_becomes_double() {
 #[test]
 fn test_simplify_long() {
     assert_eq!(simplify_moves(&parse_scramble(String::from("B B2 B' R B2 B' R2 R' F2 R' R'"))), 
-               vec![
-                   B(Double), 
-                   R(Standard),
-                   B(Standard),
-                   R(Standard),
-                   F(Double),
-                   R(Double)]);
+               vec![B(Double), R(Standard), B(Standard), R(Standard), F(Double), R(Double)]);
 }
 
 #[test]
