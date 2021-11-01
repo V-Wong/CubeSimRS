@@ -11,7 +11,7 @@ fn convert_move(mv: &str) -> Move {
     let slice = get_slice(mv);
     let variant = get_variant(mv);
 
-    if !mv.contains("w") {
+    if !mv.contains('w') {
         match &mv[0..1] {
             "U" => U(variant),
             "R" => R(variant),
@@ -24,23 +24,23 @@ fn convert_move(mv: &str) -> Move {
             "z" => Z(variant),
             _ => panic!()
         }    
-    } else if mv.contains("U") {
+    } else if mv.contains('U') {
         Uw(slice, variant)
-    } else if mv.contains("R") {
+    } else if mv.contains('R') {
         Rw(slice, variant)
-    } else if mv.contains("F") {
+    } else if mv.contains('F') {
         Fw(slice, variant)
-    } else if mv.contains("L") {
+    } else if mv.contains('L') {
         Lw(slice, variant)
-    } else if mv.contains("D") {
+    } else if mv.contains('D') {
         Dw(slice, variant)
-    } else if mv.contains("B") {
+    } else if mv.contains('B') {
         Bw(slice, variant)
-    } else if mv.contains("x") {
+    } else if mv.contains('x') {
         X(variant)
-    } else if mv.contains("y") {
+    } else if mv.contains('y') {
         Y(variant)
-    } else if mv.contains("z") {
+    } else if mv.contains('z') {
         Z(variant)
     } else {
         panic!()
@@ -48,7 +48,7 @@ fn convert_move(mv: &str) -> Move {
 }
 
 fn get_slice(mv: &str) -> i32 {
-    if !mv.contains("w") {
+    if !mv.contains('w') {
         1
     } else {
         mv[0..1].parse::<i32>().unwrap_or(2)
