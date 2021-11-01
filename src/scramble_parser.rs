@@ -24,28 +24,26 @@ fn convert_move(mv: &str) -> Move {
             "z" => Z(variant),
             _ => panic!()
         }    
+    } else if mv.contains("U") {
+        Uw(slice, variant)
+    } else if mv.contains("R") {
+        Rw(slice, variant)
+    } else if mv.contains("F") {
+        Fw(slice, variant)
+    } else if mv.contains("L") {
+        Lw(slice, variant)
+    } else if mv.contains("D") {
+        Dw(slice, variant)
+    } else if mv.contains("B") {
+        Bw(slice, variant)
+    } else if mv.contains("x") {
+        X(variant)
+    } else if mv.contains("y") {
+        Y(variant)
+    } else if mv.contains("z") {
+        Z(variant)
     } else {
-        if mv.contains("U") {
-            Uw(slice, variant)
-        } else if mv.contains("R") {
-            Rw(slice, variant)
-        } else if mv.contains("F") {
-            Fw(slice, variant)
-        } else if mv.contains("L") {
-            Lw(slice, variant)
-        } else if mv.contains("D") {
-            Dw(slice, variant)
-        } else if mv.contains("B") {
-            Bw(slice, variant)
-        } else if mv.contains("x") {
-            X(variant)
-        } else if mv.contains("y") {
-            Y(variant)
-        } else if mv.contains("z") {
-            Z(variant)
-        } else {
-            panic!()
-        }
+        panic!()
     }
 }
 
