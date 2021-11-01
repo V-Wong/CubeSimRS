@@ -116,7 +116,7 @@ fn dfs(cube: &impl Cube,
 
         let result = dfs(
             &cube.apply_move(*mv),
-            &solver,
+            solver,
             solution,
             depth_remaining - 1
         );
