@@ -29,8 +29,8 @@ impl PruningTable {
             for cube in previous_frontier {
                 for mv in moveset {
                     let new_cube = cube.apply_move(*mv);
-                    if !pruning_table.contains_key(&new_cube.get_state()) {
-                        pruning_table.insert(new_cube.get_state(), i);
+                    if let std::collections::hash_map::Entry::Vacant(e) = pruning_table.entry(new_cube.get_state()) {
+                        e.insert(i);
                         frontier.push(new_cube);
                     }
                 }
