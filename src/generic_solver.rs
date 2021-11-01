@@ -68,7 +68,7 @@ impl Solver {
 
     pub fn is_solved(&self, cube: &impl Cube) -> bool {
         match self.pruning_table.get(&cube.get_state()) {
-            Some(0) => return true,
+            Some(0) => true,
             _ => false
         }
     }
