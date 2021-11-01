@@ -19,7 +19,7 @@ pub fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
 pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
 
-    let g1_mask = vec![
+    let g1_mask = [
         S(3, U, 2), S(3, U, 4), S(3, U, 6), S(3, U, 8),
         S(3, D, 2), S(3, D, 4), S(3, D, 6), S(3, D, 8),
         S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
@@ -30,7 +30,7 @@ pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     let moves = all_moves(3);
     let search_limit = 10;
     let pruning_depth = 7;
-    let pruning_table = PruningTable::new(vec![FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
+    let pruning_table = PruningTable::new(&[FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
 
     let solver = Solver::new(moves, pruning_table);
 
@@ -41,17 +41,17 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
     use MoveVariant::*;
 
-    let co_pieces = vec![
+    let co_pieces = [
         S(3, U, 1), S(3, U, 3), S(3, U, 7), S(3, U, 9),
         S(3, D, 1), S(3, D, 3), S(3, D, 7), S(3, D, 9)
     ];
 
-    let eo_ud_pieces = vec![
+    let eo_ud_pieces = [
         S(3, U, 2), S(3, U, 4), S(3, U, 6), S(3, U, 8),
         S(3, D, 2), S(3, D, 4), S(3, D, 6), S(3, D, 8)
     ];
 
-    let eo_e_piecs = vec![
+    let eo_e_piecs = [
         S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
     ];
 
@@ -69,7 +69,7 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
 
     let search_limit = 10;
     let pruning_depth = 5;
-    let pruning_table = PruningTable::new(vec![FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
+    let pruning_table = PruningTable::new(&[FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
 
     let solver = Solver::new(moves, pruning_table);
 
@@ -105,7 +105,7 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
     ];
 
     let solved_states_viewed_in_g2 = PruningTable::new(
-        vec![FaceletCube::new(3).mask(&mask)], 
+        &[FaceletCube::new(3).mask(&mask)], 
         10,
         &vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
     );
@@ -122,10 +122,13 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
 pub fn phase4(cube: &impl Cube) -> Option<Vec<Move>> {
     use MoveVariant::*;
 
-    let moves = vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)];
+    let moves = vec![
+        Move::U(Double), Move::D(Double), Move::F(Double),
+        Move::B(Double), Move::L(Double), Move::R(Double)
+    ];
     let search_limit = 14;
     let pruning_depth = 6;
-    let pruning_table = PruningTable::new(vec![FaceletCube::new(3)], pruning_depth, &moves);
+    let pruning_table = PruningTable::new(&[FaceletCube::new(3)], pruning_depth, &moves);
 
     let solver = Solver::new(moves, pruning_table);
 

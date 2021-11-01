@@ -15,9 +15,9 @@ pub struct PruningTable {
 }
 
 impl PruningTable {
-    pub fn new(starting_cubes: Vec<impl Cube>, depth: i32, moveset: &[Move]) -> Self {
+    pub fn new(starting_cubes: &[impl Cube], depth: i32, moveset: &[Move]) -> Self {
         let mut pruning_table: FxHashMap<Vec<Face>, i32> = FxHashMap::default();
-        let mut previous_frontier = starting_cubes.clone();
+        let mut previous_frontier = starting_cubes.to_vec();
     
         for cube in starting_cubes {
             pruning_table.insert(cube.get_state(), 0);
@@ -26,7 +26,7 @@ impl PruningTable {
         for i in 1..=depth {
             let mut frontier = vec![];
     
-            for cube in &previous_frontier {
+            for cube in previous_frontier {
                 for mv in moveset {
                     let new_cube = cube.apply_move(*mv);
                     if !pruning_table.contains_key(&new_cube.get_state()) {
@@ -36,7 +36,7 @@ impl PruningTable {
                 }
             }
     
-            previous_frontier = frontier;
+            previous_frontier = frontier.clone();
         } 
     
         Self {
@@ -47,7 +47,7 @@ impl PruningTable {
 
     pub fn from_existing_table(other: &PruningTable, depth: i32, moveset: &[Move]) -> Self {
         Self::new(
-            other.pruning_table.keys().map(|faces| FaceletCube::from(faces.clone())).collect::<Vec<_>>(),
+            &other.pruning_table.keys().map(|faces| FaceletCube::from(faces.clone())).collect::<Vec<_>>(),
             depth,
             moveset
         )
