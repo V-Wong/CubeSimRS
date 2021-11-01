@@ -1,7 +1,7 @@
 use crate::generic_cube::{Cube, Face, Move, MoveVariant, all_moves};
 use crate::generic_cube::{sticker_index as S};
 use crate::facelet_cube::FaceletCube;
-use crate::generic_solver::{Solver, ida_star, gen_pruning_table};
+use crate::generic_solver::{Solver, PruningTable, ida_star};
 
 pub fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
     let mut solution = vec![];
@@ -19,7 +19,7 @@ pub fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
 pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
 
-    let g1_mask = vec![
+    let g1_mask = [
         S(3, U, 2), S(3, U, 4), S(3, U, 6), S(3, U, 8),
         S(3, D, 2), S(3, D, 4), S(3, D, 6), S(3, D, 8),
         S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
@@ -30,9 +30,9 @@ pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     let moves = all_moves(3);
     let search_limit = 10;
     let pruning_depth = 7;
-    let pruning_table = gen_pruning_table(vec![FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
+    let pruning_table = PruningTable::new(&[FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
 
-    let solver = Solver::new(moves, pruning_table, pruning_depth);
+    let solver = Solver::new(moves, pruning_table);
 
     ida_star(&cube.mask(&mask), &solver, search_limit)
 }
@@ -41,23 +41,24 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
     use MoveVariant::*;
 
-    let co_pieces = vec![
+    let co_pieces = [
         S(3, U, 1), S(3, U, 3), S(3, U, 7), S(3, U, 9),
         S(3, D, 1), S(3, D, 3), S(3, D, 7), S(3, D, 9)
     ];
 
-    let eo_ud_pieces = vec![
+    let eo_ud_pieces = [
         S(3, U, 2), S(3, U, 4), S(3, U, 6), S(3, U, 8),
         S(3, D, 2), S(3, D, 4), S(3, D, 6), S(3, D, 8)
     ];
 
-    let eo_e_piecs = vec![
+    let eo_e_piecs = [
         S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
     ];
 
     let mask = |i: i32, _| 
         if eo_ud_pieces.contains(&i) || co_pieces.contains(&i) { X } 
-        else { if eo_e_piecs.contains(&i) { U } else { R } };
+        else if eo_e_piecs.contains(&i) { U } 
+        else { R };
 
     let moves = vec![
         Move::U(Standard), Move::U(Inverse), Move::U(Double), 
@@ -69,9 +70,9 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
 
     let search_limit = 10;
     let pruning_depth = 5;
-    let pruning_table = gen_pruning_table(vec![FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
+    let pruning_table = PruningTable::new(&[FaceletCube::new(3).mask(&mask)], pruning_depth, &moves);
 
-    let solver = Solver::new(moves, pruning_table, pruning_depth);
+    let solver = Solver::new(moves, pruning_table);
 
     ida_star(&cube.mask(&mask), &solver, search_limit)
 }
@@ -91,12 +92,12 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
                                 .concat();
 
     let face = |f| if f == B { F }
-                   else { if f == L { R } else { f } };
+                   else if f == L { R }
+                   else { f };
 
     let mask = |i: i32, _| if cp_pieces.contains(&i) { [U, R, F, D, L, B][(0 | (i / 9)) as usize] }
-                           else { if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(0 | (i / 9)) as usize]) }
-                                  else { X }
-                           };
+                           else if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(0 | (i / 9)) as usize]) }
+                           else { X };
 
     let moves = vec![
         Move::U(Standard), Move::U(Inverse), Move::U(Double),
@@ -104,17 +105,17 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
         Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)
     ];
 
-    let solved_states_viewed_in_g2 = gen_pruning_table(
-        vec![FaceletCube::new(3).mask(&mask)], 
+    let solved_states_viewed_in_g2 = PruningTable::new(
+        &[FaceletCube::new(3).mask(&mask)], 
         10,
         &vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
-    ).keys().map(|faces| FaceletCube::from(faces.clone())).collect::<Vec<_>>();
+    );
 
     let search_limit = 13;
     let pruning_depth = 5;
-    let pruning_table = gen_pruning_table(solved_states_viewed_in_g2, pruning_depth, &moves);
+    let pruning_table = PruningTable::from_existing_table(&solved_states_viewed_in_g2, pruning_depth, &moves);
 
-    let solver = Solver::new(moves, pruning_table, pruning_depth);
+    let solver = Solver::new(moves, pruning_table);
 
     ida_star(&cube.mask(&mask), &solver, search_limit)
 }
@@ -122,12 +123,15 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
 pub fn phase4(cube: &impl Cube) -> Option<Vec<Move>> {
     use MoveVariant::*;
 
-    let moves = vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)];
+    let moves = vec![
+        Move::U(Double), Move::D(Double), Move::F(Double),
+        Move::B(Double), Move::L(Double), Move::R(Double)
+    ];
     let search_limit = 14;
     let pruning_depth = 6;
-    let pruning_table = gen_pruning_table(vec![FaceletCube::new(3)], pruning_depth, &moves);
+    let pruning_table = PruningTable::new(&[FaceletCube::new(3)], pruning_depth, &moves);
 
-    let solver = Solver::new(moves, pruning_table, pruning_depth);
+    let solver = Solver::new(moves, pruning_table);
 
     ida_star(cube, &solver, search_limit)
 }
