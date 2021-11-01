@@ -67,10 +67,7 @@ impl Solver {
     }
 
     pub fn is_solved(&self, cube: &impl Cube) -> bool {
-        match self.pruning_table.get(&cube.get_state()) {
-            Some(0) => true,
-            _ => false
-        }
+        matches!(self.pruning_table.get(&cube.get_state()), Some(0))
     }
 
     pub fn lower_bound(&self, cube: &impl Cube) -> i32 {
