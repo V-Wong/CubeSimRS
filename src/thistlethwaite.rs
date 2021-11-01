@@ -57,7 +57,8 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
 
     let mask = |i: i32, _| 
         if eo_ud_pieces.contains(&i) || co_pieces.contains(&i) { X } 
-        else { if eo_e_piecs.contains(&i) { U } else { R } };
+        else if eo_e_piecs.contains(&i) { U } 
+        else { R };
 
     let moves = vec![
         Move::U(Standard), Move::U(Inverse), Move::U(Double), 
@@ -91,12 +92,12 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
                                 .concat();
 
     let face = |f| if f == B { F }
-                   else { if f == L { R } else { f } };
+                   else if f == L { R }
+                   else { f };
 
     let mask = |i: i32, _| if cp_pieces.contains(&i) { [U, R, F, D, L, B][(0 | (i / 9)) as usize] }
-                           else { if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(0 | (i / 9)) as usize]) }
-                                  else { X }
-                           };
+                           else if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(0 | (i / 9)) as usize]) }
+                           else { X };
 
     let moves = vec![
         Move::U(Standard), Move::U(Inverse), Move::U(Double),
