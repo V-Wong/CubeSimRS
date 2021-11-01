@@ -53,7 +53,7 @@ impl PruningTable {
         )
     }
 
-    fn get(&self, k: &Vec<Face>) -> Option<&i32> {
+    fn get(&self, k: &[Face]) -> Option<&i32> {
         self.pruning_table.get(k)
     }
 }
