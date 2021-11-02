@@ -74,7 +74,7 @@ impl Cube for GeoCube {
                                   .map(|s| Sticker { destination_face: mask(s.initial_index, s.get_destination_face()), ..*s })
                                   .collect::<Vec<_>>();
 
-        Self { stickers: masked_stickers.clone(), ..*self }
+        Self { stickers: masked_stickers, ..*self }
     }
 }
 

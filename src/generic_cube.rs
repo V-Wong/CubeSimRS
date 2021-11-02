@@ -146,7 +146,7 @@ pub enum Face {
 pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
 
 pub fn sticker_index(size: i32, face: Face, index: i32) -> i32 {
-    (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as i32) * size * size + index - 1 as i32
+    (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as i32) * size * size + index - 1_i32
 }
 
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
@@ -200,7 +200,6 @@ pub enum MoveVariant {
 
 /// A helper function to get the solved state for a cube of a given size.
 pub fn solved_state(size: i32) -> Vec<Face> {
-    use Face::*;
     ORDERED_FACES
         .iter()
         .flat_map(|&face| vec![face; (size * size) as usize])

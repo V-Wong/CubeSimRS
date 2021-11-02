@@ -4,7 +4,7 @@ use cached::proc_macro::cached;
 use lazy_static::lazy_static;
 use cgmath::Vector3;
 
-use crate::generic_cube::{Cube, Move, Face};
+use crate::generic_cube::{Cube, Move};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 use crate::geometric_cube::{GeoCube, Sticker};
