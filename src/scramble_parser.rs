@@ -77,19 +77,15 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     // keep track of the current move and its amount of clockwise turns
     let mut curr: (Move, i8) = (moves[0], moves[0].get_variant() as i8);
     // pushes curr onto result if it has a non-zero number of turns
-    let mut push_curr = |mut curr: (Move, i8)| {
-        if curr.1 != 0 {
-            // convert negative turns to positive equivalent
-            if curr.1 < 0 {
-                curr.1 += 4;
-            }
-            let variant = match curr.1 {
+    let mut push_curr = |current: (Move, i8)| {
+        if current.1 != 0 {
+            let variant = match current.1 {
                 1 => MoveVariant::Standard,
                 2 => MoveVariant::Double,
                 3 => MoveVariant::Inverse,
                 _ => MoveVariant::Standard
             };
-            result.push(curr.0.with_variant(variant));
+            result.push(current.0.with_variant(variant));
         }
     };
 
@@ -97,8 +93,11 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     for mv in moves[1..].iter() {
         if discriminant(&curr.0) == discriminant(mv) {
             curr.1 += mv.get_variant() as i8;
-            // clamp to -3..=3
+            // represent the total clockwise turns to be in the range 0..=3
             curr.1 %= 4;
+            if curr.1 < 0 {
+                curr.1 += 4;
+            }
         } else {
             push_curr(curr);
             curr = (*mv, mv.get_variant() as i8);
@@ -110,5 +109,5 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     if result.len() == moves.len() {
         return result
     }
-    simplify_moves(&result.as_slice())
+    simplify_moves(result.as_slice())
 }
