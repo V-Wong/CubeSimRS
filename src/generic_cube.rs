@@ -1,7 +1,7 @@
 use std::hash::Hash;
 
 /// A Rubik's Cube of arbitrary size.
-/// 
+///
 /// All implementors of this trait are (externally) immutable and persistent.
 /// Methods that involve mutating a Rubik's Cube will instead return a new
 /// Cube with the mutation applied, leaving the old Cube intact.
@@ -13,20 +13,20 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     fn size(&self) -> i32;
 
     /// A one-dimensional representation of a cube as a sequence of the faces.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// Solved 3x3x3 cube:
-    /// 
+    ///
     /// ```rust
     /// use cubesim::prelude::*;
     /// use cubesim::cube_implementors::FaceletCube;
-    /// 
-    /// /* Outputs: [U, U, U, U, U, U, U, U, U, 
-    ///              R, R, R, R, R, R, R, R, R, 
-    ///              F, F, F, F, F, F, F, F, F, 
-    ///              D, D, D, D, D, D, D, D, D, 
-    ///              L, L, L, L, L, L, L, L, L, 
+    ///
+    /// /* Outputs: [U, U, U, U, U, U, U, U, U,
+    ///              R, R, R, R, R, R, R, R, R,
+    ///              F, F, F, F, F, F, F, F, F,
+    ///              D, D, D, D, D, D, D, D, D,
+    ///              L, L, L, L, L, L, L, L, L,
     ///              B, B, B, B, B, B, B, B, B] */
     /// let cube = FaceletCube::new(3);
     /// println!("{:?}", cube.get_state());
@@ -54,25 +54,25 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     }
 
     /// Maps over the pieces of the cube, replacing each piece
-    /// according to the given mask function. 
+    /// according to the given mask function.
     fn mask(&self, mask: &dyn Fn(i32, Face) -> Face) -> Self;
 
     /// Apply a move to a cube.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// Rotate the upper layer by 90 degrees:
-    /// 
+    ///
     /// ```rust
     /// use cubesim::prelude::*;
     /// use cubesim::cube_implementors::FaceletCube;
     ///
-    /// /* Outputs: [U, U, U, U, U, U, U, U, U, 
-    ///              B, B, B, R, R, R, R, R, R, 
-    ///              R, R, R, F, F, F, F, F, F, 
-    ///              D, D, D, D, D, D, D, D, D, 
-    ///              F, F, F, L, L, L, L, L, L, 
-    ///              L, L, L, B, B, B, B, B, B] */ 
+    /// /* Outputs: [U, U, U, U, U, U, U, U, U,
+    ///              B, B, B, R, R, R, R, R, R,
+    ///              R, R, R, F, F, F, F, F, F,
+    ///              D, D, D, D, D, D, D, D, D,
+    ///              F, F, F, L, L, L, L, L, L,
+    ///              L, L, L, B, B, B, B, B, B] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
     /// println!("{:?}", turned_cube.get_state());
@@ -82,18 +82,18 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Apply a sequence of moves to a cube.
     ///
     /// # Examples
-    /// 
+    ///
     /// Rotate the upper layer by 90 degrees:
-    /// 
+    ///
     /// ```rust
     /// use cubesim::prelude::*;
     /// use cubesim::cube_implementors::FaceletCube;
     ///
-    /// /* Outputs: [L, L, F, U, U, D, U, U, D, 
-    ///              R, R, U, R, R, U, B, B, D, 
-    ///              R, R, B, F, F, B, F, F, L, 
-    ///              D, D, U, D, D, U, B, R, R, 
-    ///              D, F, F, D, L, L, U, L, L, 
+    /// /* Outputs: [L, L, F, U, U, D, U, U, D,
+    ///              R, R, U, R, R, U, B, B, D,
+    ///              R, R, B, F, F, B, F, F, L,
+    ///              D, D, U, D, D, U, B, R, R,
+    ///              D, F, F, D, L, L, U, L, L,
     ///              L, B, B, L, B, B, F, F, R] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_moves(&vec![
@@ -122,7 +122,7 @@ use derive_more::Display;
 /// A face of a Rubik's Cube sticker represented in WCA notation.
 ///
 /// The faces follow the standard WCA notation as described in the [WCA regulations].
-/// 
+///
 /// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
 #[derive(Clone, Copy, Debug, Display, Eq, Hash, PartialEq)]
 pub enum Face {
@@ -152,9 +152,9 @@ pub fn sticker_index(size: i32, face: Face, index: i32) -> i32 {
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
 ///
 /// Each Move must be tagged with a ``MoveVariant`` to completely a move.
-/// 
+///
 /// The moves follow the standard WCA notation as described in the [WCA regulations].
-/// 
+///
 /// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -185,6 +185,49 @@ pub enum Move {
     Z(MoveVariant),
 }
 
+impl Move {
+    /// Extracts the MoveVariant of a Move.
+    pub fn get_variant(&self) -> MoveVariant {
+        match self {
+            Move::U(v)
+            | Move::L(v)
+            | Move::F(v)
+            | Move::R(v)
+            | Move::B(v)
+            | Move::D(v)
+            | Move::X(v)
+            | Move::Y(v)
+            | Move::Z(v)
+            | Move::Uw(_, v)
+            | Move::Lw(_, v)
+            | Move::Fw(_, v)
+            | Move::Rw(_, v)
+            | Move::Bw(_, v)
+            | Move::Dw(_, v) => *v,
+        }
+    }
+
+    /// Returns the Move with the given MoveVariant.
+    pub fn with_variant(&self, variant: MoveVariant) -> Move {
+        match self {
+            Move::U(_) => Move::U(variant),
+            Move::L(_) => Move::L(variant),
+            Move::F(_) => Move::F(variant),
+            Move::R(_) => Move::R(variant),
+            Move::B(_) => Move::B(variant),
+            Move::D(_) => Move::D(variant),
+            Move::Uw(n, _) => Move::Uw(*n, variant),
+            Move::Lw(n, _) => Move::Lw(*n, variant),
+            Move::Fw(n, _) => Move::Fw(*n, variant),
+            Move::Rw(n, _) => Move::Rw(*n, variant),
+            Move::Bw(n, _) => Move::Bw(*n, variant),
+            Move::Dw(n, _) => Move::Dw(*n, variant),
+            Move::X(_) => Move::X(variant),
+            Move::Y(_) => Move::Y(variant),
+            Move::Z(_) => Move::Z(variant),
+        }
+    }
+}
 
 /// A move variation that must be applied to the ```Move``` struct.
 #[allow(dead_code)]
