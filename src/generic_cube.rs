@@ -234,7 +234,7 @@ impl Move {
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum MoveVariant {
     /// A 90 degree clockwise turn.
-    Standard,
+    Standard = 1,
     /// A 180 degree clockwise turn.
     Double,
     /// A 90 degree counter-clockwise turn.
