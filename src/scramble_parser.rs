@@ -77,18 +77,16 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     // keep track of the current move and its amount of clockwise turns
     type Movement = (Move, u8);
     let mut movement: Movement = (moves[0], moves[0].get_variant() as u8);
-    // pushes the given movement onto result if it has a non-zero number of turns
-    let mut push_curr = |current: Movement| {
-        if current.1 != 0 {
-            let variant = match current.1 {
-                1 => MoveVariant::Standard,
-                2 => MoveVariant::Double,
-                3 => MoveVariant::Inverse,
-                _ => MoveVariant::Standard
-            };
-            result.push(current.0.with_variant(variant));
+
+    // returns some Move if the simplified movement has any effect on a cube
+    fn movement_to_move(m: Movement) -> Option<Move> {
+        match m.1 % 4 {
+            1 => Some(m.0.with_variant(MoveVariant::Standard)),
+            2 => Some(m.0.with_variant(MoveVariant::Double)),
+            3 => Some(m.0.with_variant(MoveVariant::Inverse)),
+            _ => None,
         }
-    };
+    }
 
     // merge adjacent moves of the same type
     for mv in moves[1..].iter() {
@@ -96,11 +94,11 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
             movement.1 += mv.get_variant() as u8;
             movement.1 %= 4;
         } else {
-            push_curr(movement);
+            if let Some(m) = movement_to_move(movement) { result.push(m) };
             movement = (*mv, mv.get_variant() as u8);
         }
     }
-    push_curr(movement);
+    if let Some(m) = movement_to_move(movement) { result.push(m) };
 
     // if moves couldn't be simplified further
     if result.len() == moves.len() {
