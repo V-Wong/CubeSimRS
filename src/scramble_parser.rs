@@ -78,7 +78,7 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     type Movement = (Move, u8);
     let mut movement: Movement = (moves[0], moves[0].get_variant() as u8);
 
-    // returns some Move if the simplified movement has any effect on a cube
+    // returns a Move if the simplified movement has any effect on a cube
     fn movement_to_move(m: Movement) -> Option<Move> {
         match m.1 % 4 {
             1 => Some(m.0.with_variant(MoveVariant::Standard)),
@@ -91,8 +91,7 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     // merge adjacent moves of the same type
     for mv in moves[1..].iter() {
         if discriminant(&movement.0) == discriminant(mv) {
-            movement.1 += mv.get_variant() as u8;
-            movement.1 %= 4;
+            movement.1 = (movement.1 + mv.get_variant() as u8) % 4;
         } else {
             if let Some(m) = movement_to_move(movement) { result.push(m) };
             movement = (*mv, mv.get_variant() as u8);
@@ -101,8 +100,6 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     if let Some(m) = movement_to_move(movement) { result.push(m) };
 
     // if moves couldn't be simplified further
-    if result.len() == moves.len() {
-        return result
-    }
+    if result.len() == moves.len() { return result }
     simplify_moves(result.as_slice())
 }
