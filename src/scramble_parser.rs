@@ -75,26 +75,26 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     }
 
     // keep track of the current move and its amount of clockwise turns
-    type Movement = (Move, u8);
-    let mut movement: Movement = (moves[0], moves[0].get_variant() as u8);
+    struct Movement { pub mv: Move, pub total_turns: u8 }
+    let mut movement: Movement = Movement { mv: moves[0], total_turns: moves[0].get_variant() as u8};
 
     // returns a Move if the simplified movement has any effect on a cube
     fn movement_to_move(m: Movement) -> Option<Move> {
-        match m.1 % 4 {
-            1 => Some(m.0.with_variant(MoveVariant::Standard)),
-            2 => Some(m.0.with_variant(MoveVariant::Double)),
-            3 => Some(m.0.with_variant(MoveVariant::Inverse)),
+        match m.total_turns % 4 {
+            1 => Some(m.mv.with_variant(MoveVariant::Standard)),
+            2 => Some(m.mv.with_variant(MoveVariant::Double)),
+            3 => Some(m.mv.with_variant(MoveVariant::Inverse)),
             _ => None,
         }
     }
 
     // merge adjacent moves of the same type
     for mv in moves[1..].iter() {
-        if discriminant(&movement.0) == discriminant(mv) {
-            movement.1 = (movement.1 + mv.get_variant() as u8) % 4;
+        if discriminant(&movement.mv) == discriminant(mv) {
+            movement.total_turns = (movement.total_turns + mv.get_variant() as u8) % 4;
         } else {
             if let Some(m) = movement_to_move(movement) { result.push(m) };
-            movement = (*mv, mv.get_variant() as u8);
+            movement = Movement { mv: *mv, total_turns: mv.get_variant() as u8 };
         }
     }
     if let Some(m) = movement_to_move(movement) { result.push(m) };
