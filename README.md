@@ -1,12 +1,13 @@
 # CubeSim V2
-CubeSim is a Rubik's Cube simulator (and eventually solver) written entirely in Rust. 
+CubeSim is a Rubik's Cube simulator and solver written entirely in Rust.  
 
 ## Features
 - Simulation of an arbitrarily sized NxNxN Rubik's Cube.
+- Generation of solutions using the [Thistlethwaite algorithm](https://www.jaapsch.net/puzzles/thistle.htm)
 
 ## Planned Features
-- Optimal solutions using variations of [IDA*](https://en.wikipedia.org/wiki/Iterative_deepening_A*).
 - User interface (web interface using WASM perhaps?).
+- Optimal solutions using the [Kociemba algorithm](https://www.speedsolving.com/wiki/index.php/Kociemba's_Algorithm)
 
 ## Usage
 Build the project (optionally in release mode):
