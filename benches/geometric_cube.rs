@@ -5,7 +5,7 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 use cubesim::prelude::*;
-use cubesim::cube_implementors::{GeoCube};
+use cubesim::{GeoCube};
 
 pub fn single_moves(c: &mut Criterion) {
     let cube = GeoCube::new(3);

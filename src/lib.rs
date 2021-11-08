@@ -6,7 +6,7 @@
 //! 
 //! ```rust
 //! use cubesim::prelude::*;
-//! use cubesim::cube_implementors::FaceletCube;
+//! use cubesim::FaceletCube;
 //! 
 //! let cube = FaceletCube::new(3);
 //! let turned_cube = cube.apply_move(Move::U(MoveVariant::Double));
@@ -21,15 +21,11 @@
 
 #[doc(hidden)]
 pub mod prelude;
-#[doc(hidden)]
-pub mod cube_implementors {
-    pub use crate::facelet_cube::FaceletCube;
-    pub use crate::geometric_cube::GeoCube;
-}
 
 pub use scramble_parser::{parse_scramble, simplify_moves};
 pub use generic_cube::{Cube, Face, Move, MoveVariant, solved_state, all_moves};
-pub use cube_implementors::{FaceletCube, GeoCube};
+pub use facelet_cube::FaceletCube;
+pub use geometric_cube::GeoCube;
 pub use thistlethwaite::solve;
 
 mod generic_cube;

@@ -5,7 +5,7 @@
 //
 
 use cubesim::prelude::*;
-use cubesim::cube_implementors::{GeoCube, FaceletCube};
+use cubesim::{GeoCube, FaceletCube};
 use cubesim::solve;
 use cubesim::parse_scramble;
 

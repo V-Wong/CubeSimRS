@@ -20,7 +20,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     ///
     /// ```rust
     /// use cubesim::prelude::*;
-    /// use cubesim::cube_implementors::FaceletCube;
+    /// use cubesim::FaceletCube;
     ///
     /// /* Outputs: [U, U, U, U, U, U, U, U, U,
     ///              R, R, R, R, R, R, R, R, R,
@@ -65,7 +65,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     ///
     /// ```rust
     /// use cubesim::prelude::*;
-    /// use cubesim::cube_implementors::FaceletCube;
+    /// use cubesim::FaceletCube;
     ///
     /// /* Outputs: [U, U, U, U, U, U, U, U, U,
     ///              B, B, B, R, R, R, R, R, R,
@@ -87,7 +87,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     ///
     /// ```rust
     /// use cubesim::prelude::*;
-    /// use cubesim::cube_implementors::FaceletCube;
+    /// use cubesim::FaceletCube;
     ///
     /// /* Outputs: [L, L, F, U, U, D, U, U, D,
     ///              R, R, U, R, R, U, B, B, D,

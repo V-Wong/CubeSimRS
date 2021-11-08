@@ -5,7 +5,7 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
 
 use cubesim::prelude::*;
-use cubesim::cube_implementors::{FaceletCube};
+use cubesim::{FaceletCube};
 use cubesim::solve;
 use cubesim::parse_scramble;
 
