@@ -27,7 +27,7 @@ pub use generic_cube::{Cube, Face, Move, MoveVariant, solved_state, all_moves, s
 pub use facelet_cube::FaceletCube;
 pub use geometric_cube::GeoCube;
 pub use thistlethwaite::solve;
-pub use generic_solver::{Solver};
+pub use generic_solver::{Solver, PruningTable};
 
 mod generic_cube;
 mod generic_solver;
