@@ -32,19 +32,14 @@ pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
             Box::new(move |i: i32, _| if g1_mask.contains(&i) { U } else { X })
         };
 
-        static ref MOVES: Vec<Move> = {
-            all_moves(3)
-        };
+        static ref MOVES: Vec<Move> = all_moves(3);
 
         static ref PRUNING_TABLE: PruningTable = {
             let pruning_depth = 7;
-
             PruningTable::new(&[FaceletCube::new(3).mask(&*MASK)], pruning_depth, &MOVES)
         };
 
-        static ref SOLVER: Solver = {
-            Solver::new(all_moves(3), (*PRUNING_TABLE).clone())
-        };
+        static ref SOLVER: Solver = Solver::new(all_moves(3), (*PRUNING_TABLE).clone());
     }
 
     ida_star(&cube.mask(&*MASK), &*SOLVER, 10)
@@ -77,24 +72,20 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
             )
         };
 
-        static ref MOVES: Vec<Move> = {
-            vec![
-                Move::U(Standard), Move::U(Inverse), Move::U(Double), 
-                Move::D(Standard), Move::D(Inverse), Move::D(Double),  
-                Move::L(Standard), Move::L(Inverse), Move::L(Double), 
-                Move::R(Standard), Move::R(Inverse), Move::R(Double),  
-                Move::F(Double), Move::B(Double) 
-            ]
-        };
+        static ref MOVES: Vec<Move> = vec![
+            Move::U(Standard), Move::U(Inverse), Move::U(Double), 
+            Move::D(Standard), Move::D(Inverse), Move::D(Double),  
+            Move::L(Standard), Move::L(Inverse), Move::L(Double), 
+            Move::R(Standard), Move::R(Inverse), Move::R(Double),  
+            Move::F(Double), Move::B(Double) 
+        ];
 
         static ref PRUNING_TABLE: PruningTable = {
             let pruning_depth = 5;
             PruningTable::new(&[FaceletCube::new(3).mask(&*MASK)], pruning_depth, &*MOVES)
         };
 
-        static ref SOLVER: Solver = {
-            Solver::new((*MOVES).clone(), (*PRUNING_TABLE).clone())
-        };
+        static ref SOLVER: Solver = Solver::new((*MOVES).clone(), (*PRUNING_TABLE).clone());
     }
 
     ida_star(&cube.mask(&*MASK), &*SOLVER, 10)
@@ -127,30 +118,24 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
             )
         };
 
-        static ref G2_SOLVED_STATES: PruningTable = {
-            PruningTable::new(
-                &[FaceletCube::new(3).mask(&*MASK)], 
-                10,
-                &vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
-            )
-        };
+        static ref G2_SOLVED_STATES: PruningTable = PruningTable::new(
+            &[FaceletCube::new(3).mask(&*MASK)], 
+            10,
+            &vec![Move::U(Double), Move::D(Double), Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)]
+        );
 
-        static ref MOVES: Vec<Move> = {
-            vec![
-                Move::U(Standard), Move::U(Inverse), Move::U(Double),
-                Move::D(Standard), Move::D(Inverse), Move::D(Double),
-                Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)
-            ]
-        };
+        static ref MOVES: Vec<Move> = vec![
+            Move::U(Standard), Move::U(Inverse), Move::U(Double),
+            Move::D(Standard), Move::D(Inverse), Move::D(Double),
+            Move::F(Double), Move::B(Double), Move::L(Double), Move::R(Double)
+        ];
 
         static ref PRUNING_TABLE: PruningTable = {
             let pruning_depth = 5;
             PruningTable::from_existing_table(&G2_SOLVED_STATES, pruning_depth, &*MOVES)
         };
 
-        static ref SOLVER: Solver = {
-            Solver::new((*MOVES).clone(), (*PRUNING_TABLE).clone())
-        };
+        static ref SOLVER: Solver = Solver::new((*MOVES).clone(), (*PRUNING_TABLE).clone());
     }
 
     ida_star(&cube.mask(&*MASK), &*SOLVER, 13)
