@@ -66,13 +66,13 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
                 S(3, D, 2), S(3, D, 4), S(3, D, 6), S(3, D, 8)
             ];
         
-            let eo_e_piecs = [
+            let eo_e_pieces = [
                 S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
             ];
         
             Box::new(move |i: i32, _| 
                 if eo_ud_pieces.contains(&i) || co_pieces.contains(&i) { X } 
-                else if eo_e_piecs.contains(&i) { U } 
+                else if eo_e_pieces.contains(&i) { U } 
                 else { R }
             )
         };
