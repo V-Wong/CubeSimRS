@@ -121,9 +121,9 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
                            else { f };
 
             Box::new(move |i: i32, _| 
-                    if cp_pieces.contains(&i) { [U, R, F, D, L, B][(i / 9) as usize] }
-                    else if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(i / 9) as usize]) }
-                    else { X }
+                if cp_pieces.contains(&i) { [U, R, F, D, L, B][(i / 9) as usize] }
+                else if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(i / 9) as usize]) }
+                else { X }
             )
         };
 
