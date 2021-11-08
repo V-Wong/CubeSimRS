@@ -9,6 +9,7 @@ pub struct Solver {
     pub pruning_table: PruningTable
 }
 
+#[derive(Clone)]
 pub struct PruningTable {
     pruning_table: FxHashMap<Vec<Face>, i32>,
     depth: i32 
