@@ -31,7 +31,7 @@ pub fn compute_permutation<T: Clone + Copy>(old_faces: &[T], size: i32, mv: Move
         new_faces[*y as usize] = old_faces[*x as usize];
     }
 
-    new_faces.to_vec()
+    new_faces
 }
 
 fn convert_move(size: i32, mv: Move) -> FaceletMove {
