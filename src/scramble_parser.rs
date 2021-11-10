@@ -1,4 +1,4 @@
-use crate::generic_cube::{Move, MoveVariant};
+use crate::generic_cube::{Move, MoveVariant, CubeSize};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
@@ -47,11 +47,11 @@ fn convert_move(mv: &str) -> Move {
     }
 }
 
-fn get_slice(mv: &str) -> i32 {
+fn get_slice(mv: &str) -> CubeSize {
     if !mv.contains('w') {
         1
     } else {
-        mv[0..1].parse::<i32>().unwrap_or(2)
+        mv[0..1].parse::<CubeSize>().unwrap_or(2)
     }
 }
 

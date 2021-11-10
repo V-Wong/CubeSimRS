@@ -4,16 +4,16 @@ use cached::proc_macro::cached;
 use lazy_static::lazy_static;
 use cgmath::Vector3;
 
-use crate::generic_cube::{Cube, Move};
+use crate::generic_cube::{Cube, Move, CubeSize};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 use crate::geometric_cube::{GeoCube, Sticker};
 
 pub struct FaceletMove(pub Vec<(u16, u16)>);
 
-pub fn compute_permutation<T: Clone + Copy>(old_faces: &[T], size: i32, mv: Move) -> Vec<T> {
+pub fn compute_permutation<T: Clone + Copy>(old_faces: &[T], size: CubeSize, mv: Move) -> Vec<T> {
     lazy_static! {
-        static ref CACHE: Mutex<FxHashMap<(i32, Move), FaceletMove>> = Mutex::new(FxHashMap::default());
+        static ref CACHE: Mutex<FxHashMap<(CubeSize, Move), FaceletMove>> = Mutex::new(FxHashMap::default());
     }
 
     let mut cache = CACHE.lock().unwrap();
@@ -34,7 +34,7 @@ pub fn compute_permutation<T: Clone + Copy>(old_faces: &[T], size: i32, mv: Move
     new_faces.to_vec()
 }
 
-fn convert_move(size: i32, mv: Move) -> FaceletMove {
+fn convert_move(size: CubeSize, mv: Move) -> FaceletMove {
     let index_map = create_piece_map(size);
 
     FaceletMove(
@@ -49,7 +49,7 @@ fn convert_move(size: i32, mv: Move) -> FaceletMove {
 }
 
 #[cached]
-fn create_piece_map(size: i32) -> FxHashMap<Vector3<i32>, u16> {
+fn create_piece_map(size: CubeSize) -> FxHashMap<Vector3<CubeSize>, u16> {
     let mut map = FxHashMap::default();
 
     let face_rotating_moves = vec![

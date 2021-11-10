@@ -1,21 +1,21 @@
 use derive_more::Display;
 use cgmath::{Rotation, Vector3};
 
-use crate::generic_cube::{Face}; 
+use crate::generic_cube::{Face, CubeSize}; 
 use crate::geometric_cube::moves::{GeometricMove};
 
 #[derive(Copy, Clone, Display, Eq, Hash, PartialEq)]
 #[display(fmt = "({}, {}, {})", "position.x", "position.y", "position.z")]
 pub struct Sticker {
-    pub size: i32,
-    pub position: Vector3<i32>,
-    pub destination: Vector3<i32>,
+    pub size: CubeSize,
+    pub position: Vector3<CubeSize>,
+    pub destination: Vector3<CubeSize>,
     pub destination_face: Face,
-    pub initial_index: i32
+    pub initial_index: CubeSize
 }
 
 impl Sticker {
-    pub fn new(size: i32, x: i32, y: i32, z: i32) -> Sticker {
+    pub fn new(size: CubeSize, x: CubeSize, y: CubeSize, z: CubeSize) -> Sticker {
         Self {
             size,
             position: Vector3::new(x, y, z),
@@ -47,14 +47,14 @@ impl Sticker {
         );
 
         Self {
-            position: Vector3{ x: new_position.x.round() as i32, 
-                               y: new_position.y.round() as i32, 
-                               z: new_position.z.round() as i32 },
+            position: Vector3{ x: new_position.x.round() as CubeSize, 
+                               y: new_position.y.round() as CubeSize, 
+                               z: new_position.z.round() as CubeSize },
             ..*self
         }
     }
 
-    pub fn get_face(size: i32, x: i32, y: i32, z: i32) -> Face {
+    pub fn get_face(size: CubeSize, x: CubeSize, y: CubeSize, z: CubeSize) -> Face {
         if x == size { Face::R }
         else if x == -size { Face::L }
         else if y == size { Face::U }

@@ -1,6 +1,6 @@
 use lazy_static::lazy_static;
 
-use crate::generic_cube::{Cube, Face, Move, MoveVariant, all_moves};
+use crate::generic_cube::{Cube, Face, Move, MoveVariant, CubeSize, all_moves};
 use crate::generic_cube::{sticker_index as S};
 use crate::facelet_cube::FaceletCube;
 use crate::generic_solver::{Solver, PruningTable, ida_star};
@@ -22,14 +22,14 @@ pub fn phase1(cube: &impl Cube) -> Option<Vec<Move>> {
     use Face::*;
 
     lazy_static! {
-        static ref MASK: Box<dyn Fn(i32, Face) -> Face + Sync> = {
+        static ref MASK: Box<dyn Fn(CubeSize, Face) -> Face + Sync> = {
             let g1_mask = [
                 S(3, U, 2), S(3, U, 4), S(3, U, 6), S(3, U, 8),
                 S(3, D, 2), S(3, D, 4), S(3, D, 6), S(3, D, 8),
                 S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
             ];
 
-            Box::new(move |i: i32, _| if g1_mask.contains(&i) { U } else { X })
+            Box::new(move |i: CubeSize, _| if g1_mask.contains(&i) { U } else { X })
         };
 
         static ref MOVES: Vec<Move> = all_moves(3);
@@ -50,7 +50,7 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
     use MoveVariant::*;
 
     lazy_static! {
-        static ref MASK: Box<dyn Fn(i32, Face) -> Face + Sync> = {
+        static ref MASK: Box<dyn Fn(CubeSize, Face) -> Face + Sync> = {
             let co_pieces = [
                 S(3, U, 1), S(3, U, 3), S(3, U, 7), S(3, U, 9),
                 S(3, D, 1), S(3, D, 3), S(3, D, 7), S(3, D, 9)
@@ -65,7 +65,7 @@ pub fn phase2(cube: &impl Cube) -> Option<Vec<Move>> {
                 S(3, F, 4), S(3, F, 6), S(3, B, 4), S(3, B, 6)
             ];
         
-            Box::new(move |i: i32, _| 
+            Box::new(move |i: CubeSize, _| 
                 if eo_ud_pieces.contains(&i) || co_pieces.contains(&i) { X } 
                 else if eo_e_pieces.contains(&i) { U } 
                 else { R }
@@ -96,7 +96,7 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
     use MoveVariant::*;
 
     lazy_static! {
-        static ref MASK: Box<dyn Fn(i32, Face) -> Face + Sync> = {
+        static ref MASK: Box<dyn Fn(CubeSize, Face) -> Face + Sync> = {
             let cp_pieces = [U, D, F, B, L, R].iter()
                 .map(|f| [1, 3, 7, 9].map(|x| S(3, *f, x)))
                 .collect::<Vec<_>>()
@@ -111,7 +111,7 @@ pub fn phase3(cube: &impl Cube) -> Option<Vec<Move>>  {
                            else if f == L { R }
                            else { f };
 
-            Box::new(move |i: i32, _| 
+            Box::new(move |i: CubeSize, _| 
                 if cp_pieces.contains(&i) { [U, R, F, D, L, B][(i / 9) as usize] }
                 else if ep_pieces.contains(&i) { face([U, R, F, D, L, B][(i / 9) as usize]) }
                 else { X }

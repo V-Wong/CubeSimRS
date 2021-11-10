@@ -1,5 +1,7 @@
 use std::hash::Hash;
 
+pub type CubeSize = i32;
+
 /// A Rubik's Cube of arbitrary size.
 ///
 /// All implementors of this trait are (externally) immutable and persistent.
@@ -7,10 +9,10 @@ use std::hash::Hash;
 /// Cube with the mutation applied, leaving the old Cube intact.
 pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Creates a solved cube of the given size.
-    fn new(size: i32) -> Self;
+    fn new(size: CubeSize) -> Self;
 
     /// The size of the cube.
-    fn size(&self) -> i32;
+    fn size(&self) -> CubeSize;
 
     /// A one-dimensional representation of a cube as a sequence of the faces.
     ///
@@ -55,7 +57,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
 
     /// Maps over the pieces of the cube, replacing each piece
     /// according to the given mask function.
-    fn mask(&self, mask: &dyn Fn(i32, Face) -> Face) -> Self;
+    fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self;
 
     /// Apply a move to a cube.
     ///
@@ -145,8 +147,9 @@ pub enum Face {
 /// A designated ordering of the faces.
 pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
 
-pub fn sticker_index(size: i32, face: Face, index: i32) -> i32 {
-    (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as i32) * size * size + index - 1_i32
+pub fn sticker_index(size: CubeSize, face: Face, index: CubeSize) -> CubeSize {
+    (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as CubeSize) 
+            * size * size + index - 1 as CubeSize
 }
 
 /// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
@@ -171,12 +174,12 @@ pub enum Move {
     B(MoveVariant),
     /// Rotate the down layer.
     D(MoveVariant),
-    Uw(i32, MoveVariant),
-    Lw(i32, MoveVariant),
-    Fw(i32, MoveVariant),
-    Rw(i32, MoveVariant),
-    Bw(i32, MoveVariant),
-    Dw(i32, MoveVariant),
+    Uw(CubeSize, MoveVariant),
+    Lw(CubeSize, MoveVariant),
+    Fw(CubeSize, MoveVariant),
+    Rw(CubeSize, MoveVariant),
+    Bw(CubeSize, MoveVariant),
+    Dw(CubeSize, MoveVariant),
     /// Rotate the entire cube along the x-axis.
     X(MoveVariant),
     /// Rotate the entire cube along the y-axis.
@@ -242,7 +245,7 @@ pub enum MoveVariant {
 }
 
 /// A helper function to get the solved state for a cube of a given size.
-pub fn solved_state(size: i32) -> Vec<Face> {
+pub fn solved_state(size: CubeSize) -> Vec<Face> {
     ORDERED_FACES
         .iter()
         .flat_map(|&face| vec![face; (size * size) as usize])
@@ -250,7 +253,7 @@ pub fn solved_state(size: i32) -> Vec<Face> {
 }
 
 /// A helper function to get all possible moves for a cube of a given size.
-pub fn all_moves(size: i32) -> Vec<Move> {
+pub fn all_moves(size: CubeSize) -> Vec<Move> {
     use Move::*;
     use MoveVariant::*;
 
