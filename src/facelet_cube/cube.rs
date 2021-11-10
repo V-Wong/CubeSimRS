@@ -1,4 +1,4 @@
-use crate::generic_cube::{Cube, Move, Face};
+use crate::generic_cube::{Cube, Move, Face, CubeSize};
 use crate::generic_cube::Face::*;
 
 use super::moves::{compute_permutation};
@@ -14,37 +14,37 @@ use super::moves::{compute_permutation};
 /// to a FaceletCube move.
 #[derive(Clone, Eq, Hash, PartialEq)]
 pub struct FaceletCube {
-    size: i32,
+    size: CubeSize,
     faces: Vec<(Face, u16)>
 }
 
 impl Cube for FaceletCube {
-    fn new(size: i32) -> Self {
+    fn new(size: CubeSize) -> Self {
         Self {
             size,
             faces: vec![
-                repeat(U, size * size),
-                repeat(R, size * size),
-                repeat(F, size * size),
-                repeat(D, size * size),
-                repeat(L, size * size),
-                repeat(B, size * size),
+                repeat(U, (size * size).into()),
+                repeat(R, (size * size).into()),
+                repeat(F, (size * size).into()),
+                repeat(D, (size * size).into()),
+                repeat(L, (size * size).into()),
+                repeat(B, (size * size).into()),
             ].concat().iter().enumerate().map(|(i, s)| (*s, i as u16)).collect()
         }
     }
 
-    fn size(&self) -> i32 {
+    fn size(&self) -> CubeSize {
         self.size
     }
 
-    fn get_state(&self) -> Vec<Face> {
+    fn state(&self) -> Vec<Face> {
         self.faces.iter().map(|(s, _)| *s).collect()
     }
 
-    fn mask(&self, mask: &dyn Fn(i32, Face) -> Face) -> Self {
+    fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self {
         let masked_faces = self.faces
                                .iter()
-                               .map(|(f, i)| (mask(*i as i32, *f), *i))
+                               .map(|(f, i)| (mask(*i as CubeSize, *f), *i))
                                .collect();
 
         Self { faces: masked_faces, ..*self }
@@ -61,7 +61,7 @@ impl Cube for FaceletCube {
 impl From<Vec<Face>> for FaceletCube {
     fn from(faces: Vec<Face>) -> FaceletCube {
         FaceletCube {
-            size: ((faces.len() / 6) as f64).sqrt() as i32,
+            size: ((faces.len() / 6) as f64).sqrt() as CubeSize,
             faces: faces.iter().map(|f| (*f, 0)).collect()
         }
     }

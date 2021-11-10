@@ -10,7 +10,7 @@
 //! 
 //! let cube = FaceletCube::new(3);
 //! let turned_cube = cube.apply_move(Move::U(MoveVariant::Double));
-//! println!("{:?}", turned_cube.get_state());
+//! println!("{:?}", turned_cube.state());
 //! ```
 //! 
 //! # Cube Trait Overview

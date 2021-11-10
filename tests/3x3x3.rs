@@ -15,7 +15,7 @@ use cubesim::solved_state;
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn solved_state(cube: impl Cube) {
-    assert_eq!(cube.get_state(), vec![
+    assert_eq!(cube.state(), vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, R, R, R,
         F, F, F, F, F, F, F, F, F,
@@ -28,7 +28,7 @@ fn solved_state(cube: impl Cube) {
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn u_move(cube: impl Cube) {
-    assert_eq!(cube.apply_move(Move::U(MoveVariant::Standard)).get_state(), vec![
+    assert_eq!(cube.apply_move(Move::U(MoveVariant::Standard)).state(), vec![
         U, U, U, U, U, U, U, U, U,
         B, B, B, R, R, R, R, R, R,
         R, R, R, F, F, F, F, F, F,
@@ -41,7 +41,7 @@ fn u_move(cube: impl Cube) {
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn r_move(cube: impl Cube) {
-    assert_eq!(cube.apply_move(Move::R(MoveVariant::Standard)).get_state(), vec![
+    assert_eq!(cube.apply_move(Move::R(MoveVariant::Standard)).state(), vec![
         U, U, F, U, U, F, U, U, F,
         R, R, R, R, R, R, R, R, R,
         F, F, D, F, F, D, F, F, D,
@@ -54,7 +54,7 @@ fn r_move(cube: impl Cube) {
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn f_move(cube: impl Cube) {
-    assert_eq!(cube.apply_move(Move::F(MoveVariant::Standard)).get_state(), vec![
+    assert_eq!(cube.apply_move(Move::F(MoveVariant::Standard)).state(), vec![
         U, U, U, U, U, U, L, L, L,
         U, R, R, U, R, R, U, R, R,
         F, F, F, F, F, F, F, F, F,
@@ -67,7 +67,7 @@ fn f_move(cube: impl Cube) {
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn l_move(cube: impl Cube) {
-    assert_eq!(cube.apply_move(Move::L(MoveVariant::Standard)).get_state(), vec![
+    assert_eq!(cube.apply_move(Move::L(MoveVariant::Standard)).state(), vec![
         B, U, U, B, U, U, B, U, U,
         R, R, R, R, R, R, R, R, R,
         U, F, F, U, F, F, U, F, F,
@@ -80,7 +80,7 @@ fn l_move(cube: impl Cube) {
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn d_move(cube: impl Cube) {
-    assert_eq!(cube.apply_move(Move::D(MoveVariant::Standard)).get_state(), vec![
+    assert_eq!(cube.apply_move(Move::D(MoveVariant::Standard)).state(), vec![
         U, U, U, U, U, U, U, U, U,
         R, R, R, R, R, R, F, F, F,
         F, F, F, F, F, F, L, L, L,
@@ -93,7 +93,7 @@ fn d_move(cube: impl Cube) {
 #[test_case(GeoCube::new(3) ; "Geometric Cube")]
 #[test_case(FaceletCube::new(3) ; "Facelet Cube")]
 fn b_move(cube: impl Cube) {
-    assert_eq!(cube.apply_move(Move::B(MoveVariant::Standard)).get_state(), vec![
+    assert_eq!(cube.apply_move(Move::B(MoveVariant::Standard)).state(), vec![
         R, R, R, U, U, U, U, U, U,
         R, R, D, R, R, D, R, R, D,
         F, F, F, F, F, F, F, F, F,

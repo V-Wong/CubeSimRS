@@ -1,6 +1,6 @@
 use cgmath::{Basis3, Deg, Rotation3};
 
-use crate::generic_cube::{Move, MoveVariant};
+use crate::generic_cube::{Move, MoveVariant, CubeSize};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
@@ -49,13 +49,13 @@ fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
     }
 }
 
-fn u_move(n: i32) -> GeometricMove {
+fn u_move(n: CubeSize) -> GeometricMove {
     GeometricMove { 
         predicate: Box::new(move |s| s.position.y >= s.size - (n * 2)),
         ..y_move()
     }
 }
-fn d_move(n: i32) -> GeometricMove { 
+fn d_move(n: CubeSize) -> GeometricMove { 
     modify_move(GeometricMove { 
         predicate: Box::new(move |s| s.position.y <= -s.size + (n * 2)),
         ..y_move()
@@ -65,13 +65,13 @@ fn y_move() -> GeometricMove {
     GeometricMove { axis: Axis::Y, angle: 90.0, predicate: Box::new(|_| true) }
 }
 
-fn l_move(n: i32) -> GeometricMove { 
+fn l_move(n: CubeSize) -> GeometricMove { 
     modify_move(GeometricMove { 
         predicate: Box::new(move |s| s.position.x <= -s.size + (n * 2)),
         ..x_move() 
     }, Inverse)
 }
-fn r_move(n: i32) -> GeometricMove {
+fn r_move(n: CubeSize) -> GeometricMove {
     GeometricMove { 
         predicate: Box::new(move |s| s.position.x >= s.size - (n * 2)),
         ..x_move()
@@ -81,13 +81,13 @@ fn x_move() -> GeometricMove {
     GeometricMove { axis: Axis::X, angle: 90.0, predicate: Box::new(|_| true) }
 }
 
-fn f_move(n: i32) -> GeometricMove { 
+fn f_move(n: CubeSize) -> GeometricMove { 
     GeometricMove { 
         predicate: Box::new(move |s| s.position.z >= s.size - (n * 2)),
         ..z_move()
     }
 }
-fn b_move(n: i32) -> GeometricMove { 
+fn b_move(n: CubeSize) -> GeometricMove { 
     modify_move(GeometricMove { 
         predicate: Box::new(move |s| s.position.z <= -s.size + (n * 2)),
         ..z_move()

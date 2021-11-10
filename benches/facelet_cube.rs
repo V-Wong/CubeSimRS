@@ -25,7 +25,7 @@ pub fn state(c: &mut Criterion) {
     let cube = FaceletCube::new(3);
 
     c.bench_function("Facelet cube state", |b| b.iter(|| {
-        black_box(cube.get_state());
+        black_box(cube.state());
     }));
 }
 
