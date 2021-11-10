@@ -31,9 +31,9 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     ///              L, L, L, L, L, L, L, L, L,
     ///              B, B, B, B, B, B, B, B, B] */
     /// let cube = FaceletCube::new(3);
-    /// println!("{:?}", cube.get_state());
+    /// println!("{:?}", cube.state());
     /// ```
-    fn get_state(&self) -> Vec<Face>;
+    fn state(&self) -> Vec<Face>;
 
     /// Whether a cube is solved.
     fn is_solved(&self) -> bool {
@@ -42,7 +42,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
         }
 
         let face_length = (self.size() * self.size()) as usize;
-        let state = self.get_state();
+        let state = self.state();
 
         let mut is_solved = true;
         for i in 0..6 {
@@ -77,7 +77,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     ///              L, L, L, B, B, B, B, B, B] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
-    /// println!("{:?}", turned_cube.get_state());
+    /// println!("{:?}", turned_cube.state());
     /// ```
     fn apply_move(&self, mv: Move) -> Self;
 
@@ -103,7 +103,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     ///     Move::R(MoveVariant::Double),
     ///     Move::B(MoveVariant::Inverse),
     /// ]);
-    /// println!("{:?}", turned_cube.get_state());
+    /// println!("{:?}", turned_cube.state());
     /// ```
     fn apply_moves(&self, mvs: &[Move]) -> Self
     where

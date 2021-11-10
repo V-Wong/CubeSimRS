@@ -37,7 +37,7 @@ impl Cube for FaceletCube {
         self.size
     }
 
-    fn get_state(&self) -> Vec<Face> {
+    fn state(&self) -> Vec<Face> {
         self.faces.iter().map(|(s, _)| *s).collect()
     }
 

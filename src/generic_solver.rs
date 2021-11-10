@@ -21,7 +21,7 @@ impl PruningTable {
         let mut previous_frontier = starting_cubes.to_vec();
     
         for cube in starting_cubes {
-            pruning_table.insert(cube.get_state(), 0);
+            pruning_table.insert(cube.state(), 0);
         }
     
         for i in 1..=depth {
@@ -30,7 +30,7 @@ impl PruningTable {
             for cube in previous_frontier {
                 for mv in moveset {
                     let new_cube = cube.apply_move(*mv);
-                    if let std::collections::hash_map::Entry::Vacant(e) = pruning_table.entry(new_cube.get_state()) {
+                    if let std::collections::hash_map::Entry::Vacant(e) = pruning_table.entry(new_cube.state()) {
                         e.insert(i);
                         frontier.push(new_cube);
                     }
@@ -68,11 +68,11 @@ impl Solver {
     }
 
     pub fn is_solved(&self, cube: &impl Cube) -> bool {
-        matches!(self.pruning_table.get(&cube.get_state()), Some(0))
+        matches!(self.pruning_table.get(&cube.state()), Some(0))
     }
 
     pub fn lower_bound(&self, cube: &impl Cube) -> i32 {
-        match self.pruning_table.get(&cube.get_state()) {
+        match self.pruning_table.get(&cube.state()) {
             Some(n) => *n,
             _ => self.pruning_table.depth + 1
         }

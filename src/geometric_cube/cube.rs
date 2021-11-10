@@ -41,7 +41,7 @@ impl Cube for GeoCube {
         }
     }
 
-    fn get_state(&self) -> Vec<Face> {
+    fn state(&self) -> Vec<Face> {
         let mut faces = Vec::new();
 
         let face_rotating_moves = vec![
@@ -57,11 +57,11 @@ impl Cube for GeoCube {
             let cube = self.apply_moves(&mvs);
 
             let relevant_stickers = cube.stickers.into_iter()
-                                        .filter(|s| matches!(s.get_position_face(), Face::U))
+                                        .filter(|s| matches!(s.position_face(), Face::U))
                                         .collect::<Vec<Sticker>>();
             
             for sticker in Self::sort_stickers(&relevant_stickers) {
-                faces.push(sticker.get_destination_face());
+                faces.push(sticker.destination_face());
             }
         }
         
@@ -71,7 +71,7 @@ impl Cube for GeoCube {
     fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self {
         let masked_stickers = self.stickers
                                   .iter()
-                                  .map(|s| Sticker { destination_face: mask(s.initial_index, s.get_destination_face()), ..*s })
+                                  .map(|s| Sticker { destination_face: mask(s.initial_index, s.destination_face()), ..*s })
                                   .collect::<Vec<_>>();
 
         Self { stickers: masked_stickers, ..*self }
@@ -115,7 +115,7 @@ impl GeoCube {
             }.apply_moves(&mvs);
 
             let mut relevant_stickers = cube.stickers.into_iter()
-                                            .filter(|s| matches!(s.get_position_face(), Face::U))
+                                            .filter(|s| matches!(s.position_face(), Face::U))
                                             .collect::<Vec<Sticker>>();
 
             relevant_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
@@ -125,7 +125,7 @@ impl GeoCube {
                     size,
                     position: sticker.destination,
                     destination: sticker.destination,
-                    destination_face: Sticker::get_face(size, sticker.destination.x, sticker.destination.y, sticker.destination.z),
+                    destination_face: Sticker::face(size, sticker.destination.x, sticker.destination.y, sticker.destination.z),
                     initial_index: idx,
                 });
 

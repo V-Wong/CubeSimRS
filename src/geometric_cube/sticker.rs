@@ -20,16 +20,16 @@ impl Sticker {
             size,
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z),
-            destination_face: Self::get_face(size, x, y, z),
+            destination_face: Self::face(size, x, y, z),
             initial_index: -1
         }
     }
 
-    pub fn get_position_face(&self) -> Face {
-        Self::get_face(self.size, self.position.x, self.position.y, self.position.z)
+    pub fn position_face(&self) -> Face {
+        Self::face(self.size, self.position.x, self.position.y, self.position.z)
     }
 
-    pub fn get_destination_face(&self) -> Face {
+    pub fn destination_face(&self) -> Face {
         self.destination_face
     }
 
@@ -54,7 +54,7 @@ impl Sticker {
         }
     }
 
-    pub fn get_face(size: CubeSize, x: CubeSize, y: CubeSize, z: CubeSize) -> Face {
+    pub fn face(size: CubeSize, x: CubeSize, y: CubeSize, z: CubeSize) -> Face {
         if x == size { Face::R }
         else if x == -size { Face::L }
         else if y == size { Face::U }
