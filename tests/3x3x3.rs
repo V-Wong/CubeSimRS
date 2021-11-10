@@ -6,7 +6,7 @@ use test_case::test_case;
 
 use cubesim::prelude::*;
 use cubesim::prelude::Face::*;
-use cubesim::cube_implementors::{GeoCube, FaceletCube};
+use cubesim::{GeoCube, FaceletCube};
 use cubesim::solved_state;
 
 //
