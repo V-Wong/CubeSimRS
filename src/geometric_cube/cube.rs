@@ -58,11 +58,10 @@ impl Cube for GeoCube {
         let mut faces = Vec::new();
 
         for mvs in &*FACE_ROTATING_MOVES {
-            let cube = self.apply_moves(&mvs);
-
-            let relevant_stickers = Self::top_layer_stickers(&cube.stickers);
+            let rotated_cube = self.apply_moves(&mvs);
+            let top_layer_stickers = Self::sort_stickers(Self::top_layer_stickers(&rotated_cube.stickers));
             
-            for sticker in Self::sort_stickers(&relevant_stickers) {
+            for sticker in top_layer_stickers {
                 faces.push(sticker.destination_face());
             }
         }
@@ -102,16 +101,10 @@ impl GeoCube {
 
         let mut idx = 0;
         for mvs in &*FACE_ROTATING_MOVES {
-            let cube = Self { 
-                size, 
-                stickers: stickers.clone()
-            }.apply_moves(&mvs);
+            let rotated_cube = Self { size, stickers: stickers.clone() }.apply_moves(&mvs);
+            let top_layer_stickers = Self::sort_stickers(Self::top_layer_stickers(&rotated_cube.stickers));
 
-            let mut relevant_stickers = Self::top_layer_stickers(&cube.stickers);
-
-            relevant_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
-            
-            for sticker in relevant_stickers.iter() {
+            for sticker in top_layer_stickers.iter() {
                 result.push(Sticker {
                     size,
                     position: sticker.destination,
@@ -127,7 +120,7 @@ impl GeoCube {
         result
     }
 
-    fn sort_stickers(stickers: &[Sticker]) -> Vec<Sticker> {
+    fn sort_stickers(stickers: Vec<Sticker>) -> Vec<Sticker> {
         let mut cloned_stickers = stickers.to_owned();
         cloned_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
         cloned_stickers
