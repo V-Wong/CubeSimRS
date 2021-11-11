@@ -176,6 +176,18 @@ pub enum Face {
 /// A designated ordering of the faces.
 pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
 
+/// Get the index (startin from 0) of a specific piece on a specific face.
+/// 
+/// # Examples
+/// 
+/// 1st piece on the front face of a 3x3x3 cube:
+/// 
+/// ```rust
+/// use cubesim::prelude::{Cube, Face};
+/// use cubesim::sticker_index;
+/// 
+/// assert_eq!(sticker_index(3, Face::F, 1), 18);
+/// ```
 pub fn sticker_index(size: CubeSize, face: Face, index: CubeSize) -> CubeSize {
     (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as CubeSize) 
             * size * size + index - 1 as CubeSize
