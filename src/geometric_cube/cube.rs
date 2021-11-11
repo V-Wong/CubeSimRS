@@ -59,7 +59,7 @@ impl Cube for GeoCube {
 
         for mvs in &*FACE_ROTATING_MOVES {
             let rotated_cube = self.apply_moves(&mvs);
-            let top_layer_stickers = Self::sort_stickers(Self::top_layer_stickers(&rotated_cube.stickers));
+            let top_layer_stickers = rotated_cube.top_layer_stickers();
             
             for sticker in top_layer_stickers {
                 faces.push(sticker.destination_face());
@@ -102,7 +102,7 @@ impl GeoCube {
         let mut idx = 0;
         for mvs in &*FACE_ROTATING_MOVES {
             let rotated_cube = Self { size, stickers: stickers.clone() }.apply_moves(&mvs);
-            let top_layer_stickers = Self::sort_stickers(Self::top_layer_stickers(&rotated_cube.stickers));
+            let top_layer_stickers = rotated_cube.top_layer_stickers();
 
             for sticker in top_layer_stickers.iter() {
                 result.push(Sticker {
@@ -120,18 +120,15 @@ impl GeoCube {
         result
     }
 
-    fn sort_stickers(stickers: Vec<Sticker>) -> Vec<Sticker> {
-        let mut cloned_stickers = stickers.to_owned();
-        cloned_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
-        cloned_stickers
-    }
-
-    fn top_layer_stickers(stickers: &[Sticker]) -> Vec<Sticker> {
-        stickers
+    fn top_layer_stickers(&self) -> Vec<Sticker> {
+        let mut top_layer_stickers = self.stickers
             .to_owned()
             .into_iter()
             .filter(|s| matches!(s.position_face(), Face::U))
-            .collect::<Vec<_>>()
+            .collect::<Vec<_>>();
+
+        top_layer_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
+        top_layer_stickers
     }
 
     /// Returns the range of facelet center coordinates along an arbitrary axis.
