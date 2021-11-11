@@ -10,12 +10,36 @@ pub struct Solver {
 }
 
 #[derive(Clone)]
+/// A Pruning Table giving a lower bound for the number of moves to solve a specific state.
+/// 
+/// A Pruning Table is essential for the IDA* algorithm in order to allow for tree pruning during
+/// the iterative deepening depth first search. If at any point during a search we reach a state 
+/// that would take too many moves to solve, we can abandon this search branch, greatly reducing
+/// our search space.
 pub struct PruningTable {
     pruning_table: FxHashMap<Vec<Face>, i32>,
     depth: i32 
 }
 
 impl PruningTable {
+    /// Constructs a Pruning Table given the set of starting cubes, pruning depth and allowable moves.
+    /// 
+    /// # Examples
+    /// 
+    /// Thistlethwaite Phase 4 (All Double Moves):
+    /// 
+    /// ```rust
+    /// use cubesim::prelude::{Cube, Move, MoveVariant::*};
+    /// use cubesim::FaceletCube;
+    /// use cubesim::PruningTable;
+    /// 
+    /// let moves = vec![
+    ///     Move::U(Double), Move::D(Double), Move::F(Double),
+    ///     Move::B(Double), Move::L(Double), Move::R(Double)
+    /// ];
+    /// 
+    /// let pruning_table = PruningTable::new(&[FaceletCube::new(3)], 6, &moves);
+    /// ```
     pub fn new(starting_cubes: &[impl Cube], depth: i32, moveset: &[Move]) -> Self {
         let mut pruning_table: FxHashMap<Vec<Face>, i32> = FxHashMap::default();
         let mut previous_frontier = starting_cubes.to_vec();
@@ -46,6 +70,7 @@ impl PruningTable {
         }
     }
 
+    /// Constructs a Pruning Table using all the states in an existing Pruning Table as start states.
     pub fn from_existing_table(other: &PruningTable, depth: i32, moveset: &[Move]) -> Self {
         Self::new(
             &other.pruning_table.keys().map(|faces| FaceletCube::from(faces.clone())).collect::<Vec<_>>(),
