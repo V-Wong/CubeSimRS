@@ -16,8 +16,8 @@ use super::moves::{GeometricMove};
 /// used to bootstrap more efficient implementations like the FaceletCube.
 #[derive(Clone, Eq, Hash, PartialEq)]
 pub struct GeoCube {
-    pub size: CubeSize,
-    pub stickers: Vec<Sticker>,
+    pub(crate) size: CubeSize,
+    pub(crate) stickers: Vec<Sticker>,
 }
 
 impl Cube for GeoCube {
