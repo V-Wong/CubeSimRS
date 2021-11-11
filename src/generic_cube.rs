@@ -21,17 +21,18 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Solved 3x3x3 cube:
     ///
     /// ```rust
-    /// use cubesim::prelude::Cube;
+    /// use cubesim::prelude::{Cube, Face::*};
     /// use cubesim::FaceletCube;
     ///
-    /// /* Outputs: [U, U, U, U, U, U, U, U, U,
-    ///              R, R, R, R, R, R, R, R, R,
-    ///              F, F, F, F, F, F, F, F, F,
-    ///              D, D, D, D, D, D, D, D, D,
-    ///              L, L, L, L, L, L, L, L, L,
-    ///              B, B, B, B, B, B, B, B, B] */
     /// let cube = FaceletCube::new(3);
-    /// println!("{:?}", cube.state());
+    /// assert_eq!(cube.state(), vec![
+    ///     U, U, U, U, U, U, U, U, U,
+    ///     R, R, R, R, R, R, R, R, R,
+    ///     F, F, F, F, F, F, F, F, F,
+    ///     D, D, D, D, D, D, D, D, D,
+    ///     L, L, L, L, L, L, L, L, L,
+    ///     B, B, B, B, B, B, B, B, B
+    /// ]);
     /// ```
     fn state(&self) -> Vec<Face>;
 
@@ -64,23 +65,24 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Cross Mask
     /// 
     /// ```rust
-    /// use cubesim::prelude::{Cube, Face, Move, MoveVariant};
+    /// use cubesim::prelude::{Cube, Face::*, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     /// use cubesim::sticker_index;
     /// 
     /// let cross_pieces = [
-    ///     sticker_index(3, Face::D, 2), sticker_index(3, Face::D, 4),
-    ///     sticker_index(3, Face::D, 6), sticker_index(3, Face::D, 8),
+    ///     sticker_index(3, D, 2), sticker_index(3, D, 4),
+    ///     sticker_index(3, D, 6), sticker_index(3, D, 8),
     /// ];
     /// 
-    /// /* Outputs: [X, X, X, X, X, X, X, X, X, 
-    ///              X, X, X, X, X, X, X, X, X, 
-    ///              X, X, X, X, X, X, X, X, X, 
-    ///              X, D, X, D, X, D, X, D, X, 
-    ///              X, X, X, X, X, X, X, X, X, 
-    ///              X, X, X, X, X, X, X, X, X] */
-    /// let masked_cube = FaceletCube::new(3).mask(&|i, f| if cross_pieces.contains(&i) { f } else { Face::X });
-    /// println!("{:?}", masked_cube.state());
+    /// let masked_cube = FaceletCube::new(3).mask(&|i, f| if cross_pieces.contains(&i) { f } else { X });
+    /// assert_eq!(masked_cube.state(), vec![
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, D, X, D, X, D, X, D, X, 
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, X, X, X, X, X, X, X, X
+    /// ]);
     /// ```
     fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self;
 
@@ -91,18 +93,19 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Rotate the upper layer by 90 degrees:
     ///
     /// ```rust
-    /// use cubesim::prelude::{Cube, Move, MoveVariant};
+    /// use cubesim::prelude::{Cube, Face::*, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     ///
-    /// /* Outputs: [U, U, U, U, U, U, U, U, U,
-    ///              B, B, B, R, R, R, R, R, R,
-    ///              R, R, R, F, F, F, F, F, F,
-    ///              D, D, D, D, D, D, D, D, D,
-    ///              F, F, F, L, L, L, L, L, L,
-    ///              L, L, L, B, B, B, B, B, B] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
-    /// println!("{:?}", turned_cube.state());
+    /// assert_eq!(turned_cube.state(), vec![
+    ///     U, U, U, U, U, U, U, U, U,
+    ///     B, B, B, R, R, R, R, R, R,
+    ///     R, R, R, F, F, F, F, F, F,
+    ///     D, D, D, D, D, D, D, D, D,
+    ///     F, F, F, L, L, L, L, L, L,
+    ///     L, L, L, B, B, B, B, B, B
+    /// ]);
     /// ```
     fn apply_move(&self, mv: Move) -> Self;
 
@@ -113,22 +116,23 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Rotate the upper layer by 90 degrees:
     ///
     /// ```rust
-    /// use cubesim::prelude::{Cube, Move, MoveVariant};
+    /// use cubesim::prelude::{Cube, Face::*, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     ///
-    /// /* Outputs: [L, L, F, U, U, D, U, U, D,
-    ///              R, R, U, R, R, U, B, B, D,
-    ///              R, R, B, F, F, B, F, F, L,
-    ///              D, D, U, D, D, U, B, R, R,
-    ///              D, F, F, D, L, L, U, L, L,
-    ///              L, B, B, L, B, B, F, F, R] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_moves(&vec![
     ///     Move::U(MoveVariant::Standard),
     ///     Move::R(MoveVariant::Double),
     ///     Move::B(MoveVariant::Inverse),
     /// ]);
-    /// println!("{:?}", turned_cube.state());
+    /// assert_eq!(turned_cube.state(), vec![
+    ///     L, L, F, U, U, D, U, U, D,
+    ///     R, R, U, R, R, U, B, B, D,
+    ///     R, R, B, F, F, B, F, F, L,
+    ///     D, D, U, D, D, U, B, R, R,
+    ///     D, F, F, D, L, L, U, L, L,
+    ///     L, B, B, L, B, B, F, F, R
+    /// ]);
     /// ```
     fn apply_moves(&self, mvs: &[Move]) -> Self
     where
