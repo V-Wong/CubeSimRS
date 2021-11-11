@@ -176,7 +176,7 @@ pub enum Face {
 /// A designated ordering of the faces.
 pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
 
-/// Get the index (startin from 0) of a specific piece on a specific face.
+/// Get the index of a specific piece on a specific face.
 /// 
 /// # Examples
 /// 
@@ -291,7 +291,7 @@ pub enum MoveVariant {
     Inverse,
 }
 
-/// A helper function to get the solved state for a cube of a given size.
+/// Get the solved state for a cube of a given size.
 pub fn solved_state(size: CubeSize) -> Vec<Face> {
     ORDERED_FACES
         .iter()
@@ -299,7 +299,7 @@ pub fn solved_state(size: CubeSize) -> Vec<Face> {
         .collect()
 }
 
-/// A helper function to get all possible moves for a cube of a given size.
+/// Get all possible moves for a cube of a given size.
 pub fn all_moves(size: CubeSize) -> Vec<Move> {
     use Move::*;
     use MoveVariant::*;

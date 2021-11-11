@@ -5,7 +5,7 @@ use crate::generic_cube::{sticker_index as S};
 use crate::facelet_cube::FaceletCube;
 use crate::generic_solver::{Solver, PruningTable, ida_star};
 
-/// A basic 3x3x3 solver using the Thistlethwaite Algorithm.
+/// Solves a 3x3x3 Cube using the Thistlethwaite Algorithm.
 /// 
 /// This is the basic 4 phase solver as described on [Jaap's Puzzle Page].
 /// The solutions generated are NOT optimal and will take on average 60 moves.
