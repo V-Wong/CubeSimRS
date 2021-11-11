@@ -5,7 +5,7 @@
 //! To quickly get a Rubik's Cube simulation running, we can follow the code sample below:
 //! 
 //! ```rust
-//! use cubesim::prelude::*;
+//! use cubesim::prelude::{Cube, Move, MoveVariant};
 //! use cubesim::FaceletCube;
 //! 
 //! let cube = FaceletCube::new(3);

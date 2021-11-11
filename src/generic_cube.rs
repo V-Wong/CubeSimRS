@@ -21,7 +21,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Solved 3x3x3 cube:
     ///
     /// ```rust
-    /// use cubesim::prelude::*;
+    /// use cubesim::prelude::Cube;
     /// use cubesim::FaceletCube;
     ///
     /// /* Outputs: [U, U, U, U, U, U, U, U, U,
@@ -66,7 +66,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Rotate the upper layer by 90 degrees:
     ///
     /// ```rust
-    /// use cubesim::prelude::*;
+    /// use cubesim::prelude::{Cube, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     ///
     /// /* Outputs: [U, U, U, U, U, U, U, U, U,
@@ -88,7 +88,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Rotate the upper layer by 90 degrees:
     ///
     /// ```rust
-    /// use cubesim::prelude::*;
+    /// use cubesim::prelude::{Cube, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     ///
     /// /* Outputs: [L, L, F, U, U, D, U, U, D,
