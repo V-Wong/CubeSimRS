@@ -99,8 +99,7 @@ impl GeoCube {
     fn set_sticker_initial_index(size: CubeSize, stickers: Vec<Sticker>) -> Vec<Sticker> {
         let mut result = Vec::new();
 
-        let mut idx = 0;
-        for mvs in &*FACE_ROTATING_MOVES {
+        for (idx, mvs) in (&*FACE_ROTATING_MOVES).iter().enumerate() {
             let rotated_cube = Self { size, stickers: stickers.clone() }.apply_moves(&mvs);
             let top_layer_stickers = rotated_cube.top_layer_stickers();
 
@@ -110,10 +109,8 @@ impl GeoCube {
                     position: sticker.destination,
                     destination: sticker.destination,
                     destination_face: Sticker::face(size, sticker.destination.x, sticker.destination.y, sticker.destination.z),
-                    initial_index: idx,
+                    initial_index: idx as i32,
                 });
-
-                idx += 1;
             }
         }
 
