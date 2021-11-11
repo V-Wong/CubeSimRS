@@ -181,9 +181,9 @@ pub fn sticker_index(size: CubeSize, face: Face, index: CubeSize) -> CubeSize {
             * size * size + index - 1 as CubeSize
 }
 
-/// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
+/// A move of a NxNxN Rubik's Cube represented in WCA notation.
 ///
-/// Each Move must be tagged with a ``MoveVariant`` to completely a move.
+/// Each Move must be tagged with a ``MoveVariant`` to completely define a move.
 ///
 /// The moves follow the standard WCA notation as described in the [WCA regulations].
 ///
@@ -203,11 +203,17 @@ pub enum Move {
     B(MoveVariant),
     /// Rotate the down layer.
     D(MoveVariant),
+    /// Rotate the uppermost n layers.
     Uw(CubeSize, MoveVariant),
+    /// Rotate the leftmost n layers.
     Lw(CubeSize, MoveVariant),
+    /// Rotate the frontmost n layers.
     Fw(CubeSize, MoveVariant),
+    /// Rotate the rightmost n layers.
     Rw(CubeSize, MoveVariant),
+    /// Rotate the backmost n layers.
     Bw(CubeSize, MoveVariant),
+    /// Rotate the downmost n layers.
     Dw(CubeSize, MoveVariant),
     /// Rotate the entire cube along the x-axis.
     X(MoveVariant),
