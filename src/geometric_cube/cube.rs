@@ -1,9 +1,22 @@
+use lazy_static::lazy_static;
+
 use crate::generic_cube::{Cube, Move, Face, CubeSize};
 use crate::generic_cube::Move::*;
 use crate::generic_cube::MoveVariant::*;
 
 use super::sticker::{Sticker};
 use super::moves::{GeometricMove};
+
+lazy_static! {
+    static ref FACE_ROTATING_MOVES: Vec<Vec<Move>> = vec![
+        vec![],
+        vec![Y(Standard), X(Standard)],
+        vec![X(Standard)],
+        vec![X(Double)],
+        vec![Y(Inverse), X(Standard)],
+        vec![Y(Double), X(Standard)],
+    ];
+}
 
 /// A Rubik's Cube with each of its facelets represented as a Sticker.
 /// 
@@ -44,16 +57,7 @@ impl Cube for GeoCube {
     fn state(&self) -> Vec<Face> {
         let mut faces = Vec::new();
 
-        let face_rotating_moves = vec![
-            vec![],
-            vec![Y(Standard), X(Standard)],
-            vec![X(Standard)],
-            vec![X(Double)],
-            vec![Y(Inverse), X(Standard)],
-            vec![Y(Double), X(Standard)],
-        ];
-
-        for mvs in face_rotating_moves {
+        for mvs in &*FACE_ROTATING_MOVES {
             let cube = self.apply_moves(&mvs);
 
             let relevant_stickers = cube.stickers.into_iter()
@@ -98,17 +102,8 @@ impl GeoCube {
     fn set_sticker_initial_index(size: CubeSize, stickers: Vec<Sticker>) -> Vec<Sticker> {
         let mut result = Vec::new();
 
-        let face_rotating_moves = vec![
-            vec![],
-            vec![Y(Standard), X(Standard)],
-            vec![X(Standard)],
-            vec![X(Double)],
-            vec![Y(Inverse), X(Standard)],
-            vec![Y(Double), X(Standard)],
-        ];
-
         let mut idx = 0;
-        for mvs in face_rotating_moves {
+        for mvs in &*FACE_ROTATING_MOVES {
             let cube = Self { 
                 size, 
                 stickers: stickers.clone()
