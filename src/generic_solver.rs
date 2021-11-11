@@ -4,6 +4,27 @@ use std::mem::discriminant;
 use crate::generic_cube::{Cube, Face, Move};
 use crate::facelet_cube::FaceletCube;
 
+/// A combination of a Pruning Table and the candidate moves to solve into a specific state.
+/// 
+/// This solver packs together the relevant information that can then be passed to a
+/// search function to generate cube solutions. 
+/// 
+/// # Examples
+/// 
+/// Thistlethwaite Phase 4 (All Double Moves):
+/// 
+/// ```rust
+/// use cubesim::prelude::{Cube, Move, MoveVariant::*};
+/// use cubesim::FaceletCube;
+/// use cubesim::PruningTable;
+/// use cubesim::Solver;
+/// 
+/// let moves = vec![
+///     Move::U(Double), Move::D(Double), Move::F(Double),
+///     Move::B(Double), Move::L(Double), Move::R(Double)
+/// ];
+/// 
+/// let solver = Solver::new(moves.clone(), PruningTable::new(&[FaceletCube::new(3)], 6, &moves));
 pub struct Solver {
     pub candidate_moves: Vec<Move>,
     pub pruning_table: PruningTable
