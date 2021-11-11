@@ -55,8 +55,33 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
         is_solved
     }
 
-    /// Maps over the pieces of the cube, replacing each piece
-    /// according to the given mask function.
+    /// Replaces each piece of the cube according to the given mapping function.
+    /// This is useful for defining custom solvers by replacing certain pieces
+    /// in order to reduce the search space
+    /// 
+    /// # Examples
+    /// 
+    /// Cross Mask
+    /// 
+    /// ```rust
+    /// use cubesim::prelude::{Cube, Face, Move, MoveVariant};
+    /// use cubesim::FaceletCube;
+    /// use cubesim::sticker_index;
+    /// 
+    /// let cross_pieces = [
+    ///     sticker_index(3, Face::D, 2), sticker_index(3, Face::D, 4),
+    ///     sticker_index(3, Face::D, 6), sticker_index(3, Face::D, 8),
+    /// ];
+    /// 
+    /// /* Outputs: [X, X, X, X, X, X, X, X, X, 
+    ///              X, X, X, X, X, X, X, X, X, 
+    ///              X, X, X, X, X, X, X, X, X, 
+    ///              X, D, X, D, X, D, X, D, X, 
+    ///              X, X, X, X, X, X, X, X, X, 
+    ///              X, X, X, X, X, X, X, X, X] */
+    /// let masked_cube = FaceletCube::new(3).mask(&|i, f| if cross_pieces.contains(&i) { f } else { Face::X });
+    /// println!("{:?}", masked_cube.state());
+    /// ```
     fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self;
 
     /// Apply a move to a cube.
