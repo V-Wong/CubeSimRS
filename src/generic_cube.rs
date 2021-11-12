@@ -21,17 +21,18 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Solved 3x3x3 cube:
     ///
     /// ```rust
-    /// use cubesim::prelude::*;
+    /// use cubesim::prelude::{Cube, Face::*};
     /// use cubesim::FaceletCube;
     ///
-    /// /* Outputs: [U, U, U, U, U, U, U, U, U,
-    ///              R, R, R, R, R, R, R, R, R,
-    ///              F, F, F, F, F, F, F, F, F,
-    ///              D, D, D, D, D, D, D, D, D,
-    ///              L, L, L, L, L, L, L, L, L,
-    ///              B, B, B, B, B, B, B, B, B] */
     /// let cube = FaceletCube::new(3);
-    /// println!("{:?}", cube.state());
+    /// assert_eq!(cube.state(), vec![
+    ///     U, U, U, U, U, U, U, U, U,
+    ///     R, R, R, R, R, R, R, R, R,
+    ///     F, F, F, F, F, F, F, F, F,
+    ///     D, D, D, D, D, D, D, D, D,
+    ///     L, L, L, L, L, L, L, L, L,
+    ///     B, B, B, B, B, B, B, B, B
+    /// ]);
     /// ```
     fn state(&self) -> Vec<Face>;
 
@@ -55,8 +56,34 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
         is_solved
     }
 
-    /// Maps over the pieces of the cube, replacing each piece
-    /// according to the given mask function.
+    /// Replaces each piece of the cube according to the given mapping function.
+    /// This is useful for defining custom solvers by replacing certain pieces
+    /// in order to reduce the search space.
+    /// 
+    /// # Examples
+    /// 
+    /// Cross Mask
+    /// 
+    /// ```rust
+    /// use cubesim::prelude::{Cube, Face::*, Move, MoveVariant};
+    /// use cubesim::FaceletCube;
+    /// use cubesim::sticker_index;
+    /// 
+    /// let cross_pieces = [
+    ///     sticker_index(3, D, 2), sticker_index(3, D, 4),
+    ///     sticker_index(3, D, 6), sticker_index(3, D, 8),
+    /// ];
+    /// 
+    /// let masked_cube = FaceletCube::new(3).mask(&|i, f| if cross_pieces.contains(&i) { f } else { X });
+    /// assert_eq!(masked_cube.state(), vec![
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, D, X, D, X, D, X, D, X, 
+    ///      X, X, X, X, X, X, X, X, X, 
+    ///      X, X, X, X, X, X, X, X, X
+    /// ]);
+    /// ```
     fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self;
 
     /// Apply a move to a cube.
@@ -66,18 +93,19 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Rotate the upper layer by 90 degrees:
     ///
     /// ```rust
-    /// use cubesim::prelude::*;
+    /// use cubesim::prelude::{Cube, Face::*, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     ///
-    /// /* Outputs: [U, U, U, U, U, U, U, U, U,
-    ///              B, B, B, R, R, R, R, R, R,
-    ///              R, R, R, F, F, F, F, F, F,
-    ///              D, D, D, D, D, D, D, D, D,
-    ///              F, F, F, L, L, L, L, L, L,
-    ///              L, L, L, B, B, B, B, B, B] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_move(Move::U(MoveVariant::Standard));
-    /// println!("{:?}", turned_cube.state());
+    /// assert_eq!(turned_cube.state(), vec![
+    ///     U, U, U, U, U, U, U, U, U,
+    ///     B, B, B, R, R, R, R, R, R,
+    ///     R, R, R, F, F, F, F, F, F,
+    ///     D, D, D, D, D, D, D, D, D,
+    ///     F, F, F, L, L, L, L, L, L,
+    ///     L, L, L, B, B, B, B, B, B
+    /// ]);
     /// ```
     fn apply_move(&self, mv: Move) -> Self;
 
@@ -88,22 +116,23 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
     /// Rotate the upper layer by 90 degrees:
     ///
     /// ```rust
-    /// use cubesim::prelude::*;
+    /// use cubesim::prelude::{Cube, Face::*, Move, MoveVariant};
     /// use cubesim::FaceletCube;
     ///
-    /// /* Outputs: [L, L, F, U, U, D, U, U, D,
-    ///              R, R, U, R, R, U, B, B, D,
-    ///              R, R, B, F, F, B, F, F, L,
-    ///              D, D, U, D, D, U, B, R, R,
-    ///              D, F, F, D, L, L, U, L, L,
-    ///              L, B, B, L, B, B, F, F, R] */
     /// let solved_cube = FaceletCube::new(3);
     /// let turned_cube = solved_cube.apply_moves(&vec![
     ///     Move::U(MoveVariant::Standard),
     ///     Move::R(MoveVariant::Double),
     ///     Move::B(MoveVariant::Inverse),
     /// ]);
-    /// println!("{:?}", turned_cube.state());
+    /// assert_eq!(turned_cube.state(), vec![
+    ///     L, L, F, U, U, D, U, U, D,
+    ///     R, R, U, R, R, U, B, B, D,
+    ///     R, R, B, F, F, B, F, F, L,
+    ///     D, D, U, D, D, U, B, R, R,
+    ///     D, F, F, D, L, L, U, L, L,
+    ///     L, B, B, L, B, B, F, F, R
+    /// ]);
     /// ```
     fn apply_moves(&self, mvs: &[Move]) -> Self
     where
@@ -147,14 +176,26 @@ pub enum Face {
 /// A designated ordering of the faces.
 pub const ORDERED_FACES: [Face; 6] = [Face::U, Face::R, Face::F, Face::D, Face::L, Face::B];
 
+/// Get the index of a specific piece on a specific face.
+/// 
+/// # Examples
+/// 
+/// 1st piece on the front face of a 3x3x3 cube:
+/// 
+/// ```rust
+/// use cubesim::prelude::{Cube, Face};
+/// use cubesim::sticker_index;
+/// 
+/// assert_eq!(sticker_index(3, Face::F, 1), 18);
+/// ```
 pub fn sticker_index(size: CubeSize, face: Face, index: CubeSize) -> CubeSize {
     (ORDERED_FACES.iter().position(|&f| f == face).unwrap() as CubeSize) 
             * size * size + index - 1 as CubeSize
 }
 
-/// A move of a 3 x 3 x 3 Rubik's Cube represented in WCA notation.
+/// A move of a NxNxN Rubik's Cube represented in WCA notation.
 ///
-/// Each Move must be tagged with a ``MoveVariant`` to completely a move.
+/// Each Move must be tagged with a ``MoveVariant`` to completely define a move.
 ///
 /// The moves follow the standard WCA notation as described in the [WCA regulations].
 ///
@@ -174,11 +215,17 @@ pub enum Move {
     B(MoveVariant),
     /// Rotate the down layer.
     D(MoveVariant),
+    /// Rotate the uppermost n layers.
     Uw(CubeSize, MoveVariant),
+    /// Rotate the leftmost n layers.
     Lw(CubeSize, MoveVariant),
+    /// Rotate the frontmost n layers.
     Fw(CubeSize, MoveVariant),
+    /// Rotate the rightmost n layers.
     Rw(CubeSize, MoveVariant),
+    /// Rotate the backmost n layers.
     Bw(CubeSize, MoveVariant),
+    /// Rotate the downmost n layers.
     Dw(CubeSize, MoveVariant),
     /// Rotate the entire cube along the x-axis.
     X(MoveVariant),
@@ -244,7 +291,7 @@ pub enum MoveVariant {
     Inverse,
 }
 
-/// A helper function to get the solved state for a cube of a given size.
+/// Get the solved state for a cube of a given size.
 pub fn solved_state(size: CubeSize) -> Vec<Face> {
     ORDERED_FACES
         .iter()
@@ -252,7 +299,7 @@ pub fn solved_state(size: CubeSize) -> Vec<Face> {
         .collect()
 }
 
-/// A helper function to get all possible moves for a cube of a given size.
+/// Get all possible moves for a cube of a given size.
 pub fn all_moves(size: CubeSize) -> Vec<Move> {
     use Move::*;
     use MoveVariant::*;

@@ -5,6 +5,30 @@ use crate::generic_cube::{sticker_index as S};
 use crate::facelet_cube::FaceletCube;
 use crate::generic_solver::{Solver, PruningTable, ida_star};
 
+/// Solves a 3x3x3 Cube using the Thistlethwaite Algorithm.
+/// 
+/// This is the basic 4 phase solver as described on [Jaap's Puzzle Page].
+/// The solutions generated are NOT optimal and will take on average 60 moves.
+/// While this function will work on a ``GeoCube``, it is highly recommended to
+/// use a ``FaceletCube`` for optimal performance.
+/// 
+/// [Jaap's Puzzle Page]: https://www.jaapsch.net/puzzles/thistle.htm
+/// 
+/// # Examples
+/// 
+/// Solve the superflip position:
+/// 
+/// ```rust
+/// use cubesim::prelude::{Cube};
+/// use cubesim::FaceletCube;
+/// use cubesim::parse_scramble;
+/// use cubesim::solve;
+/// 
+/// let cube = FaceletCube::new(3).apply_moves(
+///     &parse_scramble(String::from("U R2 F B R B2 R U2 L B2 R U' D' R2 F R' L B2 U2 F2"))
+///  );
+//// assert!(cube.apply_moves(&solve(&cube).unwrap()).is_solved());
+/// ```
 pub fn solve(cube: &impl Cube) -> Option<Vec<Move>> {
     let mut solution = vec![];
     let mut cube = cube.clone();
