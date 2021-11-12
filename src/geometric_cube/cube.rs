@@ -118,7 +118,7 @@ impl GeoCube {
             .filter(|(s, _)| matches!(s.current_face(), Face::U))
             .collect::<Vec<_>>();
 
-        top_layer_stickers.sort_by_key(|(s, _)| (s.current.z as i64, s.current.x as i64));
+        top_layer_stickers.sort_by_key(|(s, _)| (s.current.z as CubeSize, s.current.x as CubeSize));
         top_layer_stickers
     }
 
