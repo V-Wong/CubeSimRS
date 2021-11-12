@@ -11,7 +11,6 @@ pub struct Sticker {
     pub position: Vector3<CubeSize>,
     pub destination: Vector3<CubeSize>,
     pub destination_face: Face,
-    pub initial_index: CubeSize
 }
 
 impl Sticker {
@@ -21,7 +20,6 @@ impl Sticker {
             position: Vector3::new(x, y, z),
             destination: Vector3::new(x, y, z),
             destination_face: Self::face(size, x, y, z),
-            initial_index: -1
         }
     }
 

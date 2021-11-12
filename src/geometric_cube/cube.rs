@@ -30,7 +30,7 @@ lazy_static! {
 #[derive(Clone, Eq, Hash, PartialEq)]
 pub struct GeoCube {
     pub(crate) size: CubeSize,
-    pub(crate) stickers: Vec<Sticker>,
+    pub(crate) stickers: Vec<(Sticker, CubeSize)>,
 }
 
 impl Cube for GeoCube {
@@ -48,7 +48,7 @@ impl Cube for GeoCube {
     fn apply_move(&self, mv: Move) -> Self {
         Self {
             stickers: self.stickers.iter()
-                          .map(|s| s.rotate(GeometricMove::from(mv)))
+                          .map(|(s, i)| (s.rotate(GeometricMove::from(mv)), *i))
                           .collect(),
             ..self.clone()
         }
@@ -61,7 +61,7 @@ impl Cube for GeoCube {
             let rotated_cube = self.apply_moves(&mvs);
             let top_layer_stickers = rotated_cube.top_layer_stickers();
             
-            for sticker in top_layer_stickers {
+            for (sticker, _) in top_layer_stickers {
                 faces.push(sticker.destination_face());
             }
         }
@@ -72,7 +72,7 @@ impl Cube for GeoCube {
     fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self {
         let masked_stickers = self.stickers
                                   .iter()
-                                  .map(|s| Sticker { destination_face: mask(s.initial_index, s.destination_face()), ..*s })
+                                  .map(|(s, i)| (Sticker { destination_face: mask(*i, s.destination_face()), ..*s }, *i))
                                   .collect::<Vec<_>>();
 
         Self { stickers: masked_stickers, ..*self }
@@ -80,15 +80,15 @@ impl Cube for GeoCube {
 }
 
 impl GeoCube {
-    fn generate_stickers(size: CubeSize) -> Vec<Sticker> {
+    fn generate_stickers(size: CubeSize) -> Vec<(Sticker, CubeSize)> {
         let mut stickers = Vec::new();
 
         for face in [-size, size] {
             for p1 in Self::range(size) {
                 for p2 in Self::range(size) {
-                    stickers.push(Sticker::new(size, face, p1, p2));
-                    stickers.push(Sticker::new(size, p1, face, p2));
-                    stickers.push(Sticker::new(size, p1, p2, face));
+                    stickers.push((Sticker::new(size, face, p1, p2), -1));
+                    stickers.push((Sticker::new(size, p1, face, p2), -1));
+                    stickers.push((Sticker::new(size, p1, p2, face), -1));
                 }
             }
         }
@@ -96,35 +96,29 @@ impl GeoCube {
         Self::set_sticker_initial_index(size, stickers)
     }
 
-    fn set_sticker_initial_index(size: CubeSize, stickers: Vec<Sticker>) -> Vec<Sticker> {
+    fn set_sticker_initial_index(size: CubeSize, stickers: Vec<(Sticker, CubeSize)>) -> Vec<(Sticker, CubeSize)> {
         let mut result = Vec::new();
 
         for (idx, mvs) in (&*FACE_ROTATING_MOVES).iter().enumerate() {
             let rotated_cube = Self { size, stickers: stickers.clone() }.apply_moves(&mvs);
             let top_layer_stickers = rotated_cube.top_layer_stickers();
 
-            for sticker in top_layer_stickers.iter() {
-                result.push(Sticker {
-                    size,
-                    position: sticker.destination,
-                    destination: sticker.destination,
-                    destination_face: Sticker::face(size, sticker.destination.x, sticker.destination.y, sticker.destination.z),
-                    initial_index: idx as i32,
-                });
+            for (sticker, _) in top_layer_stickers.iter() {
+                result.push((Sticker { position: sticker.destination, ..*sticker }, idx as i32));
             }
         }
 
         result
     }
 
-    fn top_layer_stickers(&self) -> Vec<Sticker> {
+    fn top_layer_stickers(&self) -> Vec<(Sticker, CubeSize)> {
         let mut top_layer_stickers = self.stickers
             .to_owned()
             .into_iter()
-            .filter(|s| matches!(s.position_face(), Face::U))
+            .filter(|(s, _)| matches!(s.position_face(), Face::U))
             .collect::<Vec<_>>();
 
-        top_layer_stickers.sort_by_key(|s| (s.position.z as i64, s.position.x as i64));
+        top_layer_stickers.sort_by_key(|(s, _)| (s.position.z as i64, s.position.x as i64));
         top_layer_stickers
     }
 
@@ -132,11 +126,15 @@ impl GeoCube {
     pub fn range(size: CubeSize) -> Vec<CubeSize> {
         (-size + 1 ..= size - 1).step_by(2).collect()
     }
+
+    pub fn stickers(&self) -> Vec<Sticker> {
+        self.stickers.to_owned().iter().map(|(s, _)| *s).collect::<Vec<_>>()
+    }
 }
 
 impl std::fmt::Display for GeoCube {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        for v in &self.stickers {
+        for (v, _) in &self.stickers {
             writeln!(f, "{}", v)?;
         }
         Ok(())
