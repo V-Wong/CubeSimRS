@@ -62,7 +62,7 @@ impl Cube for GeoCube {
             let top_layer_stickers = rotated_cube.top_layer_stickers();
             
             for (sticker, _) in top_layer_stickers {
-                faces.push(sticker.destination_face());
+                faces.push(sticker.initial_face());
             }
         }
         
@@ -72,7 +72,7 @@ impl Cube for GeoCube {
     fn mask(&self, mask: &dyn Fn(CubeSize, Face) -> Face) -> Self {
         let masked_stickers = self.stickers
                                   .iter()
-                                  .map(|(s, i)| (Sticker { destination_face: mask(*i, s.destination_face()), ..*s }, *i))
+                                  .map(|(s, i)| (Sticker { face: mask(*i, s.initial_face()), ..*s }, *i))
                                   .collect::<Vec<_>>();
 
         Self { stickers: masked_stickers, ..*self }
@@ -104,7 +104,7 @@ impl GeoCube {
             let top_layer_stickers = rotated_cube.top_layer_stickers();
 
             for (sticker, _) in top_layer_stickers.iter() {
-                result.push((Sticker { position: sticker.destination, ..*sticker }, idx as i32));
+                result.push((sticker.set_solved(), idx as i32));
             }
         }
 
@@ -115,10 +115,10 @@ impl GeoCube {
         let mut top_layer_stickers = self.stickers
             .to_owned()
             .into_iter()
-            .filter(|(s, _)| matches!(s.position_face(), Face::U))
+            .filter(|(s, _)| matches!(s.current_face(), Face::U))
             .collect::<Vec<_>>();
 
-        top_layer_stickers.sort_by_key(|(s, _)| (s.position.z as i64, s.position.x as i64));
+        top_layer_stickers.sort_by_key(|(s, _)| (s.current.z as i64, s.current.x as i64));
         top_layer_stickers
     }
 
