@@ -58,7 +58,7 @@ pub trait Cube: Clone + Eq + Hash + PartialEq {
 
     /// Replaces each piece of the cube according to the given mapping function.
     /// This is useful for defining custom solvers by replacing certain pieces
-    /// in order to reduce the search space
+    /// in order to reduce the search space.
     /// 
     /// # Examples
     /// 
