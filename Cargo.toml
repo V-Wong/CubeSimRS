@@ -1,7 +1,7 @@
 [package]
 name = "cubesim"
-description = "NxNxN Rubik's Cube simulator (and eventually solver) written entirely in Rust."
-version = "0.0.4"
+description = "Rubik's Cube simulation and solving library."
+version = "0.0.7"
 authors = ["Vincent Wong <vincent@vwong.dev>"]
 edition = "2018"
 keywords = ["rubiks", "cube", "rubiks_cube"]
