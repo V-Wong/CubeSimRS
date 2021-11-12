@@ -40,9 +40,9 @@ fn convert_move(size: CubeSize, mv: Move) -> FaceletMove {
     FaceletMove(
         GeoCube::new(size)
                 .apply_move(mv)
-                .stickers
+                .stickers()
                 .iter()
-                .map(|s| (index_map[(&s.destination)] as u16, index_map[(&s.position)] as u16))
+                .map(|s| (index_map[(&s.initial)] as u16, index_map[(&s.current)] as u16))
                 .filter(|x| x.0 != x.1)
                 .collect()
     )
@@ -67,9 +67,9 @@ fn create_piece_map(size: CubeSize) -> FxHashMap<Vector3<CubeSize>, u16> {
             for x in GeoCube::range(size) {
                 let first_sticker = GeoCube {
                     size,
-                    stickers: vec![Sticker::new(size, x, size, z)],
-                }.apply_moves(&rotation).stickers[0];
-                map.insert(first_sticker.position, idx);
+                    stickers: vec![(Sticker::new(size, x, size, z), 0)],
+                }.apply_moves(&rotation).stickers()[0];
+                map.insert(first_sticker.current, idx);
                 idx += 1;
             }
         }

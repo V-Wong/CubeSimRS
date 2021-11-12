@@ -51,13 +51,13 @@ fn modify_move(mv: GeometricMove, variant: MoveVariant) -> GeometricMove {
 
 fn u_move(n: CubeSize) -> GeometricMove {
     GeometricMove { 
-        predicate: Box::new(move |s| s.position.y >= s.size - (n * 2)),
+        predicate: Box::new(move |s| s.current.y >= s.size - (n * 2)),
         ..y_move()
     }
 }
 fn d_move(n: CubeSize) -> GeometricMove { 
     modify_move(GeometricMove { 
-        predicate: Box::new(move |s| s.position.y <= -s.size + (n * 2)),
+        predicate: Box::new(move |s| s.current.y <= -s.size + (n * 2)),
         ..y_move()
     }, Inverse)
 }
@@ -67,13 +67,13 @@ fn y_move() -> GeometricMove {
 
 fn l_move(n: CubeSize) -> GeometricMove { 
     modify_move(GeometricMove { 
-        predicate: Box::new(move |s| s.position.x <= -s.size + (n * 2)),
+        predicate: Box::new(move |s| s.current.x <= -s.size + (n * 2)),
         ..x_move() 
     }, Inverse)
 }
 fn r_move(n: CubeSize) -> GeometricMove {
     GeometricMove { 
-        predicate: Box::new(move |s| s.position.x >= s.size - (n * 2)),
+        predicate: Box::new(move |s| s.current.x >= s.size - (n * 2)),
         ..x_move()
     }
 }
@@ -83,13 +83,13 @@ fn x_move() -> GeometricMove {
 
 fn f_move(n: CubeSize) -> GeometricMove { 
     GeometricMove { 
-        predicate: Box::new(move |s| s.position.z >= s.size - (n * 2)),
+        predicate: Box::new(move |s| s.current.z >= s.size - (n * 2)),
         ..z_move()
     }
 }
 fn b_move(n: CubeSize) -> GeometricMove { 
     modify_move(GeometricMove { 
-        predicate: Box::new(move |s| s.position.z <= -s.size + (n * 2)),
+        predicate: Box::new(move |s| s.current.z <= -s.size + (n * 2)),
         ..z_move()
     }, Inverse)
 }
