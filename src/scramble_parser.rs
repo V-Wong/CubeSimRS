@@ -65,7 +65,25 @@ fn get_variant(mv: &str) -> MoveVariant {
     }
 }
 
-/// Merges all related adjacent moves in a sequence of moves.
+/// Recursively merges adjacent moves of the same Move discriminant
+/// until no further simplification is possible.
+///
+/// # Examples
+///
+/// Simplify some scramble:
+///
+/// ```rust
+/// use cubesim::{parse_scramble, simplify_moves};
+/// use cubesim::prelude::{Move::*, MoveVariant::*};
+///
+/// let scramble = parse_scramble(String::from("B B2 B' R B2 B' R2 R' F2"));
+/// let simplified = simplify_moves(&scramble);
+/// assert_eq!(simplified, vec![B(Double), R(Standard), B(Standard), R(Standard), F(Double)]);
+/// 
+/// let scramble = parse_scramble(String::from("R R' U2 F F' U2 x"));
+/// let simplified = simplify_moves(&scramble);
+/// assert_eq!(simplified, vec![X(Standard)]);
+/// ```
 pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     use std::mem::discriminant;
     let mut result = vec![];
