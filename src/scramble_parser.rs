@@ -70,7 +70,7 @@ fn get_variant(mv: &str) -> MoveVariant {
 ///
 /// # Examples
 ///
-/// Simplify some scramble:
+/// Simplifying some scrambles:
 ///
 /// ```rust
 /// use cubesim::{parse_scramble, simplify_moves};
