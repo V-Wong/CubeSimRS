@@ -128,7 +128,7 @@ impl GeoCube {
     }
 
     pub fn stickers(&self) -> Vec<Sticker> {
-        self.stickers.to_owned().iter().map(|(s, _)| *s).collect::<Vec<_>>()
+        self.stickers.iter().map(|(s, _)| *s).collect()
     }
 }
 
