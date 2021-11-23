@@ -57,7 +57,7 @@ impl Cube for GeoCube {
     fn state(&self) -> Vec<Face> {
         let mut faces = Vec::new();
 
-        for mvs in &*FACE_ROTATING_MOVES {
+        for mvs in FACE_ROTATING_MOVES.iter() {
             let rotated_cube = self.apply_moves(&mvs);
             let top_layer_stickers = rotated_cube.top_layer_stickers();
             
