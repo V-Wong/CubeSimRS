@@ -57,7 +57,7 @@ impl Cube for GeoCube {
     fn state(&self) -> Vec<Face> {
         let mut faces = Vec::new();
 
-        for mvs in &*FACE_ROTATING_MOVES {
+        for mvs in FACE_ROTATING_MOVES.iter() {
             let rotated_cube = self.apply_moves(&mvs);
             let top_layer_stickers = rotated_cube.top_layer_stickers();
             
@@ -98,13 +98,14 @@ impl GeoCube {
 
     fn set_sticker_initial_index(size: CubeSize, stickers: Vec<(Sticker, CubeSize)>) -> Vec<(Sticker, CubeSize)> {
         let mut result = Vec::new();
+        let cube = Self { size, stickers };
 
-        for (idx, mvs) in (&*FACE_ROTATING_MOVES).iter().enumerate() {
-            let rotated_cube = Self { size, stickers: stickers.clone() }.apply_moves(&mvs);
+        for (idx, mvs) in (FACE_ROTATING_MOVES).iter().enumerate() {
+            let rotated_cube = cube.apply_moves(&mvs);
             let top_layer_stickers = rotated_cube.top_layer_stickers();
 
             for (sticker, _) in top_layer_stickers.iter() {
-                result.push((sticker.set_solved(), idx as i32));
+                result.push((sticker.set_solved(), idx as CubeSize));
             }
         }
 
@@ -128,7 +129,7 @@ impl GeoCube {
     }
 
     pub fn stickers(&self) -> Vec<Sticker> {
-        self.stickers.to_owned().iter().map(|(s, _)| *s).collect::<Vec<_>>()
+        self.stickers.iter().map(|(s, _)| *s).collect()
     }
 }
 
