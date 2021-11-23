@@ -105,7 +105,7 @@ impl GeoCube {
             let top_layer_stickers = rotated_cube.top_layer_stickers();
 
             for (sticker, _) in top_layer_stickers.iter() {
-                result.push((sticker.set_solved(), idx as i32));
+                result.push((sticker.set_solved(), idx as CubeSize));
             }
         }
 
