@@ -65,7 +65,7 @@ fn get_variant(mv: &str) -> MoveVariant {
     }
 }
 
-/// Recursively merges adjacent moves of the same Move discriminant
+/// Recursively merges adjacent moves with the same Move type
 /// until no further simplification is possible.
 ///
 /// # Examples
@@ -85,6 +85,8 @@ fn get_variant(mv: &str) -> MoveVariant {
 /// assert_eq!(simplified, vec![X(Standard)]);
 /// ```
 pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
+    // Recursively merges adjacent moves of the same Move discriminant
+    // until no further simplification is possible.
     use std::mem::discriminant;
     let mut result = vec![];
     if moves.is_empty() {
@@ -116,7 +118,7 @@ pub fn simplify_moves(moves: &[Move]) -> Vec<Move> {
     }
     if let Some(m) = movement_to_move(movement) { result.push(m) };
 
-    // if moves couldn't be simplified further
+    // don't recurse if moves couldn't be simplified further
     if result.len() == moves.len() { return result }
     simplify_moves(result.as_slice())
 }
