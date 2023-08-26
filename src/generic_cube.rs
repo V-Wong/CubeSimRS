@@ -154,7 +154,7 @@ use derive_more::Display;
 ///
 /// The faces follow the standard WCA notation as described in the [WCA regulations].
 ///
-/// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
+/// [WCA regulations]: https://worldcubeassociation.org/regulations/#article-12-notation
 #[derive(Clone, Copy, Debug, Display, Eq, Hash, PartialEq)]
 pub enum Face {
     /// Upper face.
@@ -199,7 +199,7 @@ pub fn sticker_index(size: CubeSize, face: Face, index: CubeSize) -> CubeSize {
 ///
 /// The moves follow the standard WCA notation as described in the [WCA regulations].
 ///
-/// [WCA regulations]: worldcubeassociation.org/regulations/#article-12-notation
+/// [WCA regulations]: https://worldcubeassociation.org/regulations/#article-12-notation
 #[allow(dead_code)]
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum Move {
